@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<idemia:AgentModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:idemia="utn.frsf.cidisi">
+  <Environment name="AmbienteAspiradora">
+    <EnvironmentState name="EstadoAmbiente">
+      <DataStructure name="habitacionesSucias" type="Other"/>
+      <DataStructure name="posicionAspiradora" type="Other"/>
+    </EnvironmentState>
+  </Environment>
+  <Agent name="Aspiradora">
+    <Strategy xsi:type="idemia:Search"/>
+    <Goal name="ObjetivoAspiradora" value="habitacionesSucias={} &amp;&amp; habitacionesVisitadas = mapaHabitaciones"/>
+    <AgentState name="EstadoAspiradora">
+      <DataStructure name="habitacionesSucias" type="Other"/>
+      <DataStructure name="posicion" type="Other"/>
+      <DataStructure name="mapaHabitaciones" type="Other"/>
+      <DataStructure name="energiaDisponible"/>
+    </AgentState>
+  </Agent>
+  <Actions execute_by="//@Agent" executed_on="//@Environment" name="Limpiar"/>
+  <Actions execute_by="//@Agent" executed_on="//@Environment" name="IrDerecha"/>
+  <Actions execute_by="//@Agent" executed_on="//@Environment" name="IrIzquierda"/>
+  <Perceptions perceived_on="//@Environment" perceived_by="//@Agent" name="suciedad"/>
+</idemia:AgentModel>

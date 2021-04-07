@@ -1,0 +1,19 @@
+<tree id="1" edgedefault="directed">
+<node Id="0" Action="null" Cost="0.0" Estado_Agente="Habitaciones del mapa: {h1-false, h2-true}
+Habitaciones actual: h2-true.
+Energia actual: 8.
+Habitaciones sucias:}
+"/>
+<node Id="1" Action="IrDerecha" Cost="-1.0" Estado_Agente="Habitaciones del mapa: {h1-false, h2-true}
+Habitaciones actual: h2-true.
+Energia actual: 8.
+Habitaciones sucias:}
+"/>
+<node Id="2" Action="IrIzquierda" Cost="-2.0" Estado_Agente="Habitaciones del mapa: {h1-true, h2-true}
+Habitaciones actual: h1-true.
+Energia actual: 6.
+Habitaciones sucias:}
+"/>
+<edge source="0" target="1"/>
+<edge source="1" target="2"/>
+</tree>
