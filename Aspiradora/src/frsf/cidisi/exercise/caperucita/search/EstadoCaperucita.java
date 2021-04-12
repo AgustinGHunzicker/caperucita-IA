@@ -16,15 +16,17 @@ import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
 public class EstadoCaperucita extends SearchBasedAgentState {
 	
     private List<Escenario> habitacionesSucias;
-    private Escenario posicion;
+    private Escenario escenario;
     private List<Escenario> mapaHabitaciones;
-    private Point posiciónActual;
+    private Point posicionActual;
     private Point posicionLobo;
     private int energiaDisponible;
 
     public EstadoCaperucita() {
+    	posicionActual = new Point();
+    	posicionLobo = new Point();
     	habitacionesSucias = new ArrayList<Escenario>();
-		posicion = new Escenario();
+		escenario = new Escenario();
 		mapaHabitaciones = new ArrayList<Escenario>();
 		energiaDisponible = 0;
     	
@@ -123,7 +125,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         mapaHabitaciones.add(h1);
         mapaHabitaciones.add(h2);
         mapaHabitaciones.add(h3);
-        posicion = h1;
+        escenario = h1;
         energiaDisponible = 10;
 
     }
@@ -142,7 +144,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         str = str.substring(0,str.length()-2);
         str += "}\n";
         
-        str += "Habitaciones actual: "+posicion.toString()+".\n";
+        //str += "Habitaciones actual: "+posicion.toString()+".\n";
         str += "Energia actual: "+energiaDisponible+".\n";
     	
         str += "Habitaciones sucias: {";
@@ -200,11 +202,11 @@ public class EstadoCaperucita extends SearchBasedAgentState {
      }
      
      public Escenario getposicion(){
-        return posicion;
+        return null;
      }
      
      public void setposicion(Escenario arg){
-        posicion = arg;
+        escenario = arg;
      }
      
      public List<Escenario> getmapaHabitaciones(){
