@@ -6,7 +6,7 @@ import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
 import frsf.cidisi.faia.state.AgentState;
 import frsf.cidisi.faia.state.EnvironmentState;
 
-public class irArriba extends SearchAction {
+public class IrArriba extends SearchAction {
 
     /**
      * This method updates a tree node state when the search process is running.

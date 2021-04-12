@@ -8,11 +8,11 @@ import frsf.cidisi.faia.environment.Environment;
 public class CaperucitaPerception extends Perception {
 
     public static int UNKNOWN_PERCEPTION = -1;   
-	private int suciedad;
+	private int objetoCasilla;
 
     public  CaperucitaPerception() {
     	//Aqu� crearimos los objetos, listas, arrays que componen la percepci�n
-    	suciedad = UNKNOWN_PERCEPTION;
+    	objetoCasilla = UNKNOWN_PERCEPTION;
     }
 
     public CaperucitaPerception(Agent agent, Environment environment) {
@@ -27,12 +27,13 @@ public class CaperucitaPerception extends Perception {
     	
         @SuppressWarnings("unused")
 		Caperucita agent = (Caperucita) agentIn;
-        AmbienteCaperucita environment = (AmbienteCaperucita) environmentIn;
+        Ambiente environment = (Ambiente) environmentIn;
         EstadoAmbiente environmentState = environment.getEnvironmentState();
        
         //Aqu� creamos la percepci�n inicial del agente
         //Pimero chequeamos que la habitaci�n en la que est� el agente est� sucia
         Escenario h = environmentState.getposicionCaperucita();
+        /*
         boolean estaSucia = environmentState.gethabitacionesSucias().contains(h);
         
         //Si lo est�, el valor de la percepci�n ser� 1; en caso contrario ser� 0
@@ -40,27 +41,32 @@ public class CaperucitaPerception extends Perception {
         	suciedad = 1;
         else
         	suciedad = 0;
+        */
         
     }
     
     @Override
     public String toString() {
-        String str = "";
+        
+    	/*String str = "";
         
         str += "La habitaci�n est� ";
         str += (suciedad == 1)?"sucia.":"limpia.";
-
+		
         return str.toString();
+        */
+    	return "";
     }
 
     // The following methods are agent-specific:	
-     public int getsuciedad(){
+    /* 
+    public int getsuciedad(){
         return suciedad;
      }
      
      public void setsuciedad(int arg){
         this.suciedad = arg;
      }
+     */
 	
-   
 }

@@ -6,6 +6,8 @@ import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgent;
 import frsf.cidisi.exercise.caperucita.search.actions.IrDerecha;
 import frsf.cidisi.exercise.caperucita.search.actions.IrIzquierda;
+import frsf.cidisi.exercise.caperucita.search.actions.IrArriba;
+import frsf.cidisi.exercise.caperucita.search.actions.IrAbajo;
 import frsf.cidisi.exercise.caperucita.search.actions.RecolectarDulce;
 import frsf.cidisi.faia.agent.Action;
 import frsf.cidisi.faia.solver.search.*;
@@ -29,6 +31,8 @@ public class Caperucita extends SearchBasedAgent {
         operators.addElement(new RecolectarDulce());
         operators.addElement(new IrDerecha());	
         operators.addElement(new IrIzquierda());
+        operators.addElement(new IrAbajo());
+        operators.addElement(new IrArriba());
 
         // Create the Problem which the agent will resolve
         Problem problem = new Problem(agGoal, agState, operators);

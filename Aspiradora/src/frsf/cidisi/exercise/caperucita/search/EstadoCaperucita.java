@@ -1,5 +1,6 @@
 package frsf.cidisi.exercise.caperucita.search;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,10 +18,11 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     private List<Escenario> habitacionesSucias;
     private Escenario posicion;
     private List<Escenario> mapaHabitaciones;
+    private Point posiciónActual;
+    private Point posicionLobo;
     private int energiaDisponible;
 
     public EstadoCaperucita() {
-
     	habitacionesSucias = new ArrayList<Escenario>();
 		posicion = new Escenario();
 		mapaHabitaciones = new ArrayList<Escenario>();
@@ -78,10 +80,11 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     	//En base a la suciedad percibida y la posicion actual, actualizamos (de ser necesario)
     	//la lista de habitaciones sucias.
     	Escenario posicionActual = this.getposicion();
-    	int suciedadPercibida = percepcion.getsuciedad();
+    	//int suciedadPercibida = percepcion.getsuciedad();
     	
     	//Si percibimos suciedad, tenemos que agregar la posicion actual a la lista de
     	//habitaciones sucias (si es que no lo esta ya)
+    	/*
     	if(suciedadPercibida == 1){
     		boolean yaExiste = false;
     		for(Escenario h : this.gethabitacionesSucias())
@@ -98,8 +101,10 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     			if(h.getNombre().equals(posicionActual.getNombre()))
     				habActual = h;
     		if(habActual != null)
-    			this.gethabitacionesSucias().remove(habActual);
+    	this.gethabitacionesSucias().remove(habActual);
     	}
+    	
+    	*/
         
     }
 
@@ -108,14 +113,16 @@ public class EstadoCaperucita extends SearchBasedAgentState {
      */
     @Override
     public void initState() {
-        //�ste m�todo tambi�n debe tomar los valores del escenario particulat
+        //�ste m�todo tambi�n debe tomar los valores del escenario particular
         
         Escenario h1 = new Escenario("h1");
         Escenario h2 = new Escenario("h2");
+        Escenario h3 = new Escenario("h3");
         
         //habitacionesSucias arranca vac�o
         mapaHabitaciones.add(h1);
         mapaHabitaciones.add(h2);
+        mapaHabitaciones.add(h3);
         posicion = h1;
         energiaDisponible = 10;
 

@@ -45,20 +45,5 @@ public class Escenario {
 	public String toString(){
 		return nombre;
 	}
-	
-	public void generarEscenario() {
-		//TODO: buscar alguna función random para poner los numeros en la matriz
-	}
-	
-	/*
-	public static boolean todasVisitadas(List<Escenario> habitaciones){
-		boolean allVisited = true;
-		
-		for(Escenario h : habitaciones)
-			allVisited = allVisited && h.isVisitada();
-		
-		return allVisited;
-	}
-	*/
 
 }

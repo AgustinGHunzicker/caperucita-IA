@@ -4,9 +4,9 @@ import domain.Escenario;
 import frsf.cidisi.faia.agent.Action;
 import frsf.cidisi.faia.environment.Environment;
 
-public class AmbienteCaperucita extends Environment {
+public class Ambiente extends Environment {
 
-    public AmbienteCaperucita() {
+    public Ambiente() {
         // Create the environment state
         this.environmentState = new EstadoAmbiente();
     }
@@ -29,17 +29,19 @@ public class AmbienteCaperucita extends Environment {
 		
         //Pimero chequeamos que la habitaci�n en la que est� el agente est� sucia
         Escenario h = this.getEnvironmentState().getPosicionCaperucita();
-        boolean estaSucia = false;
+        /*
         for(Escenario hab : this.getEnvironmentState().gethabitacionesSucias())
         	if(hab.getNombre().equals(h.getNombre()))
         		estaSucia = true;
+        */
         
         //Si lo est�, el valor de la percepci�n ser� 1; en caso contrario ser� 0
+        /*
         if(estaSucia)
         	perception.setsuciedad(1);
         else
         	perception.setsuciedad(0);
-        
+        */
         // Return the perception
         return perception;
     }
@@ -60,5 +62,4 @@ public class AmbienteCaperucita extends Environment {
 
         return failed;
     }
-
 }
