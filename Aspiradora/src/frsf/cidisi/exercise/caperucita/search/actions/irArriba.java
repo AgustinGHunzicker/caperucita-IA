@@ -1,12 +1,12 @@
-package frsf.cidisi.exercise.aspiradora.search.actions;
+package frsf.cidisi.exercise.caperucita.search.actions;
 
-import frsf.cidisi.exercise.aspiradora.search.*;
+import frsf.cidisi.exercise.caperucita.search.*;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
 import frsf.cidisi.faia.state.AgentState;
 import frsf.cidisi.faia.state.EnvironmentState;
 
-public class IrIzquierda extends SearchAction {
+public class irArriba extends SearchAction {
 
     /**
      * This method updates a tree node state when the search process is running.
@@ -17,6 +17,7 @@ public class IrIzquierda extends SearchAction {
         EstadoCaperucita agState = (EstadoCaperucita) s;
         
         //Si no es la primera habitaci�n, puede moverse a izquierda
+        /*
         int habitacionActualIndex = agState.getmapaHabitaciones().indexOf(agState.getposicion());
         if( habitacionActualIndex != 0 ){
         	agState.setposicion(agState.getmapaHabitaciones().get(habitacionActualIndex - 1));
@@ -24,6 +25,7 @@ public class IrIzquierda extends SearchAction {
         	agState.setenergiaDisponible((int)(agState.getenergiaDisponible() - this.getCost()));
         	return agState;
         }
+        */
         
         return null;
         
@@ -38,6 +40,7 @@ public class IrIzquierda extends SearchAction {
         EstadoCaperucita agState = ((EstadoCaperucita) ast);
 
         //Si no es la �ltima habitaci�n, puede moverse a derecha
+        /*
         int habitacionActualIndex = agState.getmapaHabitaciones().indexOf(agState.getposicion());
         if( habitacionActualIndex != 0 ){
         	//Modificamos el estado del agente
@@ -49,7 +52,7 @@ public class IrIzquierda extends SearchAction {
         	environmentState.setposicionAspiradora(agState.getmapaHabitaciones().get(habitacionActualIndex -1));
         	return environmentState;
         }
-        
+        */
         return null;
     }
 

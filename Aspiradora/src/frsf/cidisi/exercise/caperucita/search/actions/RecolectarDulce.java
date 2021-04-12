@@ -1,7 +1,7 @@
-package frsf.cidisi.exercise.aspiradora.search.actions;
+package frsf.cidisi.exercise.caperucita.search.actions;
 
 import domain.Escenario;
-import frsf.cidisi.exercise.aspiradora.search.*;
+import frsf.cidisi.exercise.caperucita.search.*;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
 import frsf.cidisi.faia.state.AgentState;

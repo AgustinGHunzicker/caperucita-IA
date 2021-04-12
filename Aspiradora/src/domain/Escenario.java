@@ -5,15 +5,13 @@ import java.util.List;
 public class Escenario {
 
 	private String nombre;
-	private boolean visitada;
 	
-	public Escenario(){
-		this.visitada = false;
+	public Escenario() {
+		
 	}
 	
-	public Escenario(String nombre){
-		this.nombre = nombre;
-		this.visitada = false;
+	public Escenario(String name){
+		this.nombre = name;
 	}
 
 	public String getNombre() {
@@ -23,28 +21,21 @@ public class Escenario {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	public boolean isVisitada() {
-		return visitada;
-	}
-
-	public void setVisitada(boolean visitada) {
-		this.visitada = visitada;
-	}
 
 	public Escenario clone(){
-		Escenario newHabitacion = new Escenario();
+		Escenario newEscenario = new Escenario();
 		
-		newHabitacion.setNombre(this.getNombre());
-		newHabitacion.setVisitada(this.isVisitada());
+		newEscenario.setNombre(this.getNombre());
 		
-		return newHabitacion;
+		return newEscenario;
 	}
+	
 	
 	public String toString(){
-		return nombre+"-"+visitada;
+		return nombre;
 	}
 	
+	/*
 	public static boolean todasVisitadas(List<Escenario> habitaciones){
 		boolean allVisited = true;
 		
@@ -53,5 +44,6 @@ public class Escenario {
 		
 		return allVisited;
 	}
+	*/
 
 }

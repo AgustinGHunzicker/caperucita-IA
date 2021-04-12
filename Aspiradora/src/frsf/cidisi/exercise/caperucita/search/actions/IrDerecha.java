@@ -1,12 +1,12 @@
-package frsf.cidisi.exercise.aspiradora.search.actions;
+package frsf.cidisi.exercise.caperucita.search.actions;
 
-import frsf.cidisi.exercise.aspiradora.search.*;
+import frsf.cidisi.exercise.caperucita.search.*;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
 import frsf.cidisi.faia.state.AgentState;
 import frsf.cidisi.faia.state.EnvironmentState;
 
-public class irArriba extends SearchAction {
+public class IrDerecha extends SearchAction {
 
     /**
      * This method updates a tree node state when the search process is running.
@@ -16,17 +16,18 @@ public class irArriba extends SearchAction {
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
         EstadoCaperucita agState = (EstadoCaperucita) s;
         
-        //Si no es la primera habitaci�n, puede moverse a izquierda
+        //Si no es la �ltima habitaci�n, puede moverse a derecha
+        /*
         int habitacionActualIndex = agState.getmapaHabitaciones().indexOf(agState.getposicion());
-        if( habitacionActualIndex != 0 ){
-        	agState.setposicion(agState.getmapaHabitaciones().get(habitacionActualIndex - 1));
-        	agState.getmapaHabitaciones().get(habitacionActualIndex - 1).setVisitada(true);
+        if( habitacionActualIndex != (agState.getmapaHabitaciones().size() -1) ){
+        	agState.setposicion(agState.getmapaHabitaciones().get(habitacionActualIndex + 1));
+        	agState.getmapaHabitaciones().get(habitacionActualIndex + 1).setVisitada(true);
         	agState.setenergiaDisponible((int)(agState.getenergiaDisponible() - this.getCost()));
         	return agState;
         }
+        */
         
         return null;
-        
     }
 
     /**
@@ -38,18 +39,19 @@ public class irArriba extends SearchAction {
         EstadoCaperucita agState = ((EstadoCaperucita) ast);
 
         //Si no es la �ltima habitaci�n, puede moverse a derecha
+        /*
         int habitacionActualIndex = agState.getmapaHabitaciones().indexOf(agState.getposicion());
-        if( habitacionActualIndex != 0 ){
+        if( habitacionActualIndex != (agState.getmapaHabitaciones().size() -1) ){
         	//Modificamos el estado del agente
-        	agState.setposicion(agState.getmapaHabitaciones().get(habitacionActualIndex - 1));
-        	agState.getmapaHabitaciones().get(habitacionActualIndex - 1).setVisitada(true);
+        	agState.setposicion(agState.getmapaHabitaciones().get(habitacionActualIndex + 1));
+        	agState.getmapaHabitaciones().get(habitacionActualIndex + 1).setVisitada(true);
         	agState.setenergiaDisponible((int)(agState.getenergiaDisponible() - this.getCost()));
         	
         	//Modificamos el estado del ambiente
-        	environmentState.setposicionAspiradora(agState.getmapaHabitaciones().get(habitacionActualIndex -1));
+        	environmentState.setposicionAspiradora(agState.getmapaHabitaciones().get(habitacionActualIndex + 1));
         	return environmentState;
         }
-        
+        */
         return null;
     }
 
@@ -67,6 +69,7 @@ public class irArriba extends SearchAction {
      */
     @Override
     public String toString() {
-        return "IrIzquierda";
+        return "IrDerecha";
     }
+    
 }

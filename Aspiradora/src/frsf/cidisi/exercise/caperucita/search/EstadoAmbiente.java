@@ -1,4 +1,4 @@
-package frsf.cidisi.exercise.aspiradora.search;
+package frsf.cidisi.exercise.caperucita.search;
 
 import java.util.ArrayList;
 import java.util.List;

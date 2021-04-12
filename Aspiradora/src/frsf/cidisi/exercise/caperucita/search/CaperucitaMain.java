@@ -1,4 +1,4 @@
-package frsf.cidisi.exercise.aspiradora.search;
+package frsf.cidisi.exercise.caperucita.search;
 
 import frsf.cidisi.faia.exceptions.PrologConnectorException;
 import frsf.cidisi.faia.simulator.SearchBasedAgentSimulator;

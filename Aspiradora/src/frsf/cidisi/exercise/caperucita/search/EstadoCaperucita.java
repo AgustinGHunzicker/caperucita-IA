@@ -1,4 +1,4 @@
-package frsf.cidisi.exercise.aspiradora.search;
+package frsf.cidisi.exercise.caperucita.search;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,7 +160,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     	EstadoCaperucita estadoComparado = (EstadoCaperucita) obj;
         
     	boolean mismaPosicion = estadoComparado.getposicion().getNombre().equals(this.getposicion().getNombre());
-    	boolean mismasHabitacionesSucias = true;
+    	/*boolean mismasHabitacionesSucias = true;
     	boolean mismasHabitacionesVisitadas = true;
     	mismasHabitacionesSucias = this.gethabitacionesSucias().size() == estadoComparado.gethabitacionesSucias().size();
     	if(mismasHabitacionesSucias){
@@ -178,8 +178,9 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     			(this.getmapaHabitaciones().get(i).isVisitada() ==
     				estadoComparado.getmapaHabitaciones().get(i).isVisitada());
     	}
+    	*/
     	
-        return (mismaPosicion && mismasHabitacionesSucias && mismasHabitacionesVisitadas);
+        return (mismaPosicion /* && mismasHabitacionesSucias && mismasHabitacionesVisitadas*/);
     }
 
     // The following methods are agent-specific:
