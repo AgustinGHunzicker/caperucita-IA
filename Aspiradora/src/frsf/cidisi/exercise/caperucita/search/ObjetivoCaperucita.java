@@ -8,17 +8,15 @@ public class ObjetivoCaperucita extends GoalTest {
 
     @Override
     public boolean isGoalState (AgentState agentState) {
-    	EstadoCaperucita estado = (EstadoCaperucita) agentState;
+    	EstadoCaperucita estadoCaperucita = (EstadoCaperucita) agentState;
     	
-    	/*
-        if( estado.gethabitacionesSucias().isEmpty()
-        	&& Escenario.todasVisitadas(estado.getmapaHabitaciones()) ){
-        		return true;      
-        }
-        else
-        	return false;
-        	*/
-    	return true; //CAMBIAR POR PRUEBA DE META
+    	if ((estadoCaperucita.getposicionCaperucita().x == estadoCaperucita.getPosicionFlores().x) &&
+    			(estadoCaperucita.getposicionCaperucita().y == estadoCaperucita.getPosicionFlores().y)) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
         
 	}
     

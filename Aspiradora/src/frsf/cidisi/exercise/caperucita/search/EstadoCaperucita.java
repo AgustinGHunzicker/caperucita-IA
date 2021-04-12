@@ -20,11 +20,15 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     private List<Escenario> mapaHabitaciones;
     private Point posicionActual;
     private Point posicionLobo;
+    private Point posicionFlores;
+    private List<Point> posicionesDulces;
     private int energiaDisponible;
 
     public EstadoCaperucita() {
     	posicionActual = new Point();
     	posicionLobo = new Point();
+    	posicionFlores = new Point();
+    	posicionesDulces = new ArrayList<Point>();
     	habitacionesSucias = new ArrayList<Escenario>();
 		escenario = new Escenario();
 		mapaHabitaciones = new ArrayList<Escenario>();
@@ -44,27 +48,37 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     	
     	//Los atributos de tipo primitvos se pasan por copia
     	newState.setenergiaDisponible(this.getenergiaDisponible());
+    	newState.setPosicionCaperucita(this.getposicionCaperucita());
+    	newState.setPosicionLobo(this.getPosicionLobo());
+    	newState.setPosicionesDulces(this.getPosicionesDulces());
+    	
 		//Los atributos que son objetos (los arrays tambi�n son de tipo objeto) se pasan por
     	//referencia; luego, es necesario clonarlos
+    	/*
     	List<Escenario> newMapaHabitaciones = new ArrayList<Escenario>();
     	for(Escenario h : this.getmapaHabitaciones())
     		newMapaHabitaciones.add(h.clone());
     	newState.setmapaHabitaciones(newMapaHabitaciones);
+    	*/
     	
     	//Buscamos en el nuevo mapa las habitaciones sucias para agregarlas a la nueva lista
     	//de habitaciones sucias
+    	/*
     	List<Escenario> newHabitacionesSucias = new ArrayList<Escenario>();
     	for(Escenario h : newMapaHabitaciones)
     		for(Escenario hs : this.gethabitacionesSucias())
     			if(h.getNombre().equals(hs.getNombre()))
     				newHabitacionesSucias.add(h);
     	newState.sethabitacionesSucias(newHabitacionesSucias);
+    	*/
     	
     	//Este ultimo atributo (la posicion) ya se encuentra en la lista de habitaciones que
     	//representa el mapa! Entonces debemos buscarlo en la lista (la NUEVA!)
+    	/*
     	for(Escenario h : newMapaHabitaciones)
     		if(h.getNombre().equals(this.getposicion().getNombre()))
     			newState.setposicion(h);
+    	*/
     	
         return newState;
         
@@ -115,18 +129,14 @@ public class EstadoCaperucita extends SearchBasedAgentState {
      */
     @Override
     public void initState() {
-        //�ste m�todo tambi�n debe tomar los valores del escenario particular
+        //Este método también debe tomar los valores del escenario particular
         
-        Escenario h1 = new Escenario("h1");
-        Escenario h2 = new Escenario("h2");
-        Escenario h3 = new Escenario("h3");
-        
-        //habitacionesSucias arranca vac�o
-        mapaHabitaciones.add(h1);
-        mapaHabitaciones.add(h2);
-        mapaHabitaciones.add(h3);
-        escenario = h1;
-        energiaDisponible = 10;
+        escenario = new Escenario();
+        //TODO: hacer un algoritmo aleatorio para generar los arboles, el lobo y caperucita
+        //posicionActual = una posicion
+        //posicionLobo = una posicion
+        //posicionesDulces = posiciones
+        energiaDisponible = 3;
 
     }
 
@@ -193,13 +203,45 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     }
 
     // The following methods are agent-specific:
-     public List<Escenario> gethabitacionesSucias(){
+    public Point getposicionCaperucita() {
+    	return this.posicionActual;
+    }
+    
+    public void setPosicionCaperucita(Point posicion) {
+    	this.posicionActual = posicion;
+    }
+    
+    public Point getPosicionLobo() {
+    	return this.posicionLobo;
+    }
+    
+    public void setPosicionLobo(Point posicion) {
+    	this.posicionLobo = posicion;
+    }
+    
+    public Point getPosicionFlores() {
+    	return this.posicionFlores;
+    }
+    
+    public void setPosicionFlores(Point posicion) {
+    	this.posicionFlores = posicion;
+    }
+    
+    public List<Point> getPosicionesDulces(){
+    	return this.posicionesDulces;
+    }
+    
+    public void setPosicionesDulces(List<Point> posiciones) {
+    	this.posicionesDulces = posiciones;
+    }
+    
+    public List<Escenario> gethabitacionesSucias(){
         return habitacionesSucias;
-     }
+    }
      
-     public void sethabitacionesSucias(List<Escenario> arg){
+    public void sethabitacionesSucias(List<Escenario> arg){
         habitacionesSucias = arg;
-     }
+    }
      
      public Escenario getposicion(){
         return null;
@@ -207,14 +249,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
      
      public void setposicion(Escenario arg){
         escenario = arg;
-     }
-     
-     public List<Escenario> getmapaHabitaciones(){
-        return mapaHabitaciones;
-     }
-     
-     public void setmapaHabitaciones(List<Escenario> arg){
-        mapaHabitaciones = arg;
      }
      
      public int getenergiaDisponible(){
