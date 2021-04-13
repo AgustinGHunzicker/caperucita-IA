@@ -18,12 +18,14 @@ public class RecolectarDulce extends SearchAction {
         EstadoCaperucita agState = (EstadoCaperucita) s;
         
         //Si la posicion actual se encuentra entre las habitaciones sucias, se puede limpiar
+        /*
         if(agState.gethabitacionesSucias().contains(agState.getposicion())){
         	//Sacamos la habitaci�n en la cual nos encontramos de la lista de habit. sucias
         	agState.gethabitacionesSucias().remove(agState.getposicion());
         	
         	return agState;
         }
+        */
         	
         return null;
     }
@@ -37,6 +39,7 @@ public class RecolectarDulce extends SearchAction {
         EstadoCaperucita agState = ((EstadoCaperucita) ast);
 
       //Si la posicion actual se encuentra entre las habitaciones sucias, se puede limpiar
+        /*
         if(agState.gethabitacionesSucias().contains(agState.getposicion())){
         	
         	//Removemos la habitacion que ha sido limpiada de la lista de habitaciones sucias
@@ -49,7 +52,7 @@ public class RecolectarDulce extends SearchAction {
         	
         	return environmentState;
         }
-        	
+        	*/
         return null;
     }
 

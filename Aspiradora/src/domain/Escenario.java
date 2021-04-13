@@ -8,12 +8,12 @@ public class Escenario {
 	private int[][] posiciones;
 	
 	public Escenario() {
-		this.posiciones = new int[12][9];
+		this.posiciones = new int[14][9];
 	}
 	
 	public Escenario(String name){
 		this.nombre = name;
-		this.posiciones = new int[12][9];
+		this.posiciones = new int[14][9];
 	}
 
 	public String getNombre() {
@@ -23,13 +23,21 @@ public class Escenario {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public int[][] getPosiciones() {
-		return posiciones;
+	
+	public int[][] getPosiciones(){
+		return this.posiciones;
 	}
-
+	
 	public void setPosiciones(int[][] posiciones) {
 		this.posiciones = posiciones;
+	}
+
+	public int getPosicionXY(int x, int y) {
+		return this.posiciones[x][y];
+	}
+
+	public void setPosicionXY(int x, int y, int posicion) {
+		this.posiciones[x][y] = posicion;
 	}
 
 	public Escenario clone(){

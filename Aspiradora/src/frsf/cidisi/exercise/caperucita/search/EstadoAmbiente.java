@@ -15,17 +15,20 @@ public class EstadoAmbiente extends EnvironmentState {
 	
     private List<Escenario> habitacionesSucias;
     private Escenario posicionAspiradora;
+    private Escenario escenarioJuego;
     private Point posicionCaperucita;
     private Point posicionLobo;
     private Point posicionFlores;
     private List<Point> posicionesDulces;
 	
     public EstadoAmbiente() {
-        posicionCaperucita = new Point();
+        escenarioJuego = new Escenario();
+    	posicionCaperucita = new Point();
         posicionLobo = new Point();
         posicionFlores = new Point();
         posicionesDulces = new ArrayList<Point>();
-    	habitacionesSucias = new ArrayList<Escenario>();
+    	
+        habitacionesSucias = new ArrayList<Escenario>();
     	posicionAspiradora = new Escenario();
     	
         this.initState();
@@ -39,10 +42,48 @@ public class EstadoAmbiente extends EnvironmentState {
 
     	//El estado inicial del estado del Ambiente; el escenario de entrada
     	
-        //posicionActual = una posicion
-        //posicionLobo = una posicion
+    	for (int i = 1; i <= 14; i++) {
+    		for (int j = 1; j <= 9; j++) {
+    			escenarioJuego.setPosicionXY(i, j, 0);
+    		}
+    	}
+    	
+    	//se setea en el escenario la posición de caperucita
+        posicionCaperucita = new Point(getRandomX(), getRandomY());
+        escenarioJuego.setPosicionXY((int)(posicionCaperucita.getX()), (int)(posicionCaperucita.getY()), 3);
+        
+        //se setea en el escenario la posición del lobo
+        do {
+        	posicionLobo = new Point(getRandomX(), getRandomY()); //chequeo que no se pare encima de caperucita
+        } while(posicionLobo.equals(posicionCaperucita));
+        
+        escenarioJuego.setPosicionXY((int)(posicionLobo.getX()), (int)(posicionLobo.getY()), 4);
+        
+        //TODO: hacer un algoritmo aleatorio para generar los arboles, los dulces y las flores
+        
+        //posicionesArboles
     	//posicionFlores = una posicion
         //posicionesDulces = posiciones
+    }
+    
+    private int getRandomX() {
+    	//range
+    	//se considera una columna menos a cada lado porque en los bordes hay bosque siempre
+    	int min = 2;
+    	int max = 13;
+    	int rango = max - min + 1;
+    	int rand = (int)(Math.random() * rango) + min;
+    	return rand;
+    }
+    
+    private int getRandomY() {
+    	//range
+    	//se considera una fila menos a cada lado porque en los bordes hay bosque siempre
+    	int min = 2;
+    	int max = 8;
+    	int rango = max - min + 1;
+    	int rand = (int)(Math.random() * rango) + min;
+    	return rand;
     }
 
     /**
