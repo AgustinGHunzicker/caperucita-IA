@@ -36,8 +36,8 @@ public class Escenario {
 		return this.posiciones[x][y];
 	}
 
-	public void setPosicionXY(int x, int y, int posicion) {
-		this.posiciones[x][y] = posicion;
+	public void setPosicionXY(int x, int y, int objetoCasillero) {
+		this.posiciones[x][y] = objetoCasillero;
 	}
 
 	public Escenario clone(){

@@ -42,8 +42,19 @@ public class EstadoAmbiente extends EnvironmentState {
 
     	//El estado inicial del estado del Ambiente; el escenario de entrada
     	
+    	//los bordes del escenario son siempre arboles
     	for (int i = 1; i <= 14; i++) {
-    		for (int j = 1; j <= 9; j++) {
+    		escenarioJuego.setPosicionXY(i, 1, 1);
+    		escenarioJuego.setPosicionXY(i, 9, 1);
+    	}
+    	
+    	for (int j = 1; j <= 9; j++) {
+    		escenarioJuego.setPosicionXY(1, j, 1);
+    		escenarioJuego.setPosicionXY(9, j, 1);
+    	}
+    	
+    	for (int i = 2; i <= 13; i++) {
+    		for (int j = 2; j <= 8; j++) {
     			escenarioJuego.setPosicionXY(i, j, 0);
     		}
     	}
@@ -59,9 +70,24 @@ public class EstadoAmbiente extends EnvironmentState {
         
         escenarioJuego.setPosicionXY((int)(posicionLobo.getX()), (int)(posicionLobo.getY()), 4);
         
-        //TODO: hacer un algoritmo aleatorio para generar los arboles, los dulces y las flores
+        //se setean las posiciones de los arboles
         
-        //posicionesArboles
+        int cantArboles = getRandomArboles();
+        boolean repetido;
+        
+        for (int a = 0; a < cantArboles; a++) {
+        	do {
+        		int x = getRandomX();
+        		int y = getRandomY();
+        		repetido = true;
+        		if(escenarioJuego.getPosicionXY(x, y) == 0) {
+        			escenarioJuego.setPosicionXY(x, y, 1);
+        			repetido = false;
+        		}
+        	} while(repetido == true);
+        }
+        
+        //TODO: hacer un algoritmo aleatorio para generar los dulces y las flores
     	//posicionFlores = una posicion
         //posicionesDulces = posiciones
     }
@@ -81,6 +107,15 @@ public class EstadoAmbiente extends EnvironmentState {
     	//se considera una fila menos a cada lado porque en los bordes hay bosque siempre
     	int min = 2;
     	int max = 8;
+    	int rango = max - min + 1;
+    	int rand = (int)(Math.random() * rango) + min;
+    	return rand;
+    }
+    
+    private int getRandomArboles() {
+    	//range
+    	int min = 35;
+    	int max = 50;
     	int rango = max - min + 1;
     	int rand = (int)(Math.random() * rango) + min;
     	return rand;
