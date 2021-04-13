@@ -1,5 +1,6 @@
 package frsf.cidisi.exercise.caperucita.search;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +15,16 @@ public class EstadoAmbiente extends EnvironmentState {
 	
     private List<Escenario> habitacionesSucias;
     private Escenario posicionAspiradora;
+    private Point posicionCaperucita;
+    private Point posicionLobo;
+    private Point posicionFlores;
+    private List<Point> posicionesDulces;
 	
     public EstadoAmbiente() {
-        
+        posicionCaperucita = new Point();
+        posicionLobo = new Point();
+        posicionFlores = new Point();
+        posicionesDulces = new ArrayList<Point>();
     	habitacionesSucias = new ArrayList<Escenario>();
     	posicionAspiradora = new Escenario();
     	
@@ -30,14 +38,11 @@ public class EstadoAmbiente extends EnvironmentState {
     public void initState() {
 
     	//El estado inicial del estado del Ambiente; el escenario de entrada
-    	Escenario nivel1 = new Escenario("n1");
-    	Escenario nivel2 = new Escenario("n2");
-    	Escenario nivel3 = new Escenario("n3");
-       	
-    	habitacionesSucias.add(nivel1);
-    	habitacionesSucias.add(nivel2);
     	
-    	posicionAspiradora = nivel1; 	
+        //posicionActual = una posicion
+        //posicionLobo = una posicion
+    	//posicionFlores = una posicion
+        //posicionesDulces = posiciones
     }
 
     /**

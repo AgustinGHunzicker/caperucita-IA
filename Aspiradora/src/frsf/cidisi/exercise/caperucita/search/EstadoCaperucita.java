@@ -51,36 +51,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     	newState.setPosicionCaperucita(this.getposicionCaperucita());
     	newState.setPosicionLobo(this.getPosicionLobo());
     	newState.setPosicionesDulces(this.getPosicionesDulces());
-    	
-		//Los atributos que son objetos (los arrays tambi�n son de tipo objeto) se pasan por
-    	//referencia; luego, es necesario clonarlos
-    	/*
-    	List<Escenario> newMapaHabitaciones = new ArrayList<Escenario>();
-    	for(Escenario h : this.getmapaHabitaciones())
-    		newMapaHabitaciones.add(h.clone());
-    	newState.setmapaHabitaciones(newMapaHabitaciones);
-    	*/
-    	
-    	//Buscamos en el nuevo mapa las habitaciones sucias para agregarlas a la nueva lista
-    	//de habitaciones sucias
-    	/*
-    	List<Escenario> newHabitacionesSucias = new ArrayList<Escenario>();
-    	for(Escenario h : newMapaHabitaciones)
-    		for(Escenario hs : this.gethabitacionesSucias())
-    			if(h.getNombre().equals(hs.getNombre()))
-    				newHabitacionesSucias.add(h);
-    	newState.sethabitacionesSucias(newHabitacionesSucias);
-    	*/
-    	
-    	//Este ultimo atributo (la posicion) ya se encuentra en la lista de habitaciones que
-    	//representa el mapa! Entonces debemos buscarlo en la lista (la NUEVA!)
-    	/*
-    	for(Escenario h : newMapaHabitaciones)
-    		if(h.getNombre().equals(this.getposicion().getNombre()))
-    			newState.setposicion(h);
-    	*/
-    	
-        return newState;
+        
+    	return newState;
         
     }
 
@@ -95,7 +67,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     	
     	//En base a la suciedad percibida y la posicion actual, actualizamos (de ser necesario)
     	//la lista de habitaciones sucias.
-    	Escenario posicionActual = this.getposicion();
+    	//Escenario posicionActual = this.getposicion();
     	//int suciedadPercibida = percepcion.getsuciedad();
     	
     	//Si percibimos suciedad, tenemos que agregar la posicion actual a la lista de
@@ -135,6 +107,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         //TODO: hacer un algoritmo aleatorio para generar los arboles, el lobo y caperucita
         //posicionActual = una posicion
         //posicionLobo = una posicion
+        //posicionFlores = una posicion
         //posicionesDulces = posiciones
         energiaDisponible = 3;
 
