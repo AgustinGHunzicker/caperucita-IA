@@ -60,25 +60,32 @@ public class EstadoAmbiente extends EnvironmentState {
     	}
     	
     	//se setea en el escenario la posición de caperucita
-        posicionCaperucita = new Point(getRandomX(), getRandomY());
+        posicionCaperucita = new Point(getRandomN(2,13), getRandomN(2,8));
         escenarioJuego.setPosicionXY((int)(posicionCaperucita.getX()), (int)(posicionCaperucita.getY()), 3);
         
         //se setea en el escenario la posición del lobo
         do {
-        	posicionLobo = new Point(getRandomX(), getRandomY()); //chequeo que no se pare encima de caperucita
+        	posicionLobo = new Point(getRandomN(2,13), getRandomN(2,8)); //chequeo que no se pare encima de caperucita
         } while(posicionLobo.equals(posicionCaperucita));
         
         escenarioJuego.setPosicionXY((int)(posicionLobo.getX()), (int)(posicionLobo.getY()), 4);
         
         //se setean las posiciones de los arboles
+        /*Esto anda y no anda a la vez, puede llegar a poner arboles de tal forma que 
+          no haya camino posible para llegar a las flores o los dulces, hay que hacerlo
+          de otra forma.
+          La otra seria hacer los escenarios ya predefinidos y no hacerlos random, osea ya de antemano
+          definir tres escenarios que tengan fijos los arboles y los cargamos directamente.
+         */
         
-        int cantArboles = getRandomArboles();
+        
+        int cantArboles = getRandomN(35,50);
         boolean repetido;
         
         for (int a = 0; a < cantArboles; a++) {
         	do {
-        		int x = getRandomX();
-        		int y = getRandomY();
+        		int x = getRandomN(2,13);
+        		int y = getRandomN(2,8);
         		repetido = true;
         		if(escenarioJuego.getPosicionXY(x, y) == 0) {
         			escenarioJuego.setPosicionXY(x, y, 1);
@@ -88,39 +95,19 @@ public class EstadoAmbiente extends EnvironmentState {
         }
         
         //TODO: hacer un algoritmo aleatorio para generar los dulces y las flores
+        
     	//posicionFlores = una posicion
         //posicionesDulces = posiciones
+        
     }
     
-    private int getRandomX() {
+    private int getRandomN(int min, int max) {
     	//range
-    	//se considera una columna menos a cada lado porque en los bordes hay bosque siempre
-    	int min = 2;
-    	int max = 13;
     	int rango = max - min + 1;
     	int rand = (int)(Math.random() * rango) + min;
     	return rand;
-    }
+    }    
     
-    private int getRandomY() {
-    	//range
-    	//se considera una fila menos a cada lado porque en los bordes hay bosque siempre
-    	int min = 2;
-    	int max = 8;
-    	int rango = max - min + 1;
-    	int rand = (int)(Math.random() * rango) + min;
-    	return rand;
-    }
-    
-    private int getRandomArboles() {
-    	//range
-    	int min = 35;
-    	int max = 50;
-    	int rango = max - min + 1;
-    	int rand = (int)(Math.random() * rango) + min;
-    	return rand;
-    }
-
     /**
      * String representation of the real world state.
      */
