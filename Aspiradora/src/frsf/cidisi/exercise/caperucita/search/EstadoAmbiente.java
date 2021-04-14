@@ -47,21 +47,46 @@ public class EstadoAmbiente extends EnvironmentState {
     	escenarioJuego.generarEscenario(nroEsc);
     	
     	//se setea en el escenario la posición de caperucita
-        posicionCaperucita = new Point(getRandomN(2,13), getRandomN(2,8));
-        escenarioJuego.setPosicionXY((int)(posicionCaperucita.getX()), (int)(posicionCaperucita.getY()), 3);
+    	boolean repetido = true;
+    	int x;
+    	int y;
+        do {
+        	x = getRandomN(2,13);
+        	y = getRandomN(2,8);
+        	if (escenarioJuego.getPosicionXY(x, y) == 0) {
+        		posicionCaperucita = new Point(x, y);
+        		escenarioJuego.setPosicionXY(x, y, 3);
+        		repetido = false;
+        	}
+        } while(repetido);
         
         //se setea en el escenario la posición del lobo
+        repetido = true;
         do {
-        	posicionLobo = new Point(getRandomN(2,13), getRandomN(2,8)); //chequeo que no se pare encima de caperucita
-        } while(posicionLobo.equals(posicionCaperucita));
+        	x = getRandomN(2,13);
+        	y = getRandomN(2,8);
+        	if (escenarioJuego.getPosicionXY(x, y) == 0) {
+        		posicionLobo = new Point(x, y);
+        		escenarioJuego.setPosicionXY(x, y, 4);
+        		repetido = false;
+        	}
+        } while(repetido);
         
-        escenarioJuego.setPosicionXY((int)(posicionLobo.getX()), (int)(posicionLobo.getY()), 4);       	
-        
-        //TODO: hacer un algoritmo aleatorio para generar los dulces y las flores
-        
-    	//posicionFlores = una posicion
-        //posicionesDulces = posiciones
-        
+        //se setea las posiciones de los dulces
+        int cantFlores = 3;
+        Point posicionDulce = new Point();
+        do {
+            repetido = true;
+        	x = getRandomN(2,13);
+        	y = getRandomN(2,8);
+        	if (escenarioJuego.getPosicionXY(x, y) == 0) {
+        		posicionDulce.setLocation(x, y);
+        		posicionesDulces.add(posicionDulce);
+        		escenarioJuego.setPosicionXY(x, y, 2);
+        		repetido = false;
+        		cantFlores--;
+        	}
+        } while(repetido || cantFlores > 0);        
     }
     
     private int getRandomN(int min, int max) {
