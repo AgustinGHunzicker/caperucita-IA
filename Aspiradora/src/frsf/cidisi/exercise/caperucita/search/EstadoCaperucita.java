@@ -17,6 +17,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 	
     private List<Escenario> habitacionesSucias;
     private List<Escenario> mapaHabitaciones;
+    private Escenario escenarioJuego;
     private Point posicionActual;
     private Point posicionLobo;
     private Point posicionFlores;
@@ -25,8 +26,9 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     
     private static final Point UNKNOWN = new Point(-1, -1);
     
-    public EstadoCaperucita() {
-    	posicionActual = new Point();
+    public EstadoCaperucita(Ambiente escenario) {
+    	escenarioJuego = new Escenario();
+    	posicionActual = escenario.getEnvironmentState().getposicionCaperucita();
     	posicionLobo = new Point();
     	posicionFlores = new Point();
     	posicionesDulces = new ArrayList<Point>();
@@ -44,7 +46,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     @Override
     public SearchBasedAgentState clone() {
     	
-    	EstadoCaperucita newState = new EstadoCaperucita();
+    	EstadoCaperucita newState = new EstadoCaperucita(null); //TODO: actualizar cuando se tenga el Ambiente
     	
     	//Los atributos de tipo primitvos se pasan por copia
     	newState.setVidasRestantes(this.getVidasRestantes());
@@ -53,7 +55,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     	newState.setPosicionesDulces(this.getPosicionesDulces());
         
     	return newState;
-        
     }
 
     /**
@@ -103,7 +104,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     public void initState() {
         //Este método también debe tomar los valores del escenario particular
     	
-        posicionActual = UNKNOWN;
         posicionLobo = UNKNOWN;
         posicionFlores = UNKNOWN;
         posicionesDulces = new ArrayList<Point>();
@@ -116,25 +116,9 @@ public class EstadoCaperucita extends SearchBasedAgentState {
      */
     @Override
     public String toString() {
-        
-    	String str = "";
+    	//TODO: hacer un toString para mostrar la solución de caperucita
     	
-    	str += "Habitaciones del mapa: {";
-        for(Escenario h : mapaHabitaciones)
-        	str+= h.toString() + ", ";
-        str = str.substring(0,str.length()-2);
-        str += "}\n";
-        
-        //str += "Habitaciones actual: "+posicion.toString()+".\n";
-        //str += "Energia actual: "+energiaDisponible+".\n";
-    	
-        str += "Habitaciones sucias: {";
-        for(Escenario h : habitacionesSucias)
-        	str+= h.toString() + ", ";
-        str = str.substring(0,str.length()-2);
-        str += "}\n";
-
-        return str;
+        return "";
     }
 
     /**

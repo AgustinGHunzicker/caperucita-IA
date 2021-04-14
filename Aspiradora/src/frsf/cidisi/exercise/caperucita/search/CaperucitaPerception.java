@@ -1,5 +1,7 @@
 package frsf.cidisi.exercise.caperucita.search;
 
+import java.awt.Point;
+
 import domain.Escenario;
 import frsf.cidisi.faia.agent.Agent;
 import frsf.cidisi.faia.agent.Perception;
@@ -32,7 +34,7 @@ public class CaperucitaPerception extends Perception {
        
         //Aqu� creamos la percepci�n inicial del agente
         //Pimero chequeamos que la habitaci�n en la que est� el agente est� sucia
-        Escenario h = environmentState.getposicionCaperucita();
+        Point position = environmentState.getposicionCaperucita();
         /*
         boolean estaSucia = environmentState.gethabitacionesSucias().contains(h);
         

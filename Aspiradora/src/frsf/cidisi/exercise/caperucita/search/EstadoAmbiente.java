@@ -124,18 +124,16 @@ public class EstadoAmbiente extends EnvironmentState {
         habitacionesSucias = arg;
      }
     
-     public Escenario getposicionCaperucita(){
-        return posicionAspiradora;
+     public Point getposicionCaperucita(){
+        return posicionCaperucita;
      }
+     
+     public void setPosicionCaperucita(Point posicionCap) {
+    	 posicionCaperucita = posicionCap;
+     }
+     
      public void setposicionAspiradora(Escenario arg){
         posicionAspiradora = arg;
      }
-
-	public Escenario getPosicionCaperucita() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-
 }
 
