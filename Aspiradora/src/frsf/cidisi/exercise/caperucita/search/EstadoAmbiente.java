@@ -13,7 +13,6 @@ import frsf.cidisi.faia.state.EnvironmentState;
  */
 public class EstadoAmbiente extends EnvironmentState {
 	
-    private List<Escenario> habitacionesSucias;
     private Escenario posicionAspiradora;
     private Escenario escenarioJuego;
     private Point posicionCaperucita;
@@ -27,9 +26,6 @@ public class EstadoAmbiente extends EnvironmentState {
         posicionLobo = new Point();
         posicionFlores = new Point();
         posicionesDulces = new ArrayList<Point>();
-    	
-        habitacionesSucias = new ArrayList<Escenario>();
-    	posicionAspiradora = new Escenario();
     	
         this.initState();
     }
@@ -104,25 +100,8 @@ public class EstadoAmbiente extends EnvironmentState {
     	
         String str = "";
         
-        str += "Habitaciones sucias: {";
-        for(Escenario h : habitacionesSucias)
-        	str+= h.toString() + ", ";
-        str = str.substring(0,str.length()-2);
-        str += "}\n";
-        
-        str += "Posici�n del agente: ";
-        str += posicionAspiradora.toString(); 
-
         return str;
     }
-
-     public List<Escenario> gethabitacionesSucias(){
-        return habitacionesSucias;
-     }
-     
-     public void sethabitacionesSucias(List<Escenario> arg){
-        habitacionesSucias = arg;
-     }
     
      public Point getposicionCaperucita(){
         return posicionCaperucita;
@@ -132,8 +111,8 @@ public class EstadoAmbiente extends EnvironmentState {
     	 posicionCaperucita = posicionCap;
      }
      
-     public void setposicionAspiradora(Escenario arg){
-        posicionAspiradora = arg;
+     public Escenario getEscenario() {
+    	 return escenarioJuego;
      }
 }
 

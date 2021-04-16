@@ -10,6 +10,8 @@ public class ObjetivoCaperucita extends GoalTest {
     public boolean isGoalState (AgentState agentState) {
     	EstadoCaperucita estadoCaperucita = (EstadoCaperucita) agentState;
     	
+    	//TODO: reformular prueba de meta
+    	/*
     	if ((estadoCaperucita.getposicionCaperucita().x == estadoCaperucita.getPosicionFlores().x) &&
     			(estadoCaperucita.getposicionCaperucita().y == estadoCaperucita.getPosicionFlores().y)) {
     		return true;
@@ -17,7 +19,8 @@ public class ObjetivoCaperucita extends GoalTest {
     	else {
     		return false;
     	}
-        
+    	*/
+        return false;
 	}
     
 }
