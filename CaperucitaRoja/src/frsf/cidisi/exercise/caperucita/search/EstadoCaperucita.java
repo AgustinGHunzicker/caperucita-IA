@@ -15,23 +15,19 @@ import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
  */
 public class EstadoCaperucita extends SearchBasedAgentState {
 	
-    private List<Escenario> habitacionesSucias;
-    private List<Escenario> mapaHabitaciones;
+    private Escenario escenarioJuego;
     private Point posicionActual;
-    private Point posicionLobo;
     private Point posicionFlores;
     private List<Point> posicionesDulces;
     private int vidasRestantes;
     
     private static final Point UNKNOWN = new Point(-1, -1);
     
-    public EstadoCaperucita() {
-    	posicionActual = new Point();
-    	posicionLobo = new Point();
+    public EstadoCaperucita(Ambiente escenario) {
+    	escenarioJuego = new Escenario();
+    	posicionActual = escenario.getEnvironmentState().getposicionCaperucita();
     	posicionFlores = new Point();
     	posicionesDulces = new ArrayList<Point>();
-    	habitacionesSucias = new ArrayList<Escenario>();
-		mapaHabitaciones = new ArrayList<Escenario>();
 		vidasRestantes = 0;
     	
         this.initState();
@@ -44,16 +40,14 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     @Override
     public SearchBasedAgentState clone() {
     	
-    	EstadoCaperucita newState = new EstadoCaperucita();
+    	EstadoCaperucita newState = new EstadoCaperucita(null); //TODO: actualizar cuando se tenga el Ambiente
     	
     	//Los atributos de tipo primitvos se pasan por copia
     	newState.setVidasRestantes(this.getVidasRestantes());
     	newState.setPosicionCaperucita(this.getposicionCaperucita());
-    	newState.setPosicionLobo(this.getPosicionLobo());
     	newState.setPosicionesDulces(this.getPosicionesDulces());
         
     	return newState;
-        
     }
 
     /**
@@ -65,6 +59,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     	
     	CaperucitaPerception percepcion = (CaperucitaPerception) p;
     	
+    	//TODO: recibir percepciones y actualizar
     	//En base a la suciedad percibida y la posicion actual, actualizamos (de ser necesario)
     	//la lista de habitaciones sucias.
     	//Escenario posicionActual = this.getposicion();
@@ -103,12 +98,9 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     public void initState() {
         //Este método también debe tomar los valores del escenario particular
     	
-        posicionActual = UNKNOWN;
-        posicionLobo = UNKNOWN;
         posicionFlores = UNKNOWN;
         posicionesDulces = new ArrayList<Point>();
         vidasRestantes = 3;
-
     }
 
     /**
@@ -116,25 +108,9 @@ public class EstadoCaperucita extends SearchBasedAgentState {
      */
     @Override
     public String toString() {
-        
-    	String str = "";
+    	//TODO: hacer un toString para mostrar la solución de caperucita
     	
-    	str += "Habitaciones del mapa: {";
-        for(Escenario h : mapaHabitaciones)
-        	str+= h.toString() + ", ";
-        str = str.substring(0,str.length()-2);
-        str += "}\n";
-        
-        //str += "Habitaciones actual: "+posicion.toString()+".\n";
-        //str += "Energia actual: "+energiaDisponible+".\n";
-    	
-        str += "Habitaciones sucias: {";
-        for(Escenario h : habitacionesSucias)
-        	str+= h.toString() + ", ";
-        str = str.substring(0,str.length()-2);
-        str += "}\n";
-
-        return str;
+        return "";
     }
 
     /**
@@ -182,15 +158,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     public void setPosicionCaperucita(Point posicion) {
     	this.posicionActual = posicion;
     }
-    
-    public Point getPosicionLobo() {
-    	return this.posicionLobo;
-    }
-    
-    public void setPosicionLobo(Point posicion) {
-    	this.posicionLobo = posicion;
-    }
-    
+        
     public Point getPosicionFlores() {
     	return this.posicionFlores;
     }
@@ -206,31 +174,13 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     public void setPosicionesDulces(List<Point> posiciones) {
     	this.posicionesDulces = posiciones;
     }
-    
-    public List<Escenario> gethabitacionesSucias(){
-        return habitacionesSucias;
-    }
-     
-    public void sethabitacionesSucias(List<Escenario> arg){
-        habitacionesSucias = arg;
-    }
-     
+       
     public int getVidasRestantes(){
         return this.vidasRestantes;
     }
      
      public void setVidasRestantes(int vidas){
         this.vidasRestantes = vidas;
-     }
-	
-     private String[] getArrayOfNames(List<Escenario> habitaciones){
-    	 String[] arrayOfNames = new String[habitaciones.size()];
-    	 
-    	 for(int i=0;i<habitaciones.size();i++)
-    		 arrayOfNames[i] = habitaciones.get(i).getNombre();
-    	 
-    	 return arrayOfNames;
-     }
-     
+     }    
 }
 

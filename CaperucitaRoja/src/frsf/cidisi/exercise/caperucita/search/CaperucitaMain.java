@@ -8,7 +8,7 @@ public class CaperucitaMain {
     public static void main(String[] args) throws PrologConnectorException {
         Ambiente environment = new Ambiente();
         
-        Caperucita agent = new Caperucita();
+        Caperucita agent = new Caperucita(environment);
 
         SearchBasedAgentSimulator simulator =
                 new SearchBasedAgentSimulator(environment, agent);

@@ -17,13 +17,13 @@ import java.util.Vector;
 
 public class Caperucita extends SearchBasedAgent {
 
-    public Caperucita() {
+    public Caperucita(Ambiente escenario) {
 
-        // The Agent Goal
+    	// The Agent Goal
         ObjetivoCaperucita agGoal = new ObjetivoCaperucita();
 
         // The Agent State
-        EstadoCaperucita agState = new EstadoCaperucita();
+        EstadoCaperucita agState = new EstadoCaperucita(escenario);
         this.setAgentState(agState);
 
         // Create the operators
