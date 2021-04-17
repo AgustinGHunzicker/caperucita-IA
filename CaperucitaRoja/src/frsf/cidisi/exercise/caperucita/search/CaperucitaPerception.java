@@ -14,21 +14,34 @@ public class CaperucitaPerception extends Perception {
     public static int DULCE = 2;
     public static int LOBO = 4;
     public static int META = 5;
+    //Bandera que indican que hay en esa direccion
 	private int izquierda;
 	private int derecha;
 	private int arriba;
 	private int abajo;
+	//Cantidad de movimiento que puede hacer en esa direccion
+	private int movIzquierda;
+	private int movDerecha;
+	private int movArriba;
+	private int movAbajo;
+	//Posiciones exactas en el escenario percibido
 	private Point caminoFlores;
+	private Point posicionLobo;
+	private Point posicionActual; //
 	private HashSet<Point> dulces;
-	private Point posicionActual;
-
+	//Posiblemente necesitemos la cantidad de dulces en esa direccion
+	
     public  CaperucitaPerception() {
-    	//Aquí crearimos los objetos, listas, arrays que componen la percepción
     	izquierda = UNKNOWN_PERCEPTION;
     	derecha = UNKNOWN_PERCEPTION;
     	arriba = UNKNOWN_PERCEPTION;
     	abajo = UNKNOWN_PERCEPTION;
+    	movIzquierda = 0;
+    	movDerecha = 0;
+    	movArriba = 0;
+    	movAbajo = 0;
     	caminoFlores = new Point(UNKNOWN_PERCEPTION, UNKNOWN_PERCEPTION);
+    	posicionLobo = new Point(UNKNOWN_PERCEPTION, UNKNOWN_PERCEPTION);
     	dulces = new HashSet<Point>();
     }
 
@@ -91,6 +104,46 @@ public class CaperucitaPerception extends Perception {
 	public int getAbajo() {
 		return abajo;
 	}
+	
+	public int getMovIzquierda() {
+		return movIzquierda;
+	}
+
+	public void setMovIzquierda(int movIzquierda) {
+		this.movIzquierda = movIzquierda;
+	}
+
+	public int getMovDerecha() {
+		return movDerecha;
+	}
+
+	public void setMovDerecha(int movDerecha) {
+		this.movDerecha = movDerecha;
+	}
+
+	public int getMovArriba() {
+		return movArriba;
+	}
+
+	public void setMovArriba(int movArriba) {
+		this.movArriba = movArriba;
+	}
+
+	public int getMovAbajo() {
+		return movAbajo;
+	}
+
+	public void setMovAbajo(int movAbajo) {
+		this.movAbajo = movAbajo;
+	}
+
+	public Point getPosicionLobo() {
+		return posicionLobo;
+	}
+
+	public void setPosicionLobo(Point posicionLobo) {
+		this.posicionLobo = posicionLobo;
+	}
 
 	public Point getCaminoFlores() {
 		return caminoFlores;
@@ -103,7 +156,7 @@ public class CaperucitaPerception extends Perception {
 	public Point getPosicionActual() {
 		return posicionActual;
 	}
-
+	
 	@Override
     public String toString() {
         
