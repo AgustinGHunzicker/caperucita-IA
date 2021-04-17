@@ -1,10 +1,8 @@
 package frsf.cidisi.exercise.caperucita.search;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
-
-import domain.Escenario;
+import java.util.HashSet;
+import java.util.Set;
 import frsf.cidisi.faia.agent.Agent;
 import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.environment.Environment;
@@ -21,7 +19,8 @@ public class CaperucitaPerception extends Perception {
 	private int arriba;
 	private int abajo;
 	private Point caminoFlores;
-	private List<Point> dulces;
+	private HashSet<Point> dulces;
+	private Point posicionActual;
 
     public  CaperucitaPerception() {
     	//Aquí crearimos los objetos, listas, arrays que componen la percepción
@@ -30,7 +29,7 @@ public class CaperucitaPerception extends Perception {
     	arriba = UNKNOWN_PERCEPTION;
     	abajo = UNKNOWN_PERCEPTION;
     	caminoFlores = new Point(UNKNOWN_PERCEPTION, UNKNOWN_PERCEPTION);
-    	dulces = new ArrayList<Point>();
+    	dulces = new HashSet<Point>();
     }
 
     public CaperucitaPerception(Agent agent, Environment environment) {
@@ -72,11 +71,40 @@ public class CaperucitaPerception extends Perception {
     	this.caminoFlores = flores;
     }
     
-    public void setDulcesPerception(List<Point> dulces) {
+    public void setDulcesPerception(HashSet<Point> dulces) {
     	this.dulces = dulces;
     }
     
-    @Override
+    
+    public int getIzquierda() {
+		return izquierda;
+	}
+
+	public int getDerecha() {
+		return derecha;
+	}
+
+	public int getArriba() {
+		return arriba;
+	}
+
+	public int getAbajo() {
+		return abajo;
+	}
+
+	public Point getCaminoFlores() {
+		return caminoFlores;
+	}
+
+	public Set<Point> getDulces() {
+		return dulces;
+	}
+
+	public Point getPosicionActual() {
+		return posicionActual;
+	}
+
+	@Override
     public String toString() {
         
     	/*String str = "";

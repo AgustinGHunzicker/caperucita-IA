@@ -13,7 +13,6 @@ import frsf.cidisi.faia.state.EnvironmentState;
  */
 public class EstadoAmbiente extends EnvironmentState {
 	
-    private Escenario posicionAspiradora;
     private Escenario escenarioJuego;
     private Point posicionCaperucita;
     private Point posicionLobo;

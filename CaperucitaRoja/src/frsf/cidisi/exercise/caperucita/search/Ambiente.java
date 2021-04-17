@@ -2,6 +2,7 @@ package frsf.cidisi.exercise.caperucita.search;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import domain.Escenario;
@@ -49,7 +50,7 @@ public class Ambiente extends Environment {
         //representa cuantos dulces puede encontrar Caperucita en las direcciones izq, der, arr y aba
         int cantDulces[] = {0, 0, 0, 0};
         //representa los casilleros donde están los dulces que puede encontrar Caperucita
-        List<Point> posDulces = new ArrayList<Point>();
+        HashSet<Point> posDulces = new HashSet<Point>();
         
         //izquierda
         while(arbol == false && lobo[0] == false) {
@@ -170,11 +171,13 @@ public class Ambiente extends Environment {
         }
         
         //setear parametros de la perception
-        
+        // no deberiamos iniciar con 0, si son la cantidad de movimientos que puede hacer?
         perception.setIzquierdaPerception(CaperucitaPerception.NADA);
         perception.setDerechaPerception(CaperucitaPerception.NADA);
         perception.setArribaPerception(CaperucitaPerception.NADA);
         perception.setAbajoPerception(CaperucitaPerception.NADA);
+        
+        perception.setDulcesPerception(posDulces);
         
         //comprobar si el lobo está en alguna de las direcciones
        	if (lobo[0] == true) {
@@ -219,7 +222,6 @@ public class Ambiente extends Environment {
         // Return the perception
         return perception;
     }
-
     
     public String toString() {
         return environmentState.toString();
@@ -236,4 +238,6 @@ public class Ambiente extends Environment {
 
         return failed;
     }
+    
+    
 }
