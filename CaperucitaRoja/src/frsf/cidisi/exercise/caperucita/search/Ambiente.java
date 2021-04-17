@@ -36,77 +36,51 @@ public class Ambiente extends Environment {
         int posXCap = (int) this.getEnvironmentState().getposicionCaperucita().getX();
         int posYCap = (int) this.getEnvironmentState().getposicionCaperucita().getY();
         
-        HashSet<Point> posDulces = new HashSet<Point>();
-        
     	//Creamos la percepcion que el agente obtendrá, a partir del estado actual del ambiente
         CaperucitaPerception perception = new CaperucitaPerception();
-
-        this.verIzquierda(escenario, posXCap, posYCap);
-        this.verDerecha(escenario, posXCap, posYCap);
-        this.verArriba(escenario, posXCap, posYCap);
-        this.verAbajo(escenario, posXCap, posYCap);
-
-        // setear parametros de la perception
-        // no deberiamos iniciar con 0, si son la cantidad de movimientos que puede hacer?
-        perception.setIzquierdaPerception(CaperucitaPerception.NADA);
-        perception.setDerechaPerception(CaperucitaPerception.NADA);
-        perception.setArribaPerception(CaperucitaPerception.NADA);
-        perception.setAbajoPerception(CaperucitaPerception.NADA);
         
-        perception.setDulcesPerception(posDulces);
+        //Se mira hacia las cuatro direcciones
+        VistaCaperucita vistaIzquierda 	= this.verIzquierda(escenario, posXCap, posYCap);
+        VistaCaperucita vistaDerecha   	= this.verDerecha(escenario, posXCap, posYCap);
+        VistaCaperucita vistaArriba    	= this.verArriba(escenario, posXCap, posYCap);
+        VistaCaperucita vistaAbajo 		= this.verAbajo(escenario, posXCap, posYCap);        
         
-        //--prioridades
-        //lobo
-        //flores
-        //dulces
-        //nada
-        
-//      args.add(posLobo);
-//      //
-//      //args.add(hayFlores);
-//      args.add(flores);
-//      //
-//      args.add(cantPosiciones);
-//      //
-//      //args.add(cantDulces);
-//      args.add(posDulces);
-        
-        
-        
-        //comprobar si el lobo está en alguna de las direcciones
-       	if (!args.get(0).equals(-1)) perception.setIzquierdaPerception(CaperucitaPerception.LOBO);	
-       	else if (!args.get(0).equals(-1))
-        
-       	//comprobar si hay dulces en alguna de las direccionesflores
-       	if(cantDulces[0] > 0) {
-       		perception.setIzquierdaPerception(CaperucitaPerception.DULCE);
-       	}
-       	if (cantDulces[1] > 0) {
-       		perception.setDerechaPerception(CaperucitaPerception.DULCE);
-       	}
+        //Se carga la bandera de jerarquia de posicionamiento de objetos en cada direccion
+       	perception.setIzquierdaPerception(this.getPrioridad(vistaIzquierda));	
+       	perception.setDerechaPerception(this.getPrioridad(vistaDerecha));	
+       	perception.setArribaPerception(this.getPrioridad(vistaArriba));	
+       	perception.setAbajoPerception(this.getPrioridad(vistaAbajo));
        	
-       	//comprobar si se percibió el camino de flores
-        if (hayFlores[0] == true) {
-        	perception.setIzquierdaPerception(CaperucitaPerception.META);
-        	perception.setFloresPerception(flores);
-        }
-        else if (hayFlores[1] == true) {
-        	perception.setDerechaPerception(CaperucitaPerception.META);
-        	perception.setFloresPerception(flores);
-        }
-        else if (hayFlores[2] == true) {
-        	perception.setArribaPerception(CaperucitaPerception.META);
-        	perception.setFloresPerception(flores);
-        }
-        else if (hayFlores[3] == true) {
-        	perception.setAbajoPerception(CaperucitaPerception.META);
-        	perception.setFloresPerception(flores);
-        }
+       	//Se carga los movimientos permitidos en cada direccion
+       	perception.setMovIzquierda(vistaIzquierda.cantPosiciones);
+       	perception.setMovDerecha(vistaDerecha.cantPosiciones);
+       	perception.setMovArriba(vistaArriba.cantPosiciones);
+       	perception.setMovAbajo(vistaAbajo.cantPosiciones);
        	
-        // Return the perception
+       	//Se carga las posicion de las flores, si es que las haya visto
+       	perception.setFloresPerception(this.floresHay(vistaIzquierda.posFlores, vistaDerecha.posFlores, vistaArriba.posFlores, vistaAbajo.posFlores));
+       	
+       	//Se carga las posicion del lobo, si es que lo vio
+       	perception.setPosicionLobo(this.loboEsta(vistaIzquierda.posLobo, vistaDerecha.posLobo, vistaArriba.posLobo, vistaAbajo.posLobo));
+       	
+       	//Se pasa la ubicacion actual de caperucita
+       	perception.setPosicionActual(new Point(posXCap, posYCap));
+       	
+       	//Se carga las posicion de los dulces, si hubiese
+       	HashSet<Point> dulces = new HashSet<Point>();
+       	dulces.addAll(vistaIzquierda.posDulces);
+       	dulces.addAll(vistaDerecha.posDulces);
+       	dulces.addAll(vistaArriba.posDulces);
+       	dulces.addAll(vistaAbajo.posDulces);
+       	perception.setDulcesPerception(dulces);
+    	
+       	//Se retorna la percepcion
         return perception;
     }
     
+    /*
+     * Clase que funciona como estructura de vista de caperucita hacia una direccion en particular
+     */
     private class VistaCaperucita {
     	private Point posLobo;
     	private Point posFlores;
@@ -122,6 +96,9 @@ public class Ambiente extends Environment {
     	
     }
     
+    /*
+     * Mira hacia izquierda y devuelve los objetos a la vista hasta chocarse con un arbol o el lobo
+     */
     private VistaCaperucita verIzquierda(Escenario escenario, int posXCap, int posYCap) {
     	
     	VistaCaperucita vista = new VistaCaperucita(); 
@@ -155,6 +132,9 @@ public class Ambiente extends Environment {
         return vista;
     }
     
+    /*
+     * Mira hacia derecha y devuelve los objetos a la vista hasta chocarse con un arbol o el lobo
+     */
     private VistaCaperucita verDerecha(Escenario escenario, int posXCap, int posYCap) {
     	
     	VistaCaperucita vista = new VistaCaperucita(); 
@@ -187,41 +167,10 @@ public class Ambiente extends Environment {
         
         return vista;
     }
-        
     
-    private VistaCaperucita verAbajo(Escenario escenario, int posXCap, int posYCap) {
-    	
-    	VistaCaperucita vista = new VistaCaperucita(); 
-        boolean arbol = false;
-        Point noHay = new Point(-1,-1);
-
-        while(arbol == false && vista.posLobo.equals(noHay)) {
-        	
-        	switch(escenario.getPosicionXY(posXCap, posYCap - vista.cantPosiciones)) {
-        	  case 0: //puedo seguir avanzando, está vacío
-          		vista.cantPosiciones++;
-        	    break;
-        	  case 1: //hay un arbol, hasta acá nomás se puede llegar
-          		arbol = true;
-        	    break;
-        	  case 2: //hay un dulce, lo tengo que juntar y puedo seguir avanzando
-          		Point dulce = new Point(posXCap, posYCap - vista.cantPosiciones);
-          		vista.posDulces.add(dulce);
-          		vista.cantPosiciones++;
-          	    break;
-          	  case 4: //está el lobo, no debería moverse en esta dirección
-          		vista.posLobo.setLocation(posXCap, posYCap - vista.cantPosiciones);
-          	    break;
-          	  case 5: //Está el camino de flores, la meta
-          		vista.posFlores.setLocation(posXCap, posYCap - vista.cantPosiciones);
-          	    break;
-        	  default: // code block - error pararmeter
-        	}
-        }
-        
-        return vista;        
-    }
-    
+    /*
+     * Mira hacia arriba y devuelve los objetos a la vista hasta chocarse con un arbol o el lobo
+     */
     private VistaCaperucita verArriba(Escenario escenario, int posXCap, int posYCap) {
     	
     	VistaCaperucita vista = new VistaCaperucita(); 
@@ -255,7 +204,102 @@ public class Ambiente extends Environment {
         return vista;      
     }
     
+    /*
+     * Mira hacia abajo y devuelve los objetos a la vista hasta chocarse con un arbol o el lobo
+     */
+    private VistaCaperucita verAbajo(Escenario escenario, int posXCap, int posYCap) {
+    	
+    	VistaCaperucita vista = new VistaCaperucita(); 
+        boolean arbol = false;
+        Point noHay = new Point(-1,-1);
+
+        while(arbol == false && vista.posLobo.equals(noHay)) {
+        	
+        	switch(escenario.getPosicionXY(posXCap, posYCap - vista.cantPosiciones)) {
+        	  case 0: //puedo seguir avanzando, está vacío
+          		vista.cantPosiciones++;
+        	    break;
+        	  case 1: //hay un arbol, hasta acá nomás se puede llegar
+          		arbol = true;
+        	    break;
+        	  case 2: //hay un dulce, lo tengo que juntar y puedo seguir avanzando
+          		Point dulce = new Point(posXCap, posYCap - vista.cantPosiciones);
+          		vista.posDulces.add(dulce);
+          		vista.cantPosiciones++;
+          	    break;
+          	  case 4: //está el lobo, no debería moverse en esta dirección
+          		vista.posLobo.setLocation(posXCap, posYCap - vista.cantPosiciones);
+          	    break;
+          	  case 5: //Está el camino de flores, la meta
+          		vista.posFlores.setLocation(posXCap, posYCap - vista.cantPosiciones);
+          	    break;
+        	  default: // code block - error pararmeter
+        	}
+        }
+        
+        return vista;        
+    }
+        
+    /*
+     * -- TODO Prioridades ver si cambiamos primero dulce que flores
+     * lobo
+     * flores
+     * dulces
+     * nada
+     */
+    private int getPrioridad(VistaCaperucita v) {
+    	
+    	Point noHay = new Point(-1,-1);
+    	
+       	if (!v.posLobo.equals(noHay)) 
+       		return CaperucitaPerception.LOBO;	
+       	if (!v.posFlores.equals(noHay)) 
+       		return CaperucitaPerception.META;
+       	if (!v.posDulces.isEmpty()) 
+       		return CaperucitaPerception.DULCE;
+       	else 
+       		return CaperucitaPerception.NADA;
+    }
     
+    /*
+     * Devuelve la posicion del lobo si esta a la vista
+     * caso contrario devuelve un fuera de rango Point(-1, -1)
+     */
+    private Point loboEsta(Point i, Point d, Point ar, Point ab) {
+    	
+    	Point noEsta = new Point(-1,-1);
+    	
+    	if (!i.equals(noEsta)) 
+    		return i;
+    	if (!d.equals(noEsta)) 
+    		return i;
+    	if (!ar.equals(noEsta)) 
+    		return i;
+    	if (!ab.equals(noEsta)) 
+    		return i;
+    	else
+    		return noEsta;
+    }
+    
+    /*
+     * Devuelve la posicion de las flores si hay a la vista
+     * caso contrario devuelve un fuera de rango Point(-1, -1)
+     */
+    private Point floresHay(Point i, Point d, Point ar, Point ab) {
+    	
+    	Point noHay = new Point(-1,-1);
+    	
+    	if (!i.equals(noHay)) 
+    		return i;
+    	if (!d.equals(noHay)) 
+    		return i;
+    	if (!ar.equals(noHay)) 
+    		return i;
+    	if (!ab.equals(noHay)) 
+    		return i;
+    	else
+    		return noHay;
+    }
     
     public String toString() {
         return environmentState.toString();

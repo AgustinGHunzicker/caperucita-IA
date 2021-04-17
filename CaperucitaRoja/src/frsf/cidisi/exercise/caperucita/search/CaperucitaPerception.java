@@ -157,6 +157,10 @@ public class CaperucitaPerception extends Perception {
 		return posicionActual;
 	}
 	
+	public void setPosicionActual(Point posicionActual) {
+		this.posicionActual = posicionActual;
+	}
+
 	@Override
     public String toString() {
         

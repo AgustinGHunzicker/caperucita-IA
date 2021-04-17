@@ -23,20 +23,13 @@ public class MainTest {
 	  Point x2 = new Point(-1, -1);
 //	  
 //	  System.out.println(x1.equals(x2));
-	  int a = 4;
-	  switch(a) {
-	  case 1:
-	    // code block
-		  System.out.println(x1.equals(x2));
-	    break;
-	  case 4:
-	    // code block
-		  System.out.println("sisi");
-	    break;
-	  default:
-	    // code block
-		  System.out.println("nqv");
-	}
+	  
+	  HashSet<Point> posDulces = new HashSet<Point>();
+	  
+	  posDulces.addAll(new HashSet<Point>());
+	  posDulces.addAll(new HashSet<Point>());
+	  posDulces.addAll(new HashSet<Point>());
+	  System.out.println(posDulces.size());
 	  
   }
 }
