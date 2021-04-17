@@ -1,10 +1,7 @@
 package frsf.cidisi.exercise.caperucita.search;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-
 import domain.Escenario;
 import frsf.cidisi.faia.agent.Action;
 import frsf.cidisi.faia.environment.Environment;
@@ -93,7 +90,6 @@ public class Ambiente extends Environment {
     		this.posDulces = new HashSet<Point>();
     		this.cantPosiciones = 1;
     	}
-    	
     }
     
     /*
@@ -128,6 +124,8 @@ public class Ambiente extends Environment {
         	  default: // code block - error pararmeter
         	}
         }
+        //Puesto que viene inicializado en 1, debe restarse el movimiento adicional
+        vista.cantPosiciones--;
         
         return vista;
     }
@@ -164,6 +162,8 @@ public class Ambiente extends Environment {
         	  default: // code block - error pararmeter
         	}
         }
+        //Puesto que viene inicializado en 1, debe restarse el movimiento adicional
+        vista.cantPosiciones--;
         
         return vista;
     }
@@ -200,6 +200,8 @@ public class Ambiente extends Environment {
         	  default: // code block - error pararmeter
         	}
         }
+        //Puesto que viene inicializado en 1, debe restarse el movimiento adicional
+        vista.cantPosiciones--;
         
         return vista;      
     }
@@ -236,6 +238,8 @@ public class Ambiente extends Environment {
         	  default: // code block - error pararmeter
         	}
         }
+        //Puesto que viene inicializado en 1, debe restarse el movimiento adicional
+        vista.cantPosiciones--;
         
         return vista;        
     }

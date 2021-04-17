@@ -52,7 +52,8 @@ public class CaperucitaPerception extends Perception {
     /**
      * This method initializa a perception of the agent.
      */
-    @Override
+    @SuppressWarnings("unused")
+	@Override
     public void initPerception(Agent agentIn, Environment environmentIn) {
     	
 		Caperucita agent = (Caperucita) agentIn;
