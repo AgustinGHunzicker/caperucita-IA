@@ -1,12 +1,21 @@
 package frsf.cidisi.exercise.caperucita.search;
 
 import java.util.HashSet;
+
+import domain.Escenario;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
 public class MainTest {
 
   public static void main(String[] args) {
+	  
+	  Escenario e = new Escenario();
+	  
+	  e.generarEscenario(3);
+	  e.imprimirEscenario();
+	  
 //	ArrayList<Object> ar = new ArrayList<Object>();
 //    ar.add(new ArrayList<Integer>());
 //    ar.add("Una string");
@@ -19,17 +28,17 @@ public class MainTest {
 //        System.out.println(temp);
 //     }
 	  
-	  Point x1 = new Point(-1, -1);
-	  Point x2 = new Point(-1, -1);
+//	  Point x1 = new Point(-1, -1);
+//	  Point x2 = new Point(-1, -1);
+////	  
+////	  System.out.println(x1.equals(x2));
 //	  
-//	  System.out.println(x1.equals(x2));
-	  
-	  HashSet<Point> posDulces = new HashSet<Point>();
-	  
-	  posDulces.addAll(new HashSet<Point>());
-	  posDulces.addAll(new HashSet<Point>());
-	  posDulces.addAll(new HashSet<Point>());
-	  System.out.println(posDulces.size());
+//	  HashSet<Point> posDulces = new HashSet<Point>();
+//	  
+//	  posDulces.addAll(new HashSet<Point>());
+//	  posDulces.addAll(new HashSet<Point>());
+//	  posDulces.addAll(new HashSet<Point>());
+//	  System.out.println(posDulces.size());
 	  
   }
 }
