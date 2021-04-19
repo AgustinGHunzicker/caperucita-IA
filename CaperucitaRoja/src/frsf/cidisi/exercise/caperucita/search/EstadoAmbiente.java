@@ -102,16 +102,37 @@ public class EstadoAmbiente extends EnvironmentState {
         return str;
     }
     
-     public Point getposicionCaperucita(){
-        return posicionCaperucita;
-     }
-     
-     public void setPosicionCaperucita(Point posicionCap) {
-    	 posicionCaperucita = posicionCap;
-     }
-     
-     public Escenario getEscenario() {
-    	 return escenarioJuego;
-     }
+    /**
+     * Getters and setters
+     */
+
+    public Point getposicionCaperucita(){
+    return posicionCaperucita;
+    }
+    
+    public void setPosicionCaperucita(Point posicionCap) {
+        posicionCaperucita = posicionCap;
+    }
+    
+    public Escenario getEscenario() {
+        return escenarioJuego;
+    }
+    
+    public Point getPosicionLobo() {
+        return posicionLobo;
+    }
+
+    public void setPosicionLobo(Point posicionLobo) {
+        this.posicionLobo = posicionLobo;
+    }
+
+    public Point getPosicionFlores() {
+        return posicionFlores;
+    }
+
+    public void setPosicionFlores(Point posicionFlores) {
+        this.posicionFlores = posicionFlores;
+    }
+
 }
 

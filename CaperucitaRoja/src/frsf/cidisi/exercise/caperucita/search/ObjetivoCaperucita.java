@@ -1,6 +1,5 @@
 package frsf.cidisi.exercise.caperucita.search;
 
-import domain.Escenario;
 import frsf.cidisi.faia.agent.search.GoalTest;
 import frsf.cidisi.faia.state.AgentState;
 
@@ -8,19 +7,14 @@ public class ObjetivoCaperucita extends GoalTest {
 
     @Override
     public boolean isGoalState (AgentState agentState) {
-    	EstadoCaperucita estadoCaperucita = (EstadoCaperucita) agentState;
     	
-    	//TODO: reformular prueba de meta
-    	/*
-    	if ((estadoCaperucita.getposicionCaperucita().x == estadoCaperucita.getPosicionFlores().x) &&
-    			(estadoCaperucita.getposicionCaperucita().y == estadoCaperucita.getPosicionFlores().y)) {
+		EstadoCaperucita estadoCaperucita = (EstadoCaperucita) agentState;
+		// Si esta en la poscion de flores y tiene mas de 0 vidas gana
+		// Si tiene cero vidas, pierde	
+    	if (estadoCaperucita.getposicionCaperucita().equals(estadoCaperucita.getPosicionFlores()) && 
+			estadoCaperucita.getVidasRestantes() > 0)
     		return true;
-    	}
-    	else {
+    	else 
     		return false;
-    	}
-    	*/
-        return false;
 	}
-    
 }

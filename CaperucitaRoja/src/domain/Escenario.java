@@ -158,7 +158,7 @@ public class Escenario {
 	public void imprimirEscenario() {
 		for (int j = 0; j < 9; j++) {
 			for (int i = 0; i < 14; i++)
-				System.out.print(this.posiciones[i][j]);
+				System.out.print(this.posiciones[i][j] + " ");
 			System.out.println("");
 		}
 	}
