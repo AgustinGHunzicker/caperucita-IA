@@ -5,6 +5,7 @@ import java.util.HashSet;
 import domain.Escenario;
 import frsf.cidisi.faia.agent.Action;
 import frsf.cidisi.faia.environment.Environment;
+import frsf.cidisi.faia.state.AgentState;
 
 public class Ambiente extends Environment {
 	
@@ -309,11 +310,17 @@ public class Ambiente extends Environment {
         return environmentState.toString();
     }
 
-    //Este m�todo indica bajo qu� condici�n se considera que el agente ha fallado
-    public boolean agentFailed(Action actionReturned) {
-    	boolean failed = false;
+    /**
+	 * Si caperucita no tiene mas vidas, entonces su objetivo falló
+	 */
+    public boolean agentFailed(AgentState state) {
+    	
+		EstadoCaperucita estadoCaperucita = (EstadoCaperucita ) state;
 
-        return failed;
+		if(estadoCaperucita.getVidasRestantes() > 0) 
+			return false;
+		else 
+			return true;
     }
     
     
