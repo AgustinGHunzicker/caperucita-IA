@@ -1,138 +1,111 @@
 package frsf.cidisi.exercise.caperucita.search;
 
-import java.awt.Point;
+import domain.Escenario;
+import enumeration.Consola;
+import enumeration.EstadoCelda;
+import frsf.cidisi.faia.state.EnvironmentState;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import domain.Escenario;
-
-import frsf.cidisi.faia.state.EnvironmentState;
 
 /**
  * This class represents the real world state.
  */
 public class EstadoAmbiente extends EnvironmentState {
-	
-    private Escenario escenarioJuego;
+
+    private final Escenario escenario;
+    private final List<Point> posicionesDulces;
     private Point posicionCaperucita;
     private Point posicionLobo;
-    private Point posicionFlores;
-    private List<Point> posicionesDulces;
-	
+
     public EstadoAmbiente() {
-        escenarioJuego = new Escenario();
-    	posicionCaperucita = new Point();
+        escenario = new Escenario();
+        posicionCaperucita = new Point();
         posicionLobo = new Point();
-        posicionFlores = new Point();
-        posicionesDulces = new ArrayList<Point>();
-    	
+        posicionesDulces = new ArrayList<>();
+
         this.initState();
     }
 
-    /**
-     * This method is used to setup the initial real world.
-     */
     @Override
     public void initState() {
+        int numeroEscenario = getRandomNumber(1, 3);
+        getEscenario().generarEscenario(numeroEscenario);
 
-    	//El estado inicial del estado del Ambiente; el escenario de entrada
-    	
-    	//sorteo del escenario
-    	int nroEsc = getRandomN(1,3);
-    	escenarioJuego.generarEscenario(nroEsc);
-    	
-    	//se setea en el escenario la posición de caperucita
-    	boolean repetido = true;
-    	int x;
-    	int y;
+        int x;
+        int y;
+
+        //--------- POSICIÓN CAPERUCITA ---------
+        boolean hayPosicionCaperucita = false;
         do {
-        	x = getRandomN(2,13);
-        	y = getRandomN(2,8);
-        	if (escenarioJuego.getPosicionXY(x, y) == 0) {
-        		posicionCaperucita = new Point(x, y);
-        		escenarioJuego.setPosicionXY(x, y, 3);
-        		repetido = false;
-        	}
-        } while(repetido);
-        
-        //se setea en el escenario la posición del lobo
-        repetido = true;
+            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                setPosicionCaperucita(new Point(x, y));
+                getEscenario().setPosicionCelda(x, y, EstadoCelda.CAPERUCITA);
+                hayPosicionCaperucita = true;
+            }
+
+        } while (!hayPosicionCaperucita);
+
+        //--------- POSICIÓN LOBO ---------
+        boolean hayPosicionLobo = false;
         do {
-        	x = getRandomN(2,13);
-        	y = getRandomN(2,8);
-        	if (escenarioJuego.getPosicionXY(x, y) == 0) {
-        		posicionLobo = new Point(x, y);
-        		escenarioJuego.setPosicionXY(x, y, 4);
-        		repetido = false;
-        	}
-        } while(repetido);
-        
-        //se setea las posiciones de los dulces
+            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                setPosicionLobo(new Point(x, y));
+                getEscenario().setPosicionCelda(x, y, EstadoCelda.LOBO);
+                hayPosicionLobo = true;
+            }
+        } while (!hayPosicionLobo);
+
+        //--------- POSICIÓN DULCES ---------
         int cantFlores = 3;
-        Point posicionDulce = new Point();
         do {
-            repetido = true;
-        	x = getRandomN(2,13);
-        	y = getRandomN(2,8);
-        	if (escenarioJuego.getPosicionXY(x, y) == 0) {
-        		posicionDulce.setLocation(x, y);
-        		posicionesDulces.add(posicionDulce);
-        		escenarioJuego.setPosicionXY(x, y, 2);
-        		repetido = false;
-        		cantFlores--;
-        	}
-        } while(repetido || cantFlores > 0);        
+            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                getPosicionesDulces().add(new Point(x, y));
+                getEscenario().setPosicionCelda(x, y, EstadoCelda.DULCE);
+                cantFlores--;
+            }
+        } while (cantFlores > 0);
+
+        System.out.println(getEscenario()); //TODO quitar
     }
-    
-    private int getRandomN(int min, int max) {
-    	//range
-    	int rango = max - min + 1;
-    	int rand = (int)(Math.random() * rango) + min;
-    	return rand;
-    }    
-    
-    /**
-     * String representation of the real world state.
-     */
+
+    private int getRandomNumber(int min, int max) {
+        int rango = max - min + 1;
+        return (int) (Math.random() * rango) + min;
+    }
+
     @Override
     public String toString() {
-    	
-        String str = "";
-        
-        return str;
+        return escenario + Consola.textoColoreado("- Posición caperucita: " + Consola.celdaToString(posicionCaperucita)) +
+                "\n" + Consola.textoColoreado("- Posición lobo: " + Consola.celdaToString(posicionLobo)) +
+                "\n" + Consola.textoColoreado("- Posición dulces: " + Consola.celdaToString(posicionesDulces)) + "\n";
     }
-    
-    /**
-     * Getters and setters
-     */
 
-    public Point getposicionCaperucita(){
-    return posicionCaperucita;
+    public Point getPosicionCaperucita() {
+        return posicionCaperucita;
     }
-    
+
     public void setPosicionCaperucita(Point posicionCap) {
         posicionCaperucita = posicionCap;
     }
-    
+
     public Escenario getEscenario() {
-        return escenarioJuego;
-    }
-    
-    public Point getPosicionLobo() {
-        return posicionLobo;
+        return escenario;
     }
 
     public void setPosicionLobo(Point posicionLobo) {
         this.posicionLobo = posicionLobo;
     }
 
-    public Point getPosicionFlores() {
-        return posicionFlores;
+    public List<Point> getPosicionesDulces() {
+        return posicionesDulces;
     }
-
-    public void setPosicionFlores(Point posicionFlores) {
-        this.posicionFlores = posicionFlores;
-    }
-
 }
 

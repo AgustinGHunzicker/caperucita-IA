@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="Aspiradora/src"/>
+	<classpathentry kind="src" path="lib/faia-0.4.2/ar.edu.utn.frsf.cidisi.faia"/>
 	<classpathentry kind="output" path="Aspiradora/bin"/>
 </classpath>

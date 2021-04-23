@@ -1,5 +1,6 @@
 package frsf.cidisi.exercise.caperucita.search.actions;
 
+import enumeration.EstadoCelda;
 import frsf.cidisi.exercise.caperucita.search.*;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
@@ -26,7 +27,15 @@ public class IrAbajo extends SearchAction {
         	return agState;
         }
         */
-        
+        EstadoCelda abajo = agState.getUltimaPerception().getAbajoPercepcion();
+        int movAbajo = agState.getUltimaPerception().getCantMovimientosAbajo();
+        //Si no esta el lobo en esa dirección y tiene movimientos posibles en esa dirección, puede moverse
+        if (!abajo.equals(EstadoCelda.LOBO) && movAbajo > 0) {
+            if (abajo.equals(EstadoCelda.DULCE)) {
+                
+            }
+        }
+
         return null;
         
     }
@@ -62,7 +71,8 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public Double getCost() {
-        return new Double(2);
+        Double cost = 1.0;
+        return cost;
     }
 
     /**

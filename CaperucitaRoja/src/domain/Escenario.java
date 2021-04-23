@@ -1,204 +1,247 @@
 package domain;
 
+import enumeration.Consola;
+import enumeration.EstadoCelda;
+
 public class Escenario {
 
-	private String nombre;
-	private int[][] posiciones;
-	
-	public Escenario() {
-		this.posiciones = new int[14][9];
-	}
-	
-	public void generarEscenario(int nroEsc) {
-		this.posiciones = new int[14][9];
-		
-		//Se inicializa los arboles y los casilleros vacíos
-		
-		//los bordes del escenario son siempre arboles
-    	for (int i = 0; i < 14; i++) {
-	   		this.posiciones[i][0] = 1;
-    		this.posiciones[i][8] = 1;
-    	}
-		    	
-		for (int j = 0; j < 9; j++) {
-	   		this.posiciones[0][j] = 1;
-	   		this.posiciones[13][j] = 1;
-    	}
-		
-		//casilleros vacíos
-		for (int i = 1; i < 13; i++) {
-			for (int j = 1; j < 8; j++) {
-				this.posiciones[i][j] = 0;
-			}
-		}
-		
-		//generar escenarios predeterminados
-		switch(nroEsc) {
-			case 1: {
-				//camino flores
-				this.posiciones[7][7] = 5;
-				this.posiciones[7][8] = 5;
-				
-				//arboles
-				for (int j = 1; j <= 7; j++) {
-					this.posiciones[1][j] = 1;
-					this.posiciones[2][j] = 1;
-				}
-				
-				this.posiciones[3][4] = 1;
-				this.posiciones[4][2] = 1;
-				this.posiciones[4][4] = 1;
-				this.posiciones[4][5] = 1;
-				this.posiciones[5][5] = 1;
-				this.posiciones[5][6] = 1;
-				this.posiciones[6][6] = 1;
-				this.posiciones[6][7] = 1;
-				this.posiciones[7][1] = 1;
-				this.posiciones[7][6] = 1;
-				this.posiciones[8][4] = 1;
-				this.posiciones[9][3] = 1;
-				this.posiciones[9][6] = 1;
-				this.posiciones[11][1] = 1;
-				this.posiciones[11][6] = 1;
-				this.posiciones[11][7] = 1;
-				
-				for (int j = 1; j <= 7; j++) {
-					this.posiciones[12][j] = 1;
-				}
-				break;
-			}
-			case 2: {
-				//camino flores
-				this.posiciones[6][7] = 5;
-				this.posiciones[6][8] = 5;
-				
-				//arboles
-				for (int j = 1; j <= 7; j++) {
-					this.posiciones[1][j] = 1;
-					this.posiciones[2][j] = 1;
-				}
-				
-				this.posiciones[3][1] = 1;
-				this.posiciones[3][2] = 1;
-				this.posiciones[3][3] = 1;
-				this.posiciones[3][7] = 1;
-				this.posiciones[4][1] = 1;
-				this.posiciones[4][3] = 1;
-				this.posiciones[4][4] = 1;
-				this.posiciones[4][7] = 1;
-				this.posiciones[5][4] = 1;
-				this.posiciones[5][5] = 1;
-				this.posiciones[5][7] = 1;
-				this.posiciones[7][1] = 1;
-				this.posiciones[7][2] = 1;
-				this.posiciones[7][4] = 1;
-				this.posiciones[7][5] = 1;
-				this.posiciones[7][7] = 1;
-				this.posiciones[8][1] = 1;
-				this.posiciones[8][2] = 1;
-				this.posiciones[9][1] = 1;
-				this.posiciones[9][4] = 1;
-				this.posiciones[9][5] = 1;
-				this.posiciones[9][6] = 1;
-				this.posiciones[10][1] = 1;
-				this.posiciones[10][2] = 1;
-				
-				for (int j = 1; j <= 7; j++) {
-					this.posiciones[11][j] = 1;
-					this.posiciones[12][j] = 1;
-				}
-				break;
-				
-			}
-			case 3: {
-				//camino flores
-				this.posiciones[3][0] = 5;
-				this.posiciones[3][1] = 5;
-				
-				//arboles
-				for (int j = 1; j <= 7; j++) {
-					this.posiciones[1][j] = 1;
-					this.posiciones[2][j] = 1;
-				}
-				
-				this.posiciones[3][4] = 1;
-				this.posiciones[3][7] = 1;
-				this.posiciones[4][1] = 1;
-				this.posiciones[4][2] = 1;
-				this.posiciones[4][4] = 1;
-				this.posiciones[4][7] = 1;
-				this.posiciones[5][7] = 1;
-				this.posiciones[6][2] = 1;
-				this.posiciones[7][5] = 1;
-				this.posiciones[7][6] = 1;
-				this.posiciones[8][1] = 1;
-				this.posiciones[8][2] = 1;
-				this.posiciones[9][1] = 1;
-				this.posiciones[9][2] = 1;
-				this.posiciones[9][3] = 1;
-				this.posiciones[9][5] = 1;
-				this.posiciones[9][7] = 1;
-				this.posiciones[10][1] = 1;
-				this.posiciones[10][2] = 1;
-				this.posiciones[10][6] = 1;
-				this.posiciones[10][7] = 1;
-				this.posiciones[11][1] = 1;
-				this.posiciones[11][2] = 1;
-				this.posiciones[11][3] = 1;
-				this.posiciones[11][7] = 1;
-				
-				for (int j = 1; j <= 7; j++) {
-					this.posiciones[12][j] = 1;
-				}
-				break;
-			}
-		}
-	}
-	
-	public void imprimirEscenario() {
-		for (int j = 0; j < 9; j++) {
-			for (int i = 0; i < 14; i++)
-				System.out.print(this.posiciones[i][j] + " ");
-			System.out.println("");
-		}
-	}
-	
-	public String getNombre() {
-		return nombre;
-	}
+    public static final int LIMITE_IZQUIERDA = 0;
+    public static final int LIMITE_DERECHA = 13;
+    public static final int LIMITE_ARRIBA = 0;
+    public static final int LIMITE_ABAJO = 8;
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
-	public int[][] getPosiciones(){
-		return this.posiciones;
-	}
-	
-	public void setPosiciones(int[][] posiciones) {
-		this.posiciones = posiciones;
-	}
+    private String nombre;
+    private EstadoCelda[][] celdas;
 
-	public int getPosicionXY(int x, int y) {
-		return this.posiciones[x][y];
-	}
+    public Escenario() {
+        this.celdas = new EstadoCelda[LIMITE_DERECHA + 1][LIMITE_ABAJO + 1];
+    }
 
-	public void setPosicionXY(int x, int y, int objetoCasillero) {
-		this.posiciones[x][y] = objetoCasillero;
-	}
+    /**
+     * Genera un tipo de escenario según el parámetro pasado como argumento
+     */
+    public void generarEscenario(int nroEsc) {
+        this.nombre = "Escenario Nº" + nroEsc;
+        this.celdas = new EstadoCelda[LIMITE_DERECHA + 1][LIMITE_ABAJO + 1];
 
-	public Escenario clone(){
-		Escenario newEscenario = new Escenario();
-		
-		newEscenario.setNombre(this.getNombre());
-		newEscenario.setPosiciones(this.getPosiciones());
-		
-		return newEscenario;
-	}
-	
-	
-	public String toString(){
-		return nombre;
-	}
+        //---------- ÁRBOLES ----------
+        for (int posHorizontal = LIMITE_IZQUIERDA; posHorizontal <= LIMITE_DERECHA; posHorizontal++) {
+            this.celdas[posHorizontal][LIMITE_ARRIBA] = EstadoCelda.ARBOL;
+            this.celdas[posHorizontal][LIMITE_ABAJO] = EstadoCelda.ARBOL;
+        }
 
+        for (int posVertical = LIMITE_ARRIBA; posVertical <= LIMITE_ABAJO; posVertical++) {
+            this.celdas[LIMITE_IZQUIERDA][posVertical] = EstadoCelda.ARBOL;
+            this.celdas[LIMITE_DERECHA][posVertical] = EstadoCelda.ARBOL;
+        }
+
+        //---------- CELDAS VACÍAS ----------
+        for (int posHorizontal = LIMITE_IZQUIERDA + 1; posHorizontal <= LIMITE_DERECHA - 1; posHorizontal++) {
+
+            for (int posVertical = LIMITE_ARRIBA + 1; posVertical <= LIMITE_ABAJO - 1; posVertical++) {
+
+                this.celdas[posHorizontal][posVertical] = EstadoCelda.VACIA;
+
+            }
+
+        }
+
+        // generar escenarios predeterminados
+        switch (nroEsc) {
+            case 1: {
+                //---------- FLORES ----------
+                this.celdas[7][7] = EstadoCelda.FLORES;
+                this.celdas[7][8] = EstadoCelda.FLORES;
+
+                //---------- ÁRBOLES ----------
+                for (int j = 1; j <= 7; j++) {
+                    this.celdas[1][j] = EstadoCelda.ARBOL;
+                    this.celdas[2][j] = EstadoCelda.ARBOL;
+                }
+
+                this.celdas[3][4] = EstadoCelda.ARBOL;
+                this.celdas[4][2] = EstadoCelda.ARBOL;
+                this.celdas[4][4] = EstadoCelda.ARBOL;
+                this.celdas[4][5] = EstadoCelda.ARBOL;
+                this.celdas[5][5] = EstadoCelda.ARBOL;
+                this.celdas[5][6] = EstadoCelda.ARBOL;
+                this.celdas[6][6] = EstadoCelda.ARBOL;
+                this.celdas[6][7] = EstadoCelda.ARBOL;
+                this.celdas[7][1] = EstadoCelda.ARBOL;
+                this.celdas[7][6] = EstadoCelda.ARBOL;
+                this.celdas[8][4] = EstadoCelda.ARBOL;
+                this.celdas[9][3] = EstadoCelda.ARBOL;
+                this.celdas[9][6] = EstadoCelda.ARBOL;
+                this.celdas[11][1] = EstadoCelda.ARBOL;
+                this.celdas[11][6] = EstadoCelda.ARBOL;
+                this.celdas[11][7] = EstadoCelda.ARBOL;
+
+                for (int j = 1; j <= 7; j++) {
+                    this.celdas[12][j] = EstadoCelda.ARBOL;
+                }
+                break;
+            }
+            case 2: {
+                //---------- FLORES ----------
+                this.celdas[6][7] = EstadoCelda.FLORES;
+                this.celdas[6][8] = EstadoCelda.FLORES;
+
+                //---------- ÁRBOLES ----------
+                for (int j = 1; j <= 7; j++) {
+                    this.celdas[1][j] = EstadoCelda.ARBOL;
+                    this.celdas[2][j] = EstadoCelda.ARBOL;
+                }
+
+                this.celdas[3][1] = EstadoCelda.ARBOL;
+                this.celdas[3][2] = EstadoCelda.ARBOL;
+                this.celdas[3][3] = EstadoCelda.ARBOL;
+                this.celdas[3][7] = EstadoCelda.ARBOL;
+                this.celdas[4][1] = EstadoCelda.ARBOL;
+                this.celdas[4][3] = EstadoCelda.ARBOL;
+                this.celdas[4][4] = EstadoCelda.ARBOL;
+                this.celdas[4][7] = EstadoCelda.ARBOL;
+                this.celdas[5][4] = EstadoCelda.ARBOL;
+                this.celdas[5][5] = EstadoCelda.ARBOL;
+                this.celdas[5][7] = EstadoCelda.ARBOL;
+                this.celdas[7][1] = EstadoCelda.ARBOL;
+                this.celdas[7][2] = EstadoCelda.ARBOL;
+                this.celdas[7][4] = EstadoCelda.ARBOL;
+                this.celdas[7][5] = EstadoCelda.ARBOL;
+                this.celdas[7][7] = EstadoCelda.ARBOL;
+                this.celdas[8][1] = EstadoCelda.ARBOL;
+                this.celdas[8][2] = EstadoCelda.ARBOL;
+                this.celdas[9][1] = EstadoCelda.ARBOL;
+                this.celdas[9][4] = EstadoCelda.ARBOL;
+                this.celdas[9][5] = EstadoCelda.ARBOL;
+                this.celdas[9][6] = EstadoCelda.ARBOL;
+                this.celdas[10][1] = EstadoCelda.ARBOL;
+                this.celdas[10][2] = EstadoCelda.ARBOL;
+
+                for (int j = 1; j <= 7; j++) {
+                    this.celdas[11][j] = EstadoCelda.ARBOL;
+                    this.celdas[12][j] = EstadoCelda.ARBOL;
+                }
+                break;
+
+            }
+            case 3: {
+                //---------- FLORES ----------
+                this.celdas[3][0] = EstadoCelda.FLORES;
+                this.celdas[3][1] = EstadoCelda.FLORES;
+
+                //---------- ÁRBOLES ----------
+                for (int j = 1; j <= 7; j++) {
+                    this.celdas[2][j] = EstadoCelda.ARBOL;
+                    this.celdas[1][j] = EstadoCelda.ARBOL;
+                }
+
+                this.celdas[3][4] = EstadoCelda.ARBOL;
+                this.celdas[3][7] = EstadoCelda.ARBOL;
+                this.celdas[4][1] = EstadoCelda.ARBOL;
+                this.celdas[4][2] = EstadoCelda.ARBOL;
+                this.celdas[4][4] = EstadoCelda.ARBOL;
+                this.celdas[4][7] = EstadoCelda.ARBOL;
+                this.celdas[5][7] = EstadoCelda.ARBOL;
+                this.celdas[6][2] = EstadoCelda.ARBOL;
+                this.celdas[7][5] = EstadoCelda.ARBOL;
+                this.celdas[7][6] = EstadoCelda.ARBOL;
+                this.celdas[8][1] = EstadoCelda.ARBOL;
+                this.celdas[8][2] = EstadoCelda.ARBOL;
+                this.celdas[9][1] = EstadoCelda.ARBOL;
+                this.celdas[9][2] = EstadoCelda.ARBOL;
+                this.celdas[9][3] = EstadoCelda.ARBOL;
+                this.celdas[9][5] = EstadoCelda.ARBOL;
+                this.celdas[9][7] = EstadoCelda.ARBOL;
+                this.celdas[10][1] = EstadoCelda.ARBOL;
+                this.celdas[10][2] = EstadoCelda.ARBOL;
+                this.celdas[10][6] = EstadoCelda.ARBOL;
+                this.celdas[10][7] = EstadoCelda.ARBOL;
+                this.celdas[11][1] = EstadoCelda.ARBOL;
+                this.celdas[11][2] = EstadoCelda.ARBOL;
+                this.celdas[11][3] = EstadoCelda.ARBOL;
+                this.celdas[11][7] = EstadoCelda.ARBOL;
+
+                for (int j = 1; j <= 7; j++) {
+                    this.celdas[12][j] = EstadoCelda.ARBOL;
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * Imprime la matriz del escenario, representando el estado de las celdas como emojis.
+     */
+    @Override
+    public String toString() {
+        final String vacio = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.EMOJI_EMPTY + Consola.ANSI_RESET_BACKGROUND;
+        final String arbol = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_GREEN + Consola.EMOJI_TREE + Consola.ANSI_GREEN + Consola.ANSI_RESET_BACKGROUND;
+        final String caperucita = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_RED + Consola.EMOJI_LITTLE_HOOD + Consola.ANSI_RED + Consola.ANSI_RESET_BACKGROUND;
+        final String lobo = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_PURPLE + Consola.EMOJI_WOLF + Consola.ANSI_PURPLE + Consola.ANSI_RESET_BACKGROUND;
+        final String dulce = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_CYAN + Consola.EMOJI_CANDY + Consola.ANSI_CYAN + Consola.ANSI_RESET_BACKGROUND;
+        final String flor = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_YELLOW + Consola.EMOJI_FLOWER + Consola.ANSI_BLACK + Consola.ANSI_YELLOW + Consola.ANSI_RESET_BACKGROUND;
+
+        StringBuilder escenario = new StringBuilder();
+        escenario.append("\n");
+        escenario.append(Consola.textoColoreado(this.nombre)).append("\n");
+
+        for (int j = LIMITE_ARRIBA; j <= LIMITE_ABAJO; j++) {
+            for (int i = LIMITE_IZQUIERDA; i <= LIMITE_DERECHA; i++) {
+                switch (this.celdas[i][j]) {
+                    case VACIA:
+                        escenario.append(vacio);
+                        break;
+                    case ARBOL:
+                        escenario.append(arbol);
+                        break;
+                    case CAPERUCITA:
+                        escenario.append(caperucita);
+                        break;
+                    case LOBO:
+                        escenario.append(lobo);
+                        break;
+                    case DULCE:
+                        escenario.append(dulce);
+                        break;
+                    case FLORES:
+                        escenario.append(flor);
+                        break;
+                }
+            }
+            escenario.append("\n");
+        }
+
+        return escenario.toString();
+    }
+
+    public Escenario clone() {
+        Escenario newEscenario = new Escenario();
+        newEscenario.setNombre(this.getNombre());
+        newEscenario.setCeldas(this.getCeldas());
+        return newEscenario;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public EstadoCelda[][] getCeldas() {
+        return this.celdas;
+    }
+
+    public void setCeldas(EstadoCelda[][] celdas) {
+        this.celdas = celdas;
+    }
+
+    public EstadoCelda getPosicionCelda(int x, int y) {
+        return this.celdas[x][y];
+    }
+
+    public void setPosicionCelda(int x, int y, EstadoCelda objetoCasillero) {
+        this.celdas[x][y] = objetoCasillero;
+    }
 }
