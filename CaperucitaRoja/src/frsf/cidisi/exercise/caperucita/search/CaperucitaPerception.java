@@ -1,11 +1,12 @@
 package frsf.cidisi.exercise.caperucita.search;
 
-import java.awt.Point;
-import java.util.HashSet;
-import java.util.Set;
 import frsf.cidisi.faia.agent.Agent;
 import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.environment.Environment;
+
+import java.awt.Point;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CaperucitaPerception extends Perception {
 
@@ -14,35 +15,39 @@ public class CaperucitaPerception extends Perception {
     public static int DULCE = 2;
     public static int LOBO = 4;
     public static int META = 5;
-    //Bandera que indican que hay en esa direccion
-	private int izquierda;
-	private int derecha;
-	private int arriba;
-	private int abajo;
-	//Cantidad de movimiento que puede hacer en esa direccion
-	private int movIzquierda;
-	private int movDerecha;
-	private int movArriba;
-	private int movAbajo;
-	//Posiciones exactas en el escenario percibido
-	private Point caminoFlores;
-	private Point posicionLobo;
-	private Point posicionActual; //
-	private HashSet<Point> dulces;
-	//Posiblemente necesitemos la cantidad de dulces en esa direccion
-	
-    public  CaperucitaPerception() {
-    	izquierda = UNKNOWN_PERCEPTION;
-    	derecha = UNKNOWN_PERCEPTION;
-    	arriba = UNKNOWN_PERCEPTION;
-    	abajo = UNKNOWN_PERCEPTION;
-    	movIzquierda = 0;
-    	movDerecha = 0;
-    	movArriba = 0;
-    	movAbajo = 0;
-    	caminoFlores = new Point(UNKNOWN_PERCEPTION, UNKNOWN_PERCEPTION);
-    	posicionLobo = new Point(UNKNOWN_PERCEPTION, UNKNOWN_PERCEPTION);
-    	dulces = new HashSet<Point>();
+
+    //Bandera que indican que hay en esa dirección
+    private int izquierda;
+    private int derecha;
+    private int arriba;
+    private int abajo;
+
+    //Cantidad de movimiento que puede hacer en esa dirección
+    private int movIzquierda;
+    private int movDerecha;
+    private int movArriba;
+    private int movAbajo;
+
+    //Posiciones exactas en el escenario percibido
+    private Point caminoFlores;
+    private Point posicionLobo;
+    private Point posicionActual; //
+    private HashSet<Point> dulces;
+
+    // TODO Posiblemente necesitemos la cantidad de dulces en esa dirección
+
+    public CaperucitaPerception() {
+        izquierda = UNKNOWN_PERCEPTION;
+        derecha = UNKNOWN_PERCEPTION;
+        arriba = UNKNOWN_PERCEPTION;
+        abajo = UNKNOWN_PERCEPTION;
+        movIzquierda = 0;
+        movDerecha = 0;
+        movArriba = 0;
+        movAbajo = 0;
+        caminoFlores = new Point(UNKNOWN_PERCEPTION, UNKNOWN_PERCEPTION);
+        posicionLobo = new Point(UNKNOWN_PERCEPTION, UNKNOWN_PERCEPTION);
+        dulces = new HashSet<Point>();
     }
 
     public CaperucitaPerception(Agent agent, Environment environment) {
@@ -53,116 +58,116 @@ public class CaperucitaPerception extends Perception {
      * This method initializa a perception of the agent.
      */
     @SuppressWarnings("unused")
-	@Override
+    @Override
     public void initPerception(Agent agentIn, Environment environmentIn) {
-    	
-		Caperucita agent = (Caperucita) agentIn;
+
+        Caperucita agent = (Caperucita) agentIn;
         Ambiente environment = (Ambiente) environmentIn;
         EstadoAmbiente environmentState = environment.getEnvironmentState();
-       
+
         //Acá se crea la percepción inicial del agente
-        Point position = environmentState.getposicionCaperucita();
-        
+        Point position = environmentState.getPosicionCaperucita();
+
     }
-    
+
     public void setIzquierdaPerception(int izqPerception) {
-    	this.izquierda = izqPerception;
+        this.izquierda = izqPerception;
     }
-    
+
     public void setDerechaPerception(int derPerception) {
-    	this.derecha = derPerception;
+        this.derecha = derPerception;
     }
-    
+
     public void setArribaPerception(int arrPerception) {
-    	this.arriba = arrPerception;
+        this.arriba = arrPerception;
     }
-    
+
     public void setAbajoPerception(int abaPerception) {
-    	this.abajo = abaPerception;
+        this.abajo = abaPerception;
     }
-    
+
     public void setFloresPerception(Point flores) {
-    	this.caminoFlores = flores;
+        this.caminoFlores = flores;
     }
-    
+
     public void setDulcesPerception(HashSet<Point> dulces) {
-    	this.dulces = dulces;
+        this.dulces = dulces;
     }
-    
-    
+
+
     public int getIzquierda() {
-		return izquierda;
-	}
+        return izquierda;
+    }
 
-	public int getDerecha() {
-		return derecha;
-	}
+    public int getDerecha() {
+        return derecha;
+    }
 
-	public int getArriba() {
-		return arriba;
-	}
+    public int getArriba() {
+        return arriba;
+    }
 
-	public int getAbajo() {
-		return abajo;
-	}
-	
-	public int getMovIzquierda() {
-		return movIzquierda;
-	}
+    public int getAbajo() {
+        return abajo;
+    }
 
-	public void setMovIzquierda(int movIzquierda) {
-		this.movIzquierda = movIzquierda;
-	}
+    public int getMovIzquierda() {
+        return movIzquierda;
+    }
 
-	public int getMovDerecha() {
-		return movDerecha;
-	}
+    public void setMovIzquierda(int movIzquierda) {
+        this.movIzquierda = movIzquierda;
+    }
 
-	public void setMovDerecha(int movDerecha) {
-		this.movDerecha = movDerecha;
-	}
+    public int getMovDerecha() {
+        return movDerecha;
+    }
 
-	public int getMovArriba() {
-		return movArriba;
-	}
+    public void setMovDerecha(int movDerecha) {
+        this.movDerecha = movDerecha;
+    }
 
-	public void setMovArriba(int movArriba) {
-		this.movArriba = movArriba;
-	}
+    public int getMovArriba() {
+        return movArriba;
+    }
 
-	public int getMovAbajo() {
-		return movAbajo;
-	}
+    public void setMovArriba(int movArriba) {
+        this.movArriba = movArriba;
+    }
 
-	public void setMovAbajo(int movAbajo) {
-		this.movAbajo = movAbajo;
-	}
+    public int getMovAbajo() {
+        return movAbajo;
+    }
 
-	public Point getPosicionLobo() {
-		return posicionLobo;
-	}
+    public void setMovAbajo(int movAbajo) {
+        this.movAbajo = movAbajo;
+    }
 
-	public void setPosicionLobo(Point posicionLobo) {
-		this.posicionLobo = posicionLobo;
-	}
+    public Point getPosicionLobo() {
+        return posicionLobo;
+    }
 
-	public Point getCaminoFlores() {
-		return caminoFlores;
-	}
+    public void setPosicionLobo(Point posicionLobo) {
+        this.posicionLobo = posicionLobo;
+    }
 
-	public Set<Point> getDulces() {
-		return dulces;
-	}
+    public Point getCaminoFlores() {
+        return caminoFlores;
+    }
 
-	public Point getPosicionActual() {
-		return posicionActual;
-	}
-	
-	public void setPosicionActual(Point posicionActual) {
-		this.posicionActual = posicionActual;
-	}
+    public Set<Point> getDulces() {
+        return dulces;
+    }
 
-	@Override
+    public Point getPosicionActual() {
+        return posicionActual;
+    }
+
+    public void setPosicionActual(Point posicionActual) {
+        this.posicionActual = posicionActual;
+    }
+
+    @Override
     public String toString() {
         
     	/*String str = "";
@@ -172,7 +177,7 @@ public class CaperucitaPerception extends Perception {
 		
         return str.toString();
         */
-    	return "";
+        return "";
     }
 
     // The following methods are agent-specific:	
@@ -185,5 +190,5 @@ public class CaperucitaPerception extends Perception {
         this.suciedad = arg;
      }
      */
-	
+
 }

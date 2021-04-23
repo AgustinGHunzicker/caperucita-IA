@@ -11,7 +11,7 @@ public class ObjetivoCaperucita extends GoalTest {
 		EstadoCaperucita estadoCaperucita = (EstadoCaperucita) agentState;
 		// Si esta en la poscion de flores y tiene mas de 0 vidas gana
 		// Si tiene cero vidas, pierde	
-    	if (estadoCaperucita.getposicionCaperucita().equals(estadoCaperucita.getPosicionFlores()) && 
+    	if (estadoCaperucita.getPosicionCaperucita().equals(estadoCaperucita.getPosicionFlores()) &&
 			estadoCaperucita.getVidasRestantes() > 0)
     		return true;
     	else 
