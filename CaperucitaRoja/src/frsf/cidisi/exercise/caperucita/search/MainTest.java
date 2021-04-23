@@ -7,10 +7,10 @@ public class MainTest {
         Escenario e = new Escenario();
 
         e.generarEscenario(1);
-        e.imprimirEscenario();
+        System.out.println(e);
         e.generarEscenario(2);
-        e.imprimirEscenario();
+        System.out.println(e.toString());
         e.generarEscenario(3);
-        e.imprimirEscenario();
+        System.out.println(e);
     }
 }

@@ -1,49 +1,59 @@
 package domain;
 
+import enumeration.Consola;
 import enumeration.EstadoCelda;
 
 public class Escenario {
+
+    public static final int LIMITE_IZQUIERDA = 0;
+    public static final int LIMITE_DERECHA = 13;
+    public static final int LIMITE_ARRIBA = 0;
+    public static final int LIMITE_ABAJO = 8;
 
     private String nombre;
     private EstadoCelda[][] celdas;
 
     public Escenario() {
-        this.celdas = new EstadoCelda[14][9];
+        this.celdas = new EstadoCelda[LIMITE_DERECHA + 1][LIMITE_ABAJO + 1];
     }
 
     /**
      * Genera un tipo de escenario según el parámetro pasado como argumento
      */
     public void generarEscenario(int nroEsc) {
-        this.nombre = "Escenario Nº"+nroEsc;
-        this.celdas = new EstadoCelda[14][9];
+        this.nombre = "Escenario Nº" + nroEsc;
+        this.celdas = new EstadoCelda[LIMITE_DERECHA + 1][LIMITE_ABAJO + 1];
 
-        // BORDES escenario = árboles
-        for (int i = 0; i < 14; i++) {
-            this.celdas[i][0] = EstadoCelda.ARBOL;
-            this.celdas[i][8] = EstadoCelda.ARBOL;
+        //---------- ÁRBOLES ----------
+        for (int posHorizontal = LIMITE_IZQUIERDA; posHorizontal <= LIMITE_DERECHA; posHorizontal++) {
+            this.celdas[posHorizontal][LIMITE_ARRIBA] = EstadoCelda.ARBOL;
+            this.celdas[posHorizontal][LIMITE_ABAJO] = EstadoCelda.ARBOL;
         }
 
-        for (int j = 0; j < 9; j++) {
-            this.celdas[0][j] = EstadoCelda.ARBOL;
-            this.celdas[13][j] = EstadoCelda.ARBOL;
+        for (int posVertical = LIMITE_ARRIBA; posVertical <= LIMITE_ABAJO; posVertical++) {
+            this.celdas[LIMITE_IZQUIERDA][posVertical] = EstadoCelda.ARBOL;
+            this.celdas[LIMITE_DERECHA][posVertical] = EstadoCelda.ARBOL;
         }
 
-        // casilleros vacíos
-        for (int i = 1; i < 13; i++) {
-            for (int j = 1; j < 8; j++) {
-                this.celdas[i][j] = EstadoCelda.VACIO;
+        //---------- CELDAS VACÍAS ----------
+        for (int posHorizontal = LIMITE_IZQUIERDA + 1; posHorizontal <= LIMITE_DERECHA - 1; posHorizontal++) {
+
+            for (int posVertical = LIMITE_ARRIBA + 1; posVertical <= LIMITE_ABAJO - 1; posVertical++) {
+
+                this.celdas[posHorizontal][posVertical] = EstadoCelda.VACIA;
+
             }
+
         }
 
         // generar escenarios predeterminados
         switch (nroEsc) {
             case 1: {
-                // camino flores
+                //---------- FLORES ----------
                 this.celdas[7][7] = EstadoCelda.FLORES;
                 this.celdas[7][8] = EstadoCelda.FLORES;
 
-                // árboles
+                //---------- ÁRBOLES ----------
                 for (int j = 1; j <= 7; j++) {
                     this.celdas[1][j] = EstadoCelda.ARBOL;
                     this.celdas[2][j] = EstadoCelda.ARBOL;
@@ -72,11 +82,11 @@ public class Escenario {
                 break;
             }
             case 2: {
-                //camino flores
+                //---------- FLORES ----------
                 this.celdas[6][7] = EstadoCelda.FLORES;
                 this.celdas[6][8] = EstadoCelda.FLORES;
 
-                //arboles
+                //---------- ÁRBOLES ----------
                 for (int j = 1; j <= 7; j++) {
                     this.celdas[1][j] = EstadoCelda.ARBOL;
                     this.celdas[2][j] = EstadoCelda.ARBOL;
@@ -115,11 +125,11 @@ public class Escenario {
 
             }
             case 3: {
-                //camino flores
+                //---------- FLORES ----------
                 this.celdas[3][0] = EstadoCelda.FLORES;
                 this.celdas[3][1] = EstadoCelda.FLORES;
 
-                //arboles
+                //---------- ÁRBOLES ----------
                 for (int j = 1; j <= 7; j++) {
                     this.celdas[2][j] = EstadoCelda.ARBOL;
                     this.celdas[1][j] = EstadoCelda.ARBOL;
@@ -159,72 +169,56 @@ public class Escenario {
         }
     }
 
-    /** Imprime la matriz del escenario, representando el estado de las celdas como emojis. */
-    public void imprimirEscenario() {
-        final String ANSI_RESET_BACKGROUND = "\u001B[0m";
-        final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-        final String ANSI_RED_BACKGROUND = "\u001B[41m";
-        final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-        final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-        final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-        final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-        final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-        final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    /**
+     * Imprime la matriz del escenario, representando el estado de las celdas como emojis.
+     */
+    @Override
+    public String toString() {
+        final String vacio = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.EMOJI_EMPTY + Consola.ANSI_RESET_BACKGROUND;
+        final String arbol = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_GREEN + Consola.EMOJI_TREE + Consola.ANSI_GREEN + Consola.ANSI_RESET_BACKGROUND;
+        final String caperucita = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_RED + Consola.EMOJI_LITTLE_HOOD + Consola.ANSI_RED + Consola.ANSI_RESET_BACKGROUND;
+        final String lobo = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_PURPLE + Consola.EMOJI_WOLF + Consola.ANSI_PURPLE + Consola.ANSI_RESET_BACKGROUND;
+        final String dulce = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_CYAN + Consola.EMOJI_CANDY + Consola.ANSI_CYAN + Consola.ANSI_RESET_BACKGROUND;
+        final String flor = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_YELLOW + Consola.EMOJI_FLOWER + Consola.ANSI_BLACK + Consola.ANSI_YELLOW + Consola.ANSI_RESET_BACKGROUND;
 
-        final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_BLACK = "\u001B[30m";
-        final String ANSI_RED = "\u001B[31m";
-        final String ANSI_GREEN = "\u001B[32m";
-        final String ANSI_YELLOW = "\u001B[33m";
-        final String ANSI_BLUE = "\u001B[34m";
-        final String ANSI_PURPLE = "\u001B[35m";
-        final String ANSI_CYAN = "\u001B[36m";
-        final String ANSI_WHITE = "\u001B[37m";
-        final String ANSI_ORANGE = "\033[48;2;255;165;0m";
+        StringBuilder escenario = new StringBuilder();
+        escenario.append("\n");
+        escenario.append(Consola.textoColoreado(this.nombre)).append("\n");
 
-        final String EMOJI_EMPTY = "\uD83D\uDCA0";
-        final String EMOJI_TREE = "\uD83C\uDF32";
-        final String EMOJI_LITTLE_HOOD = "\uD83D\uDC69";
-        final String EMOJI_WOLF = "\uD83D\uDC3A";
-        final String EMOJI_CANDY = "\uD83C\uDF6C";
-        final String EMOJI_FLOWER = "\uD83C\uDF39";
-
-        final String vacio = ANSI_BLACK_BACKGROUND + EMOJI_EMPTY + ANSI_RESET_BACKGROUND;
-        final String arbol = ANSI_BLACK_BACKGROUND + ANSI_GREEN + EMOJI_TREE + ANSI_GREEN + ANSI_RESET_BACKGROUND;
-        final String caperucita = ANSI_BLACK_BACKGROUND + ANSI_RED + EMOJI_LITTLE_HOOD + ANSI_RED + ANSI_RESET_BACKGROUND;
-        final String lobo = ANSI_BLACK_BACKGROUND + ANSI_PURPLE + EMOJI_WOLF + ANSI_PURPLE + ANSI_RESET_BACKGROUND;
-        final String dulce = ANSI_BLACK_BACKGROUND + ANSI_CYAN + EMOJI_CANDY + ANSI_CYAN + ANSI_RESET_BACKGROUND;
-        final String flor = ANSI_BLACK_BACKGROUND + ANSI_YELLOW + EMOJI_FLOWER + ANSI_BLACK +ANSI_YELLOW + ANSI_RESET_BACKGROUND;
-
-        System.out.println(this.nombre);
-        for (int j = 0; j < 9; j++) {
-            for (int i = 0; i < 14; i++) {
+        for (int j = LIMITE_ARRIBA; j <= LIMITE_ABAJO; j++) {
+            for (int i = LIMITE_IZQUIERDA; i <= LIMITE_DERECHA; i++) {
                 switch (this.celdas[i][j]) {
-                    case VACIO:
-                        System.out.print(vacio);
+                    case VACIA:
+                        escenario.append(vacio);
                         break;
                     case ARBOL:
-                        System.out.print(arbol);
+                        escenario.append(arbol);
                         break;
                     case CAPERUCITA:
-                        System.out.print(caperucita);
+                        escenario.append(caperucita);
                         break;
                     case LOBO:
-                        System.out.print(lobo);
+                        escenario.append(lobo);
                         break;
                     case DULCE:
-                        System.out.print(dulce);
+                        escenario.append(dulce);
                         break;
                     case FLORES:
-                        System.out.print(flor);
+                        escenario.append(flor);
                         break;
                 }
             }
-
-            System.out.println("");
+            escenario.append("\n");
         }
 
-        System.out.println("");
+        return escenario.toString();
+    }
+
+    public Escenario clone() {
+        Escenario newEscenario = new Escenario();
+        newEscenario.setNombre(this.getNombre());
+        newEscenario.setCeldas(this.getCeldas());
+        return newEscenario;
     }
 
     public String getNombre() {
@@ -243,22 +237,11 @@ public class Escenario {
         this.celdas = celdas;
     }
 
-    public EstadoCelda getPosicionXY(int x, int y) {
+    public EstadoCelda getPosicionCelda(int x, int y) {
         return this.celdas[x][y];
     }
 
-    public void setPosicionXY(int x, int y, EstadoCelda objetoCasillero) {
+    public void setPosicionCelda(int x, int y, EstadoCelda objetoCasillero) {
         this.celdas[x][y] = objetoCasillero;
-    }
-
-    public Escenario clone() {
-        Escenario newEscenario = new Escenario();
-        newEscenario.setNombre(this.getNombre());
-        newEscenario.setCeldas(this.getCeldas());
-        return newEscenario;
-    }
-
-    public String toString() {
-        return nombre;
     }
 }

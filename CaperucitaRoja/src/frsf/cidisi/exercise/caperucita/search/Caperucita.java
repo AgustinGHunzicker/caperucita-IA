@@ -1,42 +1,43 @@
 package frsf.cidisi.exercise.caperucita.search;
 
+import frsf.cidisi.exercise.caperucita.search.actions.*;
+import frsf.cidisi.faia.agent.Action;
 import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.agent.search.Problem;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgent;
-import frsf.cidisi.exercise.caperucita.search.actions.IrDerecha;
-import frsf.cidisi.exercise.caperucita.search.actions.IrIzquierda;
-import frsf.cidisi.exercise.caperucita.search.actions.IrArriba;
-import frsf.cidisi.exercise.caperucita.search.actions.IrAbajo;
-import frsf.cidisi.exercise.caperucita.search.actions.RecolectarDulce;
-import frsf.cidisi.faia.agent.Action;
-import frsf.cidisi.faia.solver.search.*;
+import frsf.cidisi.faia.solver.search.DepthFirstSearch;
+import frsf.cidisi.faia.solver.search.Search;
+
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Vector;
 
 public class Caperucita extends SearchBasedAgent {
 
-    public Caperucita(Ambiente escenario) {
+    public Caperucita(Ambiente ambiente) {
 
-    	// The Agent Goal
-        ObjetivoCaperucita agGoal = new ObjetivoCaperucita();
 
-        // The Agent State
-        EstadoCaperucita agState = new EstadoCaperucita(escenario);
-        this.setAgentState(agState);
+        //---------- The Agent Goal ----------
+        ObjetivoCaperucita objetivoCaperucita = new ObjetivoCaperucita();
+        //TODO milton llegué hasta acá la comprobación propia dme que funque todo
+        //---------- The Agent State ----------
+        EstadoCaperucita estadoCaperucita = new EstadoCaperucita(ambiente);
+        setAgentState(estadoCaperucita);
 
-        // Create the operators
-        Vector<SearchAction> operators = new Vector<SearchAction>();	
-        operators.addElement(new RecolectarDulce());
-        operators.addElement(new IrDerecha());	
-        operators.addElement(new IrIzquierda());
-        operators.addElement(new IrAbajo());
-        operators.addElement(new IrArriba());
+
+
+        //---------- Create the actions ----------
+        Vector<SearchAction> actions = new Vector<>();
+        actions.addElement(new RecolectarDulce());
+        actions.addElement(new IrDerecha());
+        actions.addElement(new IrIzquierda());
+        actions.addElement(new IrAbajo());
+        actions.addElement(new IrArriba());
 
         // Create the Problem which the agent will resolve
-        Problem problem = new Problem(agGoal, agState, operators);
-        this.setProblem(problem);
+        Problem problem = new Problem(objetivoCaperucita, estadoCaperucita, actions);
+        setProblem(problem);
     }
 
     /**
@@ -46,7 +47,7 @@ public class Caperucita extends SearchBasedAgent {
     public Action selectAction() {
 
         // Create the search strategy
-    	DepthFirstSearch strategy = new DepthFirstSearch();          
+        DepthFirstSearch strategy = new DepthFirstSearch();
 
         // Create a Search object with the strategy
         Search searchSolver = new Search(strategy);
@@ -75,6 +76,7 @@ public class Caperucita extends SearchBasedAgent {
     /**
      * This method is executed by the simulator to give the agent a perception.
      * Then it updates its state.
+     *
      * @param p
      */
     @Override

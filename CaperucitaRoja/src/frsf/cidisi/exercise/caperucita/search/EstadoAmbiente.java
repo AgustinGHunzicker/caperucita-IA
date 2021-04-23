@@ -1,6 +1,7 @@
 package frsf.cidisi.exercise.caperucita.search;
 
 import domain.Escenario;
+import enumeration.Consola;
 import enumeration.EstadoCelda;
 import frsf.cidisi.faia.state.EnvironmentState;
 
@@ -13,93 +14,78 @@ import java.util.List;
  */
 public class EstadoAmbiente extends EnvironmentState {
 
-    private Escenario escenarioJuego;
+    private final Escenario escenario;
+    private final List<Point> posicionesDulces;
     private Point posicionCaperucita;
     private Point posicionLobo;
-    private Point posicionFlores;
-    private List<Point> posicionesDulces;
 
     public EstadoAmbiente() {
-        escenarioJuego = new Escenario();
+        escenario = new Escenario();
         posicionCaperucita = new Point();
         posicionLobo = new Point();
-        posicionFlores = new Point();
-        posicionesDulces = new ArrayList<Point>();
+        posicionesDulces = new ArrayList<>();
 
         this.initState();
     }
 
-    /**
-     * This method is used to setup the initial real world.
-     */
     @Override
     public void initState() {
+        int numeroEscenario = getRandomNumber(1, 3);
+        getEscenario().generarEscenario(numeroEscenario);
 
-        //El estado inicial del estado del Ambiente; el escenario de entrada
-
-        //sorteo del escenario
-        int nroEsc = getRandomN(1, 3);
-        escenarioJuego.generarEscenario(nroEsc);
-
-        //se setea en el escenario la posición de caperucita
-        boolean repetido = true;
         int x;
         int y;
-        do {
-            x = getRandomN(2, 13);
-            y = getRandomN(2, 8);
-            if (escenarioJuego.getPosicionXY(x, y) == EstadoCelda.VACIO) {
-                posicionCaperucita = new Point(x, y);
-                escenarioJuego.setPosicionXY(x, y, EstadoCelda.CAPERUCITA);
-                repetido = false;
-            }
-        } while (repetido);
 
-        //se setea en el escenario la posición del lobo
-        repetido = true;
+        //--------- POSICIÓN CAPERUCITA ---------
+        boolean hayPosicionCaperucita = false;
         do {
-            x = getRandomN(2, 13);
-            y = getRandomN(2, 8);
-            if (escenarioJuego.getPosicionXY(x, y) == EstadoCelda.VACIO) {
-                posicionLobo = new Point(x, y);
-                escenarioJuego.setPosicionXY(x, y, EstadoCelda.LOBO);
-                repetido = false;
+            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                setPosicionCaperucita(new Point(x, y));
+                getEscenario().setPosicionCelda(x, y, EstadoCelda.CAPERUCITA);
+                hayPosicionCaperucita = true;
             }
-        } while (repetido);
 
-        //se setea las posiciones de los dulces
+        } while (!hayPosicionCaperucita);
+
+        //--------- POSICIÓN LOBO ---------
+        boolean hayPosicionLobo = false;
+        do {
+            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                setPosicionLobo(new Point(x, y));
+                getEscenario().setPosicionCelda(x, y, EstadoCelda.LOBO);
+                hayPosicionLobo = true;
+            }
+        } while (!hayPosicionLobo);
+
+        //--------- POSICIÓN DULCES ---------
         int cantFlores = 3;
-        Point posicionDulce = new Point();
         do {
-            repetido = true;
-            x = getRandomN(2, 13);
-            y = getRandomN(2, 8);
-            if (escenarioJuego.getPosicionXY(x, y) == EstadoCelda.VACIO) {
-                posicionDulce.setLocation(x, y);
-                posicionesDulces.add(posicionDulce);
-                escenarioJuego.setPosicionXY(x, y, EstadoCelda.DULCE);
-                repetido = false;
+            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                getPosicionesDulces().add(new Point(x, y));
+                getEscenario().setPosicionCelda(x, y, EstadoCelda.DULCE);
                 cantFlores--;
             }
-        } while (repetido || cantFlores > 0);
+        } while (cantFlores > 0);
+
+        System.out.println(getEscenario()); //TODO quitar
     }
 
-    private int getRandomN(int min, int max) {
-        //range
+    private int getRandomNumber(int min, int max) {
         int rango = max - min + 1;
-        int rand = (int) (Math.random() * rango) + min;
-        return rand;
+        return (int) (Math.random() * rango) + min;
     }
 
-    /**
-     * String representation of the real world state.
-     */
     @Override
     public String toString() {
-
-        String str = "";
-
-        return str;
+        return escenario + Consola.textoColoreado("- Posición caperucita: " + Consola.celdaToString(posicionCaperucita)) +
+                "\n" + Consola.textoColoreado("- Posición lobo: " + Consola.celdaToString(posicionLobo)) +
+                "\n" + Consola.textoColoreado("- Posición dulces: " + Consola.celdaToString(posicionesDulces)) + "\n";
     }
 
     public Point getPosicionCaperucita() {
@@ -111,23 +97,15 @@ public class EstadoAmbiente extends EnvironmentState {
     }
 
     public Escenario getEscenario() {
-        return escenarioJuego;
-    }
-
-    public Point getPosicionLobo() {
-        return posicionLobo;
+        return escenario;
     }
 
     public void setPosicionLobo(Point posicionLobo) {
         this.posicionLobo = posicionLobo;
     }
 
-    public Point getPosicionFlores() {
-        return posicionFlores;
-    }
-
-    public void setPosicionFlores(Point posicionFlores) {
-        this.posicionFlores = posicionFlores;
+    public List<Point> getPosicionesDulces() {
+        return posicionesDulces;
     }
 }
 
