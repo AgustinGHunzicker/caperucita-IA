@@ -26,7 +26,15 @@ public class IrAbajo extends SearchAction {
         	return agState;
         }
         */
-        
+        int abajo = agState.getUltimaPerception().getAbajo();
+        int movAbajo = agState.getUltimaPerception().getMovAbajo();
+        //Si no esta el lobo en esa direccion y tiene movimientos posibles en esa direccion, puede moverse
+        if (abajo != 4 && movAbajo > 0) {
+            if (abajo == 2) {
+                
+            }
+        }
+
         return null;
         
     }
@@ -62,7 +70,8 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public Double getCost() {
-        return new Double(2);
+        Double cost = 1.0;
+        return cost;
     }
 
     /**

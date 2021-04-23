@@ -17,7 +17,9 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     private Point posicionLobo;
     private HashSet<Point> posicionesDulces;
     private int vidasRestantes;
-    
+    private CaperucitaPerception ultimaPerception;
+
+
     private static final Point UNKNOWN = new Point(-1, -1);
     
     public EstadoCaperucita(Ambiente escenario) {
@@ -27,7 +29,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     	posicionLobo   = new Point(-1,-1);
     	posicionesDulces = new HashSet<Point>();
 		vidasRestantes = 3;
-    	
+    	this.ultimaPerception = new CaperucitaPerception();
         this.initState();
     }
 
@@ -55,8 +57,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     @Override
     public void updateState(Perception p) {
     	
-    	CaperucitaPerception percepcion = (CaperucitaPerception) p;
-    		
+    	this.ultimaPerception = (CaperucitaPerception) p;
+
     	//Traigo las posiciones conocidas por caperucita hasta el momento
     	int escenarioConocido[][] = escenarioJuego.getPosiciones();
     	int posX = (int)posicionActual.getX();
@@ -64,27 +66,27 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     	Point noExiste = new Point(-1,-1);
     	
     	//Lugares libres para mover a la Izquierda
-    	for (int i = 0; i < percepcion.getMovIzquierda(); i++) escenarioConocido[posY][posX-i] = 0;
+    	for (int i = 0; i < ultimaPerception.getMovIzquierda(); i++) escenarioConocido[posY][posX-i] = 0;
     	
     	//Lugares libres para mover a la Derecha
-    	for (int i = 0; i < percepcion.getMovDerecha(); i++) escenarioConocido[posY][posX+i] = 0;
+    	for (int i = 0; i < ultimaPerception.getMovDerecha(); i++) escenarioConocido[posY][posX+i] = 0;
     	
     	//Lugares libres para mover a Arriba
-    	for (int i = 0; i < percepcion.getMovArriba(); i++) escenarioConocido[posY+i][posX] = 0;
+    	for (int i = 0; i < ultimaPerception.getMovArriba(); i++) escenarioConocido[posY+i][posX] = 0;
     	
     	//Lugares libres para mover a Abajo
-    	for (int i = 0; i < percepcion.getMovAbajo(); i++) escenarioConocido[posY-i][posX] = 0;
+    	for (int i = 0; i < ultimaPerception.getMovAbajo(); i++) escenarioConocido[posY-i][posX] = 0;
     	
     	//Si sabe donde esta el camino de flores lo guarda
-    	if (!percepcion.getCaminoFlores().equals(noExiste)) {
+    	if (!ultimaPerception.getCaminoFlores().equals(noExiste)) {
     		//Se lo carga a caperucita
-    		this.posicionFlores = percepcion.getCaminoFlores();
+    		this.posicionFlores = ultimaPerception.getCaminoFlores();
     		//Se actualiza el escenario
     		escenarioConocido[(int)this.posicionFlores.getX()][(int)this.posicionFlores.getY()] = 5; 
     	}
     	
     	// Agrego las posiciones de los dulces percibidos
-        for (Point i : percepcion.getDulces()) {
+        for (Point i : ultimaPerception.getDulces()) {
         	//Se lo agrego a caperucita
         	posicionesDulces.add(i);
         	//Actualizo el escenario
@@ -101,8 +103,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         	escenarioConocido[(int)this.posicionLobo.getX()][(int)this.posicionLobo.getY()] = 0;
         
         //Si se donde esta ahora, lo agrego
-        if (!percepcion.getPosicionLobo().equals(noExiste)) {
-        	this.posicionLobo = percepcion.getPosicionLobo();
+        if (!ultimaPerception.getPosicionLobo().equals(noExiste)) {
+        	this.posicionLobo = ultimaPerception.getPosicionLobo();
         	escenarioConocido[(int)this.posicionLobo.getX()][(int)this.posicionLobo.getY()] = 4;
         }
 
@@ -177,8 +179,18 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         return this.vidasRestantes;
     }
      
-     public void setVidasRestantes(int vidas){
+    public void setVidasRestantes(int vidas){
         this.vidasRestantes = vidas;
-     }    
+    }
+
+    public CaperucitaPerception getUltimaPerception() {
+        return ultimaPerception;
+    }
+
+    public void setUltimaPerception(CaperucitaPerception ultimaPerception) {
+        this.ultimaPerception = ultimaPerception;
+    }
+    
+    
 }
 
