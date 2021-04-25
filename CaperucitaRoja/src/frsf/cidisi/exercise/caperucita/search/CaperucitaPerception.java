@@ -1,6 +1,5 @@
 package frsf.cidisi.exercise.caperucita.search;
 
-import domain.Escenario;
 import enumeration.Consola;
 import enumeration.EstadoCelda;
 import frsf.cidisi.faia.agent.Agent;
@@ -14,10 +13,10 @@ public class CaperucitaPerception extends Perception {
     private final static Point UNKNOWN = new Point(-1, -1);
 
     //Bandera que indican que hay en esa dirección
-    private EstadoCelda izquierdaPercepcion;
-    private EstadoCelda derechaPercepcion;
-    private EstadoCelda arribaPercepcion;
-    private EstadoCelda abajoPercepcion;
+    private EstadoCelda percepcionCeldasIzquierda;
+    private EstadoCelda percepcionCeldasDerecha;
+    private EstadoCelda percepcionCeldasArriba;
+    private EstadoCelda percepcionCeldasAbajo;
 
     //Cantidad de movimiento que puede hacer en esa dirección
     private int cantMovimientosIzquierda;
@@ -33,10 +32,10 @@ public class CaperucitaPerception extends Perception {
     private HashSet<Point> posicionesArboles;
 
     public CaperucitaPerception() {
-        izquierdaPercepcion = EstadoCelda.VACIA;
-        derechaPercepcion = EstadoCelda.VACIA;
-        arribaPercepcion = EstadoCelda.VACIA;
-        abajoPercepcion = EstadoCelda.VACIA;
+        percepcionCeldasIzquierda = EstadoCelda.VACIA;
+        percepcionCeldasDerecha = EstadoCelda.VACIA;
+        percepcionCeldasArriba = EstadoCelda.VACIA;
+        percepcionCeldasAbajo = EstadoCelda.VACIA;
         cantMovimientosIzquierda = 0;
         cantMovimientosDerecha = 0;
         cantMovimientosArriba = 0;
@@ -53,6 +52,7 @@ public class CaperucitaPerception extends Perception {
 
     @Override
     public void initPerception(Agent agentIn, Environment environmentIn) {
+
         // TODO no se debería usar?
         //TODO para mi lo que se hizo en ambiente debería ir acá
         Caperucita agent = (Caperucita) agentIn;
@@ -64,49 +64,48 @@ public class CaperucitaPerception extends Perception {
 
     @Override
     public String toString() {
-        return "\n ----------------------------------------------------" +
-                "\n" + Consola.textoColoreadoYellow("- Posición CAPERUCITA: " + Consola.celdaToString(posicionActual)) +
+        return "\n" + Consola.textoColoreadoYellow("- Posición CAPERUCITA: " + Consola.celdaToString(posicionActual)) +
                 "\n" + Consola.textoColoreadoYellow("- Posición LOBO: " + Consola.celdaToString(posicionLobo)) +
                 "\n" + Consola.textoColoreadoYellow("- Posición DULCES: " + Consola.celdaToString(posicionesDulces)) +
                 "\n" + Consola.textoColoreadoYellow("- Posición FLORES: " + Consola.celdaToString(posicionFlores)) +
                 "\n" + Consola.textoColoreadoYellow("- Posición ÁRBOLES: " + Consola.celdaToString(posicionesArboles)) +
-                "\n" + Consola.textoColoreadoYellow("- IZQUIERDA:   Percepción - " + izquierdaPercepcion + ". Movimientos disponibles = " + cantMovimientosIzquierda) +
-                "\n" + Consola.textoColoreadoYellow("- DERECHA:     Percepción - " + derechaPercepcion + ". Movimientos disponibles = " + cantMovimientosDerecha) +
-                "\n" + Consola.textoColoreadoYellow("- ARRIBA:      Percepción - " + arribaPercepcion + ". Movimientos disponibles = " + cantMovimientosArriba) +
-                "\n" + Consola.textoColoreadoYellow("- ABAJO:       Percepción - " + abajoPercepcion + ". Movimientos disponibles = " + cantMovimientosAbajo) +
+                "\n" + Consola.textoColoreadoYellow("- IZQUIERDA:   Percepción - " + percepcionCeldasIzquierda + ". Movimientos disponibles = " + cantMovimientosIzquierda) +
+                "\n" + Consola.textoColoreadoYellow("- DERECHA:     Percepción - " + percepcionCeldasDerecha + ". Movimientos disponibles = " + cantMovimientosDerecha) +
+                "\n" + Consola.textoColoreadoYellow("- ARRIBA:      Percepción - " + percepcionCeldasArriba + ". Movimientos disponibles = " + cantMovimientosArriba) +
+                "\n" + Consola.textoColoreadoYellow("- ABAJO:       Percepción - " + percepcionCeldasAbajo + ". Movimientos disponibles = " + cantMovimientosAbajo) +
                 "\n ---------------------------------------------------- \n";
     }
 
     public void setArribaPerception(EstadoCelda arrPerception) {
-        this.arribaPercepcion = arrPerception;
+        this.percepcionCeldasArriba = arrPerception;
     }
 
     public void setAbajoPerception(EstadoCelda abaPerception) {
-        this.abajoPercepcion = abaPerception;
+        this.percepcionCeldasAbajo = abaPerception;
     }
 
-    public EstadoCelda getIzquierdaPercepcion() {
-        return izquierdaPercepcion;
+    public EstadoCelda getPercepcionCeldasIzquierda() {
+        return percepcionCeldasIzquierda;
     }
 
-    public void setIzquierdaPercepcion(EstadoCelda izqPerception) {
-        this.izquierdaPercepcion = izqPerception;
+    public void setPercepcionCeldasIzquierda(EstadoCelda izqPerception) {
+        this.percepcionCeldasIzquierda = izqPerception;
     }
 
-    public EstadoCelda getDerechaPercepcion() {
-        return derechaPercepcion;
+    public EstadoCelda getPercepcionCeldasDerecha() {
+        return percepcionCeldasDerecha;
     }
 
-    public void setDerechaPercepcion(EstadoCelda derPerception) {
-        this.derechaPercepcion = derPerception;
+    public void setPercepcionCeldasDerecha(EstadoCelda derPerception) {
+        this.percepcionCeldasDerecha = derPerception;
     }
 
-    public EstadoCelda getArribaPercepcion() {
-        return arribaPercepcion;
+    public EstadoCelda getPercepcionCeldasArriba() {
+        return percepcionCeldasArriba;
     }
 
-    public EstadoCelda getAbajoPercepcion() {
-        return abajoPercepcion;
+    public EstadoCelda getPercepcionCeldasAbajo() {
+        return percepcionCeldasAbajo;
     }
 
     public int getCantMovimientosIzquierda() {

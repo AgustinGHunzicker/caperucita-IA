@@ -1,7 +1,6 @@
 package frsf.cidisi.exercise.caperucita.search;
 
 import domain.Escenario;
-import enumeration.Consola;
 import enumeration.EstadoCelda;
 import enumeration.TipoLado;
 import frsf.cidisi.faia.environment.Environment;
@@ -38,8 +37,8 @@ public class Ambiente extends Environment {
         VistaCaperucita vistaAbajo = this.verLado(TipoLado.ABAJO, posXCap, posYCap);
 
         /*------- Se carga la bandera de jerarquía de posicionamiento de objetos en cada dirección -------*/
-        perception.setIzquierdaPercepcion(this.getContenidoEnVista(vistaIzquierda));
-        perception.setDerechaPercepcion(this.getContenidoEnVista(vistaDerecha));
+        perception.setPercepcionCeldasIzquierda(this.getContenidoEnVista(vistaIzquierda));
+        perception.setPercepcionCeldasDerecha(this.getContenidoEnVista(vistaDerecha));
         perception.setArribaPerception(this.getContenidoEnVista(vistaArriba));
         perception.setAbajoPerception(this.getContenidoEnVista(vistaAbajo));
 
@@ -60,10 +59,10 @@ public class Ambiente extends Environment {
 
         /*------- Se carga las posición de los árboles que haya visto -------*/
         HashSet<Point> arboles = perception.getPosicionesArboles();
-        if(!vistaIzquierda.posicionArbol.equals(UNKNOWN))arboles.add(vistaIzquierda.posicionArbol);
-        if(!vistaDerecha.posicionArbol.equals(UNKNOWN))arboles.add(vistaDerecha.posicionArbol);
-        if(!vistaArriba.posicionArbol.equals(UNKNOWN))arboles.add(vistaArriba.posicionArbol);
-        if(!vistaAbajo.posicionArbol.equals(UNKNOWN))arboles.add(vistaAbajo.posicionArbol);
+        if (!vistaIzquierda.posicionArbol.equals(UNKNOWN)) arboles.add(vistaIzquierda.posicionArbol);
+        if (!vistaDerecha.posicionArbol.equals(UNKNOWN)) arboles.add(vistaDerecha.posicionArbol);
+        if (!vistaArriba.posicionArbol.equals(UNKNOWN)) arboles.add(vistaArriba.posicionArbol);
+        if (!vistaAbajo.posicionArbol.equals(UNKNOWN)) arboles.add(vistaAbajo.posicionArbol);
         perception.setPosicionesArboles(arboles);
 
         /*------- Se carga las posición de los dulces, si hubiese -------*/
@@ -152,6 +151,7 @@ public class Ambiente extends Environment {
                     break;
                 /* está el camino de flores, la meta */
                 case FLORES:
+                    vista.cantidadPosiciones++;
                     vista.posicionFlores.setLocation(posicionXActual, posicionYActual);
                     arbol_flor = true;
                     break;

@@ -76,7 +76,7 @@ public class EstadoAmbiente extends EnvironmentState {
         // TODO eliminar, es para pruebas fijas
         getEscenario().generarEscenario(2);
 
-        setPosicionCaperucita(new Point(6, 3));
+        /*setPosicionCaperucita(new Point(6, 3));
         getEscenario().setPosicionCelda(6, 3, EstadoCelda.CAPERUCITA);
 
         setPosicionLobo(new Point(6, 1));
@@ -89,7 +89,24 @@ public class EstadoAmbiente extends EnvironmentState {
         getEscenario().setPosicionCelda(8, 3, EstadoCelda.DULCE);
 
         getPosicionesDulces().add(new Point(6, 6));
-        getEscenario().setPosicionCelda(6, 6, EstadoCelda.DULCE);
+        getEscenario().setPosicionCelda(6, 6, EstadoCelda.DULCE);*/
+
+        setPosicionCaperucita(new Point(6, 6));
+        getEscenario().setPosicionCelda(6, 6, EstadoCelda.CAPERUCITA);
+
+        setPosicionLobo(new Point(6, 5));
+        getEscenario().setPosicionCelda(6, 5, EstadoCelda.LOBO);
+
+        getPosicionesDulces().add(new Point(8, 3));
+        getEscenario().setPosicionCelda(8, 3, EstadoCelda.DULCE);
+
+        getPosicionesDulces().add(new Point(3, 3));
+        getEscenario().setPosicionCelda(3, 3, EstadoCelda.DULCE);
+
+        getPosicionesDulces().add(new Point(3, 4));
+        getEscenario().setPosicionCelda(3, 4, EstadoCelda.DULCE);
+
+        System.out.println(getEscenario());
     }
 
     private int getRandomNumber(int min, int max) {
@@ -99,8 +116,7 @@ public class EstadoAmbiente extends EnvironmentState {
 
     @Override
     public String toString() {
-        return "\n ----------------------------------------------------" +
-                escenario + Consola.textoColoreadoGreen("- Posición caperucita: " + Consola.celdaToString(posicionCaperucita)) +
+        return escenario + Consola.textoColoreadoGreen("- Posición caperucita: " + Consola.celdaToString(posicionCaperucita)) +
                 "\n" + Consola.textoColoreadoGreen("- Posición lobo: " + Consola.celdaToString(posicionLobo)) +
                 "\n" + Consola.textoColoreadoGreen("- Posición dulces: " + Consola.celdaToString(posicionesDulces)) +
                 "\n ---------------------------------------------------- \n";
