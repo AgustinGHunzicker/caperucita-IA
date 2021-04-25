@@ -127,9 +127,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
             celdasConocidas[(int) this.posicionLobo.getX()][(int) this.posicionLobo.getY()] = EstadoCelda.VACIA;
 
 
-        System.out.println(Consola.textoColoreadoRed("ENTRÓ"));
         getEscenarioJuego().setCeldas(celdasConocidas);
-        System.out.println(escenarioJuego);
         // Actualizo las posiciones del escenario
 
 
