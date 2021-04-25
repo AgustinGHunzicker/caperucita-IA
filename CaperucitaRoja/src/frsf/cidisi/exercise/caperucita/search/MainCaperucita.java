@@ -5,11 +5,9 @@ import frsf.cidisi.faia.simulator.SearchBasedAgentSimulator;
 public class MainCaperucita {
 
     public static void main(String[] args) {
-        Ambiente ambiente = new Ambiente();
+        Caperucita caperucita = new Caperucita();
 
-        Caperucita caperucita = new Caperucita(ambiente);
-
-        SearchBasedAgentSimulator simulator = new SearchBasedAgentSimulator(ambiente, caperucita);
+        SearchBasedAgentSimulator simulator = new SearchBasedAgentSimulator(((EstadoCaperucita)caperucita.getAgentState()).getAmbienteActual(), caperucita);
 
         simulator.start();
     }

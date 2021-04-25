@@ -76,11 +76,6 @@ public class Escenario {
                 break;
             }
             case 2: {
-                //TODO quitar
-                this.celdas[7][6] = EstadoCelda.ARBOL;
-                this.celdas[5][6] = EstadoCelda.ARBOL;
-                //
-
                 //---------- FLORES ----------
                 this.celdas[6][7] = EstadoCelda.FLORES;
                 this.celdas[6][8] = EstadoCelda.FLORES;

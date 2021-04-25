@@ -52,7 +52,7 @@ public class CaperucitaPerception extends Perception {
 
     @Override
     public void initPerception(Agent agentIn, Environment environmentIn) {
-
+        System.out.println(Consola.textoColoreadoYellow("ENTRO A INIT PERCEPCION"));
         // TODO no se debería usar?
         //TODO para mi lo que se hizo en ambiente debería ir acá
         Caperucita agent = (Caperucita) agentIn;

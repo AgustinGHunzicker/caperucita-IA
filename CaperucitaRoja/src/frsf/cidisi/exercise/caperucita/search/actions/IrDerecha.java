@@ -21,11 +21,11 @@ public class IrDerecha extends SearchAction {
      */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
-        System.out.println(Consola.textoColoreadoWhite("IrDerecha -> SearchBasedAgentState"));
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
 
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasDerecha();
+        System.out.println(Consola.textoColoreadoWhite("IrDerecha -> SearchBasedAgentState -> "+celda));
 
         int cantMovimientos = estadoCaperucita.getCantMovimientosDerecha();
 
@@ -45,17 +45,17 @@ public class IrDerecha extends SearchAction {
             int posYActual = posicionCaperucita.y;
 
             switch (celda) {
-                case LOBO: {
+                case LOBO:
                     //Haciendo este movimiento el lobo se come a Caperucita // TODO no se mueve a la pos inicial de nuevo?
                     estadoCaperucita.setVidasRestantes(estadoCaperucita.getVidasRestantes() - 1);
                     //System.out.println(Consola.textoColoreadoRed("Me mató el lobo"));
                     // TODO se fija si el agente falla?
-                }
-                case FLORES: {
+                    break;
+                case FLORES:
                     //Caperucita se desplaza hasta llegar a la meta
                     //System.out.println(Consola.textoColoreadoCyan("Llegué a la meta en " + posXActual + ", " + posYActual));
-                }
-                case DULCE: {
+                    break;
+                case DULCE:
                     //Caperucita va a juntar el/los dulce/s y se desplaza hasta chocar con un arbol
                     HashSet<Point> dulcesNoJuntados = estadoCaperucita.getPosicionesDulces();
                     HashSet<Point> dulcesJuntados = estadoCaperucita.getPosicionesDulces();
@@ -77,11 +77,11 @@ public class IrDerecha extends SearchAction {
 
                     estadoCaperucita.setDulcesJuntados(dulcesJuntados);
                     estadoCaperucita.setPosicionesDulces(dulcesNoJuntados);
-                }
-                case ARBOL: {
+                    break;
+                case ARBOL:
                     //Caperucita se desplaza hasta chocar un arbol
                     //System.out.println(Consola.textoColoreadoCyan("Me choqué con un árbol en " + posXActual + ", " + posYActual));
-                }
+                    break;
             }
         }
 
@@ -123,17 +123,17 @@ public class IrDerecha extends SearchAction {
             int posYActual = posicionCaperucita.y;
 
             switch (celda) {
-                case LOBO: {
+                case LOBO:
                     //Haciendo este movimiento el lobo se come a Caperucita // TODO no se mueve a la pos inicial de nuevo?
                     estadoCaperucita.setVidasRestantes(estadoCaperucita.getVidasRestantes() - 1);
                     //System.out.println(Consola.textoColoreadoRed("Me mató el lobo"));
                     // TODO se fija si el agente falla?
-                }
-                case FLORES: {
+                    break;
+                case FLORES:
                     //Caperucita se desplaza hasta llegar a la meta
                     //System.out.println(Consola.textoColoreadoCyan("Llegué a la meta en " + posXActual + ", " + posYActual));
-                }
-                case DULCE: {
+                    break;
+                case DULCE:
                     //Caperucita va a juntar el/los dulce/s y se desplaza hasta chocar con un arbol
                     HashSet<Point> dulcesNoJuntados = estadoCaperucita.getPosicionesDulces();
                     HashSet<Point> dulcesJuntados = estadoCaperucita.getPosicionesDulces();
@@ -155,11 +155,11 @@ public class IrDerecha extends SearchAction {
 
                     estadoCaperucita.setDulcesJuntados(dulcesJuntados);
                     estadoCaperucita.setPosicionesDulces(dulcesNoJuntados);
-                }
-                case ARBOL: {
+                    break;
+                case ARBOL:
                     //Caperucita se desplaza hasta chocar un arbol
                     //System.out.println(Consola.textoColoreadoCyan("Me choqué con un árbol en " + posXActual + ", " + posYActual));
-                }
+                    break;
             }
         } else {
             return null;

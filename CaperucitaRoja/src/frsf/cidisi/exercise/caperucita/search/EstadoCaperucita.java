@@ -33,14 +33,15 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     private int cantMovimientosArriba;
     private int cantMovimientosAbajo;
 
-    public EstadoCaperucita(Ambiente ambiente) {
-        ambienteActual = ambiente;
-        escenarioJuego = ambienteActual.getEnvironmentState().getEscenario();
+    public EstadoCaperucita() {
+
         initState();
     }
 
     @Override
     public void initState() {
+        ambienteActual = new Ambiente();
+        escenarioJuego = getAmbienteActual().getEnvironmentState().getEscenario();
         /*------- Genera la percepción del ambiente --------*/
         //TODO Este método también debe tomar los valores del escenario particular - ademas inicia valores previamente inicializados
         posicionFlores = UNKNOWN;
@@ -68,7 +69,9 @@ public class EstadoCaperucita extends SearchBasedAgentState {
      */
     @Override
     public SearchBasedAgentState clone() {
-        EstadoCaperucita newState = new EstadoCaperucita(this.getAmbienteActual());
+        EstadoCaperucita newState = new EstadoCaperucita();
+        newState.setAmbienteActual(this.getAmbienteActual());
+        //newState.setEscenarioJuego(this.getEscenarioJuego());
         newState.setVidasRestantes(this.getVidasRestantes());
         newState.setPosicionCaperucita(this.getPosicionCaperucita());
         newState.setPosicionesDulces(this.getPosicionesDulces());
@@ -100,10 +103,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
         this.setPosicionCaperucita(perception.getPosicionActual());
 
-        this.setCantMovimientosIzquierda(perception.getCantMovimientosIzquierda());
-        this.setCantMovimientosDerecha(perception.getCantMovimientosDerecha());
-        this.setCantMovimientosArriba(perception.getCantMovimientosArriba());
-        this.setCantMovimientosAbajo(perception.getCantMovimientosAbajo());
+
 
         this.setPercepcionCeldasAbajo(perception.getPercepcionCeldasAbajo());
         this.setPercepcionCeldasArriba(perception.getPercepcionCeldasArriba());
@@ -113,45 +113,50 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         // Traigo las posiciones conocidas por caperucita hasta el momento
         EstadoCelda[][] celdasConocidas = getEscenarioJuego().getCeldas();
 
-        int posX = (int) posicionActual.getX();
-        int posY = (int) posicionActual.getY();
+        this.setPosicionCaperucita(perception.getPosicionActual());
+        celdasConocidas[(int) this.getPosicionCaperucita().getX()][(int) this.posicionActual.getY()] = EstadoCelda.CAPERUCITA;
+
+        int posX = perception.getPosicionActual().x;
+        int posY = perception.getPosicionActual().y;
 
         // Lugares libres para mover a la Izquierda
+        this.setCantMovimientosIzquierda(perception.getCantMovimientosIzquierda());
         for (int movIzquierda = 0; movIzquierda <= perception.getCantMovimientosIzquierda(); movIzquierda++)
             celdasConocidas[posX - movIzquierda][posY] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a la Derecha
+        this.setCantMovimientosDerecha(perception.getCantMovimientosDerecha());
         for (int movDerecha = 0; movDerecha <= perception.getCantMovimientosDerecha(); movDerecha++)
             celdasConocidas[posX + movDerecha][posY] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a Arriba
+        this.setCantMovimientosArriba(perception.getCantMovimientosArriba());
         for (int movArriba = 0; movArriba <= perception.getCantMovimientosArriba(); movArriba++)
             celdasConocidas[posX][posY - movArriba] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a Abajo
+        this.setCantMovimientosAbajo(perception.getCantMovimientosAbajo());
         for (int movAbajo = 0; movAbajo <= perception.getCantMovimientosAbajo(); movAbajo++)
             celdasConocidas[posX][posY + movAbajo] = EstadoCelda.VACIA;
 
 
-        //this.posicionActual = ultimaPerception.getPosicionActual();
-        //celdasConocidas[(int) this.posicionActual.getX()][(int) this.posicionActual.getY()] = EstadoCelda.CAPERUCITA;
-
         // Si sabe donde esta el camino de flores lo guarda
         if (!perception.getPosicionFlores().equals(UNKNOWN)) {
-            this.posicionFlores = perception.getPosicionFlores();
-            celdasConocidas[(int) this.posicionFlores.getX()][(int) this.posicionFlores.getY()] = EstadoCelda.FLORES;
+            this.setPosicionFlores(perception.getPosicionFlores());
+            celdasConocidas[perception.getPosicionFlores().x][perception.getPosicionFlores().y] = EstadoCelda.FLORES;
         }
 
         // Agrego las posiciones de los dulces percibidos
         for (Point celdaDulce : perception.getPosicionesDulces()) {
-            if (!dulcesJuntados.contains(celdaDulce)) posicionesDulces.add(celdaDulce); //TODO revisar si esto funciona
-            celdasConocidas[(int) celdaDulce.getX()][(int) celdaDulce.getY()] = EstadoCelda.DULCE;
+            if (!getDulcesJuntados().contains(celdaDulce))
+                getPosicionesDulces().add(celdaDulce); //TODO revisar si esto funciona
+            celdasConocidas[celdaDulce.x][celdaDulce.y] = EstadoCelda.DULCE;
         }
 
         // Agrego las posiciones de los árboles percibidos
         for (Point celdaArbol : perception.getPosicionesArboles()) {
-            posicionesArboles.add(celdaArbol);
-            celdasConocidas[(int) celdaArbol.getX()][(int) celdaArbol.getY()] = EstadoCelda.ARBOL;
+            getPosicionesArboles().add(celdaArbol);
+            celdasConocidas[celdaArbol.x][celdaArbol.y] = EstadoCelda.ARBOL;
         }
 
         /*TODO Pongo la posicion del lobo, puede ser que antes sabia donde esta,
@@ -160,13 +165,13 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         Ver aca no se si que el estado actual ya es un objeto copiado o se crea siempre */
 
         // TODO Borro la posicion vieja del lobo
-        if (!this.posicionLobo.equals(UNKNOWN))
-            celdasConocidas[(int) this.posicionLobo.getX()][(int) this.posicionLobo.getY()] = EstadoCelda.VACIA;
+        if (!this.getPosicionLobo().equals(UNKNOWN))
+            celdasConocidas[this.getPosicionLobo().x][this.getPosicionLobo().y] = EstadoCelda.VACIA;
 
         // Si se donde esta ahora, lo agrego
         if (!perception.getPosicionLobo().equals(UNKNOWN)) {
-            this.posicionLobo = perception.getPosicionLobo();
-            celdasConocidas[(int) this.posicionLobo.getX()][(int) this.posicionLobo.getY()] = EstadoCelda.LOBO;
+            this.setPosicionLobo(perception.getPosicionLobo());
+            celdasConocidas[perception.getPosicionLobo().x][perception.getPosicionLobo().y] = EstadoCelda.LOBO;
         }
 
 

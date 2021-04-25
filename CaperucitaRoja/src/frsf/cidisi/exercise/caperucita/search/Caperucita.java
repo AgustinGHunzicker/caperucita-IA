@@ -9,6 +9,8 @@ import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.agent.search.Problem;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgent;
+import frsf.cidisi.faia.solver.search.AStarSearch;
+import frsf.cidisi.faia.solver.search.BreathFirstSearch;
 import frsf.cidisi.faia.solver.search.DepthFirstSearch;
 import frsf.cidisi.faia.solver.search.Search;
 
@@ -18,10 +20,10 @@ import java.util.logging.Logger;
 
 public class Caperucita extends SearchBasedAgent {
 
-    public Caperucita(Ambiente ambiente) {
+    public Caperucita() {
         ObjetivoCaperucita objetivoCaperucita = new ObjetivoCaperucita();
 
-        EstadoCaperucita estadoCaperucita = new EstadoCaperucita(ambiente);
+        EstadoCaperucita estadoCaperucita = new EstadoCaperucita();
         setAgentState(estadoCaperucita);
 
         Vector<SearchAction> actions = new Vector<>();
@@ -42,14 +44,15 @@ public class Caperucita extends SearchBasedAgent {
     public Action selectAction() {
 
         // Create the search strategy
-        DepthFirstSearch strategy = new DepthFirstSearch();
+        //DepthFirstSearch strategy = new DepthFirstSearch();
+        BreathFirstSearch strategy = new BreathFirstSearch();
 
         // Create a Search object with the strategy
         Search searchSolver = new Search(strategy);
 
         /* Generate an XML file with the search tree. It can also be generated
          * in other formats like PDF with PDF_TREE */
-        searchSolver.setVisibleTree(Search.EFAIA_TREE);
+        searchSolver.setVisibleTree(Search.GRAPHICAL_TREE);
 
         // Set the Search searchSolver.
         this.setSolver(searchSolver);
