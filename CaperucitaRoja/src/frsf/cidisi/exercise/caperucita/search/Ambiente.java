@@ -74,7 +74,6 @@ public class Ambiente extends Environment {
         dulces.addAll(vistaAbajo.posicionDulces);
         perception.setPosicionesDulces(dulces);
 
-        System.out.println(perception);
         return perception;
     }
 
@@ -172,13 +171,14 @@ public class Ambiente extends Environment {
      * - ÁRBOL
      */
     private EstadoCelda getContenidoEnVista(VistaCaperucita vistaCaperucita) {
-        // TODO Prioridades ver si cambiamos primero dulce que flores
+        // TODO Prioridades ver si cambiamos primero dulce que flores - edit (milton) le cambie la prioridad, ver si gusta o no
         if (!vistaCaperucita.posicionLobo.equals(UNKNOWN))
             return EstadoCelda.LOBO;
-        if (!vistaCaperucita.posicionFlores.equals(UNKNOWN))
-            return EstadoCelda.FLORES;
         if (!vistaCaperucita.posicionDulces.isEmpty())
             return EstadoCelda.DULCE;
+        if (!vistaCaperucita.posicionFlores.equals(UNKNOWN))
+            return EstadoCelda.FLORES;
+
         else
             return EstadoCelda.ARBOL;
     }
