@@ -1,5 +1,7 @@
 package frsf.cidisi.exercise.caperucita.search;
 
+import domain.Escenario;
+import enumeration.Consola;
 import enumeration.EstadoCelda;
 import frsf.cidisi.faia.agent.Agent;
 import frsf.cidisi.faia.agent.Perception;
@@ -7,9 +9,10 @@ import frsf.cidisi.faia.environment.Environment;
 
 import java.awt.*;
 import java.util.HashSet;
-import java.util.Set;
 
 public class CaperucitaPerception extends Perception {
+    private final static Point UNKNOWN = new Point(-1, -1);
+
     //Bandera que indican que hay en esa dirección
     private EstadoCelda izquierdaPercepcion;
     private EstadoCelda derechaPercepcion;
@@ -27,8 +30,7 @@ public class CaperucitaPerception extends Perception {
     private Point posicionLobo;
     private Point posicionActual; //
     private HashSet<Point> posicionesDulces;
-
-    // TODO Posiblemente necesitemos la cantidad de dulces en esa dirección
+    private HashSet<Point> posicionesArboles;
 
     public CaperucitaPerception() {
         izquierdaPercepcion = EstadoCelda.VACIA;
@@ -39,9 +41,10 @@ public class CaperucitaPerception extends Perception {
         cantMovimientosDerecha = 0;
         cantMovimientosArriba = 0;
         cantMovimientosAbajo = 0;
-        posicionFlores = Ambiente.UNKNOWN;
-        posicionLobo = Ambiente.UNKNOWN;
+        posicionFlores = UNKNOWN;
+        posicionLobo = UNKNOWN;
         posicionesDulces = new HashSet<>();
+        posicionesArboles = new HashSet<>();
     }
 
     public CaperucitaPerception(Agent agent, Environment environment) {
@@ -50,6 +53,8 @@ public class CaperucitaPerception extends Perception {
 
     @Override
     public void initPerception(Agent agentIn, Environment environmentIn) {
+        // TODO no se debería usar?
+        //TODO para mi lo que se hizo en ambiente debería ir acá
         Caperucita agent = (Caperucita) agentIn;
         Ambiente environment = (Ambiente) environmentIn;
         EstadoAmbiente environmentState = environment.getEnvironmentState();
@@ -57,12 +62,19 @@ public class CaperucitaPerception extends Perception {
         Point position = environmentState.getPosicionCaperucita();
     }
 
-    public void setIzquierdaPercepcion(EstadoCelda izqPerception) {
-        this.izquierdaPercepcion = izqPerception;
-    }
-
-    public void setDerechaPercepcion(EstadoCelda derPerception) {
-        this.derechaPercepcion = derPerception;
+    @Override
+    public String toString() {
+        return "\n ----------------------------------------------------" +
+                "\n" + Consola.textoColoreadoYellow("- Posición CAPERUCITA: " + Consola.celdaToString(posicionActual)) +
+                "\n" + Consola.textoColoreadoYellow("- Posición LOBO: " + Consola.celdaToString(posicionLobo)) +
+                "\n" + Consola.textoColoreadoYellow("- Posición DULCES: " + Consola.celdaToString(posicionesDulces)) +
+                "\n" + Consola.textoColoreadoYellow("- Posición FLORES: " + Consola.celdaToString(posicionFlores)) +
+                "\n" + Consola.textoColoreadoYellow("- Posición ÁRBOLES: " + Consola.celdaToString(posicionesArboles)) +
+                "\n" + Consola.textoColoreadoYellow("- IZQUIERDA:   Percepción - " + izquierdaPercepcion + ". Movimientos disponibles = " + cantMovimientosIzquierda) +
+                "\n" + Consola.textoColoreadoYellow("- DERECHA:     Percepción - " + derechaPercepcion + ". Movimientos disponibles = " + cantMovimientosDerecha) +
+                "\n" + Consola.textoColoreadoYellow("- ARRIBA:      Percepción - " + arribaPercepcion + ". Movimientos disponibles = " + cantMovimientosArriba) +
+                "\n" + Consola.textoColoreadoYellow("- ABAJO:       Percepción - " + abajoPercepcion + ". Movimientos disponibles = " + cantMovimientosAbajo) +
+                "\n ---------------------------------------------------- \n";
     }
 
     public void setArribaPerception(EstadoCelda arrPerception) {
@@ -73,29 +85,20 @@ public class CaperucitaPerception extends Perception {
         this.abajoPercepcion = abaPerception;
     }
 
-    public void setFloresPerception(Point flores) {
-
-
-
-
-        this.posicionFlores = flores;
-    }
-
-    public void setFloresPerception(){
-
-    }
-
-    public void setDulcesPerception(HashSet<Point> dulces) {
-        this.posicionesDulces = dulces;
-    }
-
-
     public EstadoCelda getIzquierdaPercepcion() {
         return izquierdaPercepcion;
     }
 
+    public void setIzquierdaPercepcion(EstadoCelda izqPerception) {
+        this.izquierdaPercepcion = izqPerception;
+    }
+
     public EstadoCelda getDerechaPercepcion() {
         return derechaPercepcion;
+    }
+
+    public void setDerechaPercepcion(EstadoCelda derPerception) {
+        this.derechaPercepcion = derPerception;
     }
 
     public EstadoCelda getArribaPercepcion() {
@@ -146,12 +149,28 @@ public class CaperucitaPerception extends Perception {
         this.posicionLobo = posicionLobo;
     }
 
+    public HashSet<Point> getPosicionesArboles() {
+        return posicionesArboles;
+    }
+
+    public void setPosicionesArboles(HashSet<Point> posicionesArboles) {
+        this.posicionesArboles = posicionesArboles;
+    }
+
     public Point getPosicionFlores() {
         return posicionFlores;
     }
 
-    public Set<Point> getPosicionesDulces() {
+    public void setPosicionFlores(Point posFlores) {
+        this.posicionFlores = posFlores;
+    }
+
+    public HashSet<Point> getPosicionesDulces() {
         return posicionesDulces;
+    }
+
+    public void setPosicionesDulces(HashSet<Point> dulces) {
+        this.posicionesDulces = dulces;
     }
 
     public Point getPosicionActual() {
@@ -161,6 +180,4 @@ public class CaperucitaPerception extends Perception {
     public void setPosicionActual(Point posicionActual) {
         this.posicionActual = posicionActual;
     }
-
-    //TODO agregar el toString
 }

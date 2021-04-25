@@ -1,7 +1,6 @@
 package frsf.cidisi.exercise.caperucita.search.actions;
 
-import enumeration.EstadoCelda;
-import frsf.cidisi.exercise.caperucita.search.*;
+import enumeration.TipoLado;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
 import frsf.cidisi.faia.state.AgentState;
@@ -15,55 +14,15 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
-        EstadoCaperucita agState = (EstadoCaperucita) s;
-        
-        //Si no es la primera habitaci�n, puede moverse a izquierda
-        /*
-        int habitacionActualIndex = agState.getmapaHabitaciones().indexOf(agState.getposicion());
-        if( habitacionActualIndex != 0 ){
-        	agState.setposicion(agState.getmapaHabitaciones().get(habitacionActualIndex - 1));
-        	agState.getmapaHabitaciones().get(habitacionActualIndex - 1).setVisitada(true);
-        	agState.setenergiaDisponible((int)(agState.getenergiaDisponible() - this.getCost()));
-        	return agState;
-        }
-        */
-        EstadoCelda abajo = agState.getUltimaPerception().getAbajoPercepcion();
-        int movAbajo = agState.getUltimaPerception().getCantMovimientosAbajo();
-        //Si no esta el lobo en esa dirección y tiene movimientos posibles en esa dirección, puede moverse
-        if (!abajo.equals(EstadoCelda.LOBO) && movAbajo > 0) {
-            if (abajo.equals(EstadoCelda.DULCE)) {
-                
-            }
-        }
-
-        return null;
-        
+        return Moverse.modelSearchBasedAgentState(s, TipoLado.ABAJO);
     }
 
     /**
      * This method updates the agent state and the real world state.
      */
     @Override
-    public EnvironmentState execute(AgentState ast, EnvironmentState est) {
-        EstadoAmbiente environmentState = (EstadoAmbiente) est;
-        EstadoCaperucita agState = ((EstadoCaperucita) ast);
-
-        //Si no es la �ltima habitaci�n, puede moverse a derecha
-        /*
-        int habitacionActualIndex = agState.getmapaHabitaciones().indexOf(agState.getposicion());
-        if( habitacionActualIndex != 0 ){
-        	//Modificamos el estado del agente
-        	agState.setposicion(agState.getmapaHabitaciones().get(habitacionActualIndex - 1));
-        	agState.getmapaHabitaciones().get(habitacionActualIndex - 1).setVisitada(true);
-        	agState.setenergiaDisponible((int)(agState.getenergiaDisponible() - this.getCost()));
-        	
-        	//Modificamos el estado del ambiente
-        	environmentState.setposicionAspiradora(agState.getmapaHabitaciones().get(habitacionActualIndex -1));
-        	return environmentState;
-        }
-        */
-        
-        return null;
+    public EnvironmentState execute(AgentState agentState, EnvironmentState environmentState) {
+        return Moverse.modelEnvironmentState(agentState, environmentState, TipoLado.ABAJO);
     }
 
     /**
@@ -71,8 +30,7 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public Double getCost() {
-        Double cost = 1.0;
-        return cost;
+        return 1.0;
     }
 
     /**
@@ -81,6 +39,6 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public String toString() {
-        return "IrIzquierda";
+        return "IrAbajo";
     }
 }

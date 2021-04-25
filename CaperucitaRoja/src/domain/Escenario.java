@@ -3,47 +3,45 @@ package domain;
 import enumeration.Consola;
 import enumeration.EstadoCelda;
 
+import java.awt.*;
+
 public class Escenario {
+    private final static Point UNKNOWN = new Point(-1, -1);
 
     public static final int LIMITE_IZQUIERDA = 0;
     public static final int LIMITE_DERECHA = 13;
-    public static final int LIMITE_ARRIBA = 0;
-    public static final int LIMITE_ABAJO = 8;
+    public static final int LIMITE_ABAJO = 0;
+    public static final int LIMITE_ARRIBA = 8;
 
     private String nombre;
     private EstadoCelda[][] celdas;
 
     public Escenario() {
-        this.celdas = new EstadoCelda[LIMITE_DERECHA + 1][LIMITE_ABAJO + 1];
+        this.nombre = "";
+        this.celdas = new EstadoCelda[LIMITE_DERECHA + 1][LIMITE_ARRIBA + 1];
+        //---------- CELDAS VACÍAS ----------
+        for (int posHorizontal = LIMITE_IZQUIERDA; posHorizontal <= LIMITE_DERECHA; posHorizontal++) {
+            for (int posVertical = LIMITE_ABAJO; posVertical <= LIMITE_ARRIBA; posVertical++) {
+                this.celdas[posHorizontal][posVertical] = EstadoCelda.VACIA;
+            }
+        }
     }
 
     /**
      * Genera un tipo de escenario según el parámetro pasado como argumento
      */
     public void generarEscenario(int nroEsc) {
-        this.nombre = "Escenario Nº" + nroEsc;
-        this.celdas = new EstadoCelda[LIMITE_DERECHA + 1][LIMITE_ABAJO + 1];
+        this.nombre = " - Escenario Nº" + nroEsc;
 
         //---------- ÁRBOLES ----------
         for (int posHorizontal = LIMITE_IZQUIERDA; posHorizontal <= LIMITE_DERECHA; posHorizontal++) {
-            this.celdas[posHorizontal][LIMITE_ARRIBA] = EstadoCelda.ARBOL;
             this.celdas[posHorizontal][LIMITE_ABAJO] = EstadoCelda.ARBOL;
+            this.celdas[posHorizontal][LIMITE_ARRIBA] = EstadoCelda.ARBOL;
         }
 
-        for (int posVertical = LIMITE_ARRIBA; posVertical <= LIMITE_ABAJO; posVertical++) {
+        for (int posVertical = LIMITE_ABAJO; posVertical <= LIMITE_ARRIBA; posVertical++) {
             this.celdas[LIMITE_IZQUIERDA][posVertical] = EstadoCelda.ARBOL;
             this.celdas[LIMITE_DERECHA][posVertical] = EstadoCelda.ARBOL;
-        }
-
-        //---------- CELDAS VACÍAS ----------
-        for (int posHorizontal = LIMITE_IZQUIERDA + 1; posHorizontal <= LIMITE_DERECHA - 1; posHorizontal++) {
-
-            for (int posVertical = LIMITE_ARRIBA + 1; posVertical <= LIMITE_ABAJO - 1; posVertical++) {
-
-                this.celdas[posHorizontal][posVertical] = EstadoCelda.VACIA;
-
-            }
-
         }
 
         // generar escenarios predeterminados
@@ -183,11 +181,13 @@ public class Escenario {
 
         StringBuilder escenario = new StringBuilder();
         escenario.append("\n");
-        escenario.append(Consola.textoColoreado(this.nombre)).append("\n");
+        if (!this.nombre.equals("")) escenario.append(Consola.textoColoreadoGreen(this.nombre)).append("\n");
 
-        for (int j = LIMITE_ARRIBA; j <= LIMITE_ABAJO; j++) {
-            for (int i = LIMITE_IZQUIERDA; i <= LIMITE_DERECHA; i++) {
-                switch (this.celdas[i][j]) {
+        for (int movVertical = LIMITE_ABAJO; movVertical <= LIMITE_ARRIBA; movVertical++) {
+            escenario.append(movVertical + 1);
+
+            for (int movHorizontal = LIMITE_IZQUIERDA; movHorizontal <= LIMITE_DERECHA; movHorizontal++) {
+                switch (this.celdas[movHorizontal][movVertical]) {
                     case VACIA:
                         escenario.append(vacio);
                         break;
