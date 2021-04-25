@@ -1,6 +1,9 @@
 package frsf.cidisi.exercise.caperucita.search;
 
-import frsf.cidisi.exercise.caperucita.search.actions.*;
+import frsf.cidisi.exercise.caperucita.search.actions.IrAbajo;
+import frsf.cidisi.exercise.caperucita.search.actions.IrArriba;
+import frsf.cidisi.exercise.caperucita.search.actions.IrDerecha;
+import frsf.cidisi.exercise.caperucita.search.actions.IrIzquierda;
 import frsf.cidisi.faia.agent.Action;
 import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.agent.search.Problem;
@@ -16,26 +19,22 @@ import java.util.logging.Logger;
 public class Caperucita extends SearchBasedAgent {
 
     public Caperucita(Ambiente ambiente) {
-
-
         //---------- The Agent Goal ----------
         ObjetivoCaperucita objetivoCaperucita = new ObjetivoCaperucita();
-        //TODO milton llegué hasta acá la comprobación propia dme que funque todo
+
         //---------- The Agent State ----------
         EstadoCaperucita estadoCaperucita = new EstadoCaperucita(ambiente);
         setAgentState(estadoCaperucita);
 
-
-
         //---------- Create the actions ----------
         Vector<SearchAction> actions = new Vector<>();
-        actions.addElement(new RecolectarDulce());
+        //actions.addElement(new RecolectarDulce());
         actions.addElement(new IrDerecha());
         actions.addElement(new IrIzquierda());
         actions.addElement(new IrAbajo());
         actions.addElement(new IrArriba());
 
-        // Create the Problem which the agent will resolve
+        /*---------- Create the Problem which the agent will resolve ----------*/
         Problem problem = new Problem(objetivoCaperucita, estadoCaperucita, actions);
         setProblem(problem);
     }

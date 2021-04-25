@@ -1,6 +1,6 @@
 package frsf.cidisi.exercise.caperucita.search.actions;
 
-import frsf.cidisi.exercise.caperucita.search.*;
+import enumeration.TipoLado;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
 import frsf.cidisi.faia.state.AgentState;
@@ -14,47 +14,15 @@ public class IrIzquierda extends SearchAction {
      */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
-        EstadoCaperucita agState = (EstadoCaperucita) s;
-        
-        //Si no es la primera habitaci�n, puede moverse a izquierda
-        /*
-        int habitacionActualIndex = agState.getmapaHabitaciones().indexOf(agState.getposicion());
-        if( habitacionActualIndex != 0 ){
-        	agState.setposicion(agState.getmapaHabitaciones().get(habitacionActualIndex - 1));
-        	agState.getmapaHabitaciones().get(habitacionActualIndex - 1).setVisitada(true);
-        	agState.setenergiaDisponible((int)(agState.getenergiaDisponible() - this.getCost()));
-        	return agState;
-        }
-        */
-        
-        return null;
-        
+        return Moverse.modelSearchBasedAgentState(s, TipoLado.IZQUIERDA);
     }
 
     /**
      * This method updates the agent state and the real world state.
      */
     @Override
-    public EnvironmentState execute(AgentState ast, EnvironmentState est) {
-        EstadoAmbiente environmentState = (EstadoAmbiente) est;
-        EstadoCaperucita agState = ((EstadoCaperucita) ast);
-
-        //Si no es la �ltima habitaci�n, puede moverse a derecha
-        /*
-        int habitacionActualIndex = agState.getmapaHabitaciones().indexOf(agState.getposicion());
-        if( habitacionActualIndex != 0 ){
-        	//Modificamos el estado del agente
-        	agState.setposicion(agState.getmapaHabitaciones().get(habitacionActualIndex - 1));
-        	agState.getmapaHabitaciones().get(habitacionActualIndex - 1).setVisitada(true);
-        	agState.setenergiaDisponible((int)(agState.getenergiaDisponible() - this.getCost()));
-        	
-        	//Modificamos el estado del ambiente
-        	environmentState.setposicionAspiradora(agState.getmapaHabitaciones().get(habitacionActualIndex -1));
-        	return environmentState;
-        }
-        */
-        
-        return null;
+    public EnvironmentState execute(AgentState agentState, EnvironmentState environmentState) {
+        return Moverse.modelEnvironmentState(agentState, environmentState, TipoLado.IZQUIERDA);
     }
 
     /**
@@ -62,7 +30,7 @@ public class IrIzquierda extends SearchAction {
      */
     @Override
     public Double getCost() {
-        return new Double(2);
+        return 2.0;
     }
 
     /**

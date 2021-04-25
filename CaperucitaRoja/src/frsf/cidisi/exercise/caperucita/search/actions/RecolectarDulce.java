@@ -1,7 +1,7 @@
 package frsf.cidisi.exercise.caperucita.search.actions;
 
-import domain.Escenario;
-import frsf.cidisi.exercise.caperucita.search.*;
+import frsf.cidisi.exercise.caperucita.search.EstadoAmbiente;
+import frsf.cidisi.exercise.caperucita.search.EstadoCaperucita;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
 import frsf.cidisi.faia.state.AgentState;
@@ -16,17 +16,17 @@ public class RecolectarDulce extends SearchAction {
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
         EstadoCaperucita agState = (EstadoCaperucita) s;
-        
+
         //Si la posicion actual se encuentra entre las habitaciones sucias, se puede limpiar
         /*
         if(agState.gethabitacionesSucias().contains(agState.getposicion())){
         	//Sacamos la habitaci�n en la cual nos encontramos de la lista de habit. sucias
         	agState.gethabitacionesSucias().remove(agState.getposicion());
-        	
+
         	return agState;
         }
         */
-        	
+
         return null;
     }
 
@@ -38,7 +38,7 @@ public class RecolectarDulce extends SearchAction {
         EstadoAmbiente environmentState = (EstadoAmbiente) est;
         EstadoCaperucita agState = ((EstadoCaperucita) ast);
 
-      //Si la posicion actual se encuentra entre las habitaciones sucias, se puede limpiar
+        //Si la posicion actual se encuentra entre las habitaciones sucias, se puede limpiar
         /*
         if(agState.gethabitacionesSucias().contains(agState.getposicion())){
         	
@@ -61,7 +61,7 @@ public class RecolectarDulce extends SearchAction {
      */
     @Override
     public Double getCost() {
-        return new Double(1);
+        return 1.0;
     }
 
     /**

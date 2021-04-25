@@ -1,7 +1,6 @@
 package enumeration;
 
 import domain.Escenario;
-import frsf.cidisi.exercise.caperucita.search.Ambiente;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -37,6 +36,7 @@ public enum Consola {
     EMOJI_FLOWER("\uD83C\uDF39");
 
     private final String value;
+    private static final Point UNKNOWN = new Point(-1,-1);
 
     Consola(String value) {
         this.value = value;
@@ -51,19 +51,32 @@ public enum Consola {
         return this.getValue();
     }
 
-    public static String textoColoreado(String texto) {
-        return "" + ANSI_WHITE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + ANSI_RESET_BACKGROUND;
+    public static String textoColoreadoGreen(String texto) {
+        return "" + ANSI_GREEN_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+    }
+
+    public static String textoColoreadoCyan(String texto) {
+        return "" + ANSI_CYAN_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+    }
+
+    public static String textoColoreadoYellow(String texto) {
+        return "" + ANSI_YELLOW_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+    }
+
+    public static String textoColoreadoRed(String texto) {
+        return "" + ANSI_RED_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
     }
 
     //nada que ver aca, pero era para centralizar
     public static String celdaToString(Point celda) {
-        if(celda.equals(Ambiente.UNKNOWN))
+        if (celda.equals(UNKNOWN)) {
             return "UNKNOWN";
-        return "[x:" + ((int) celda.getX() + 1) + ", y:" + (Escenario.LIMITE_ABAJO - (int) celda.getY() + 1) + "]";
+        }
+        return "[x:" + ((int) celda.getX() + 1) + ", y:" + ((int) celda.getY() + 1) + "]";
     }
 
     public static String celdaToString(List<Point> celdas) {
-        if(celdas.isEmpty())
+        if (celdas.isEmpty())
             return "UNKNOWN";
 
         StringBuilder texto = new StringBuilder();
@@ -74,13 +87,15 @@ public enum Consola {
     }
 
     public static String celdaToString(HashSet<Point> celdas) {
-        if(celdas.isEmpty())
+        if (celdas.isEmpty())
             return "UNKNOWN";
 
         StringBuilder texto = new StringBuilder();
         for (Point celda : celdas) {
             texto.append(celdaToString(celda)).append(", ");
         }
+        texto.deleteCharAt(texto.length()-1);
+        texto.deleteCharAt(texto.length()-1);
         return texto.toString();
     }
 }
