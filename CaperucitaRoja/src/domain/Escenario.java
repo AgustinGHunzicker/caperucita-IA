@@ -3,25 +3,21 @@ package domain;
 import enumeration.Consola;
 import enumeration.EstadoCelda;
 
-import java.awt.*;
-
 public class Escenario {
-    private final static Point UNKNOWN = new Point(-1, -1);
-
     public static final int LIMITE_IZQUIERDA = 0;
     public static final int LIMITE_DERECHA = 13;
-    public static final int LIMITE_ABAJO = 0;
-    public static final int LIMITE_ARRIBA = 8;
+    public static final int LIMITE_ARRIBA = 0;
+    public static final int LIMITE_ABAJO = 8;
 
     private String nombre;
     private EstadoCelda[][] celdas;
 
     public Escenario() {
         this.nombre = "";
-        this.celdas = new EstadoCelda[LIMITE_DERECHA + 1][LIMITE_ARRIBA + 1];
+        this.celdas = new EstadoCelda[LIMITE_DERECHA + 1][LIMITE_ABAJO + 1];
         //---------- CELDAS VACÍAS ----------
         for (int posHorizontal = LIMITE_IZQUIERDA; posHorizontal <= LIMITE_DERECHA; posHorizontal++) {
-            for (int posVertical = LIMITE_ABAJO; posVertical <= LIMITE_ARRIBA; posVertical++) {
+            for (int posVertical = LIMITE_ARRIBA; posVertical <= LIMITE_ABAJO; posVertical++) {
                 this.celdas[posHorizontal][posVertical] = EstadoCelda.VACIA;
             }
         }
@@ -35,11 +31,11 @@ public class Escenario {
 
         //---------- ÁRBOLES ----------
         for (int posHorizontal = LIMITE_IZQUIERDA; posHorizontal <= LIMITE_DERECHA; posHorizontal++) {
-            this.celdas[posHorizontal][LIMITE_ABAJO] = EstadoCelda.ARBOL;
             this.celdas[posHorizontal][LIMITE_ARRIBA] = EstadoCelda.ARBOL;
+            this.celdas[posHorizontal][LIMITE_ABAJO] = EstadoCelda.ARBOL;
         }
 
-        for (int posVertical = LIMITE_ABAJO; posVertical <= LIMITE_ARRIBA; posVertical++) {
+        for (int posVertical = LIMITE_ARRIBA; posVertical <= LIMITE_ABAJO; posVertical++) {
             this.celdas[LIMITE_IZQUIERDA][posVertical] = EstadoCelda.ARBOL;
             this.celdas[LIMITE_DERECHA][posVertical] = EstadoCelda.ARBOL;
         }
@@ -80,6 +76,11 @@ public class Escenario {
                 break;
             }
             case 2: {
+                //TODO quitar
+                this.celdas[7][6] = EstadoCelda.ARBOL;
+                this.celdas[5][6] = EstadoCelda.ARBOL;
+                //
+
                 //---------- FLORES ----------
                 this.celdas[6][7] = EstadoCelda.FLORES;
                 this.celdas[6][8] = EstadoCelda.FLORES;
@@ -183,7 +184,7 @@ public class Escenario {
         escenario.append("\n");
         if (!this.nombre.equals("")) escenario.append(Consola.textoColoreadoGreen(this.nombre)).append("\n");
 
-        for (int movVertical = LIMITE_ABAJO; movVertical <= LIMITE_ARRIBA; movVertical++) {
+        for (int movVertical = LIMITE_ARRIBA; movVertical <= LIMITE_ABAJO; movVertical++) {
             escenario.append(movVertical + 1);
 
             for (int movHorizontal = LIMITE_IZQUIERDA; movHorizontal <= LIMITE_DERECHA; movHorizontal++) {

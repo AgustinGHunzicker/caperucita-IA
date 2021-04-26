@@ -1,6 +1,5 @@
 package frsf.cidisi.exercise.caperucita.search;
 
-import domain.Escenario;
 import enumeration.Consola;
 import enumeration.EstadoCelda;
 import frsf.cidisi.faia.agent.Agent;
@@ -64,8 +63,7 @@ public class CaperucitaPerception extends Perception {
 
     @Override
     public String toString() {
-        return "\n ----------------------------------------------------" +
-                "\n" + Consola.textoColoreadoYellow("- Posición CAPERUCITA: " + Consola.celdaToString(posicionActual)) +
+        return "\n" + Consola.textoColoreadoYellow("- Posición CAPERUCITA: " + Consola.celdaToString(posicionActual)) +
                 "\n" + Consola.textoColoreadoYellow("- Posición LOBO: " + Consola.celdaToString(posicionLobo)) +
                 "\n" + Consola.textoColoreadoYellow("- Posición DULCES: " + Consola.celdaToString(posicionesDulces)) +
                 "\n" + Consola.textoColoreadoYellow("- Posición FLORES: " + Consola.celdaToString(posicionFlores)) +

@@ -152,6 +152,7 @@ public class Ambiente extends Environment {
                     break;
                 /* está el camino de flores, la meta */
                 case FLORES:
+                    vista.cantidadPosiciones++;
                     vista.posicionFlores.setLocation(posicionXActual, posicionYActual);
                     arbol_flor = true;
                     break;

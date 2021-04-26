@@ -83,11 +83,11 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
         // Lugares libres para mover a Arriba
         for (int movArriba = 0; movArriba <= ultimaPerception.getCantMovimientosArriba(); movArriba++)
-            celdasConocidas[posX][posY + movArriba] = EstadoCelda.VACIA;
+            celdasConocidas[posX][posY - movArriba] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a Abajo
         for (int movAbajo = 0; movAbajo <= ultimaPerception.getCantMovimientosAbajo(); movAbajo++)
-            celdasConocidas[posX][posY - movAbajo] = EstadoCelda.VACIA;
+            celdasConocidas[posX][posY + movAbajo] = EstadoCelda.VACIA;
 
 
         this.posicionActual = ultimaPerception.getPosicionActual();
@@ -139,8 +139,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     @Override
     public String toString() {
-        return "\n ----------------------------------------------------" +
-                "\n" + Consola.textoColoreadoRed("- Posición actual: " + Consola.celdaToString(posicionActual)) +
+        return "\n" + Consola.textoColoreadoRed("- Posición actual: " + Consola.celdaToString(posicionActual)) +
                 "\n" + Consola.textoColoreadoRed("- Posición lobo: " + Consola.celdaToString(posicionLobo)) +
                 "\n" + Consola.textoColoreadoRed("- Posición flores: " + Consola.celdaToString(posicionFlores)) +
                 "\n" + Consola.textoColoreadoRed("- Posición dulces: " + Consola.celdaToString(posicionesDulces)) +
@@ -206,14 +205,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     public void setAmbienteActual(Ambiente ambienteActual) {
         this.ambienteActual = ambienteActual;
-    }
-
-    public Point getPosicionActual() {
-        return posicionActual;
-    }
-
-    public void setPosicionActual(Point posicionActual) {
-        this.posicionActual = posicionActual;
     }
 
     public Point getPosicionLobo() {

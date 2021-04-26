@@ -19,10 +19,8 @@ import java.util.logging.Logger;
 public class Caperucita extends SearchBasedAgent {
 
     public Caperucita(Ambiente ambiente) {
-        //---------- The Agent Goal ----------
         ObjetivoCaperucita objetivoCaperucita = new ObjetivoCaperucita();
 
-        //---------- The Agent State ----------
         EstadoCaperucita estadoCaperucita = new EstadoCaperucita(ambiente);
         setAgentState(estadoCaperucita);
 
@@ -35,6 +33,7 @@ public class Caperucita extends SearchBasedAgent {
         actions.addElement(new IrArriba());
         
         /*---------- Create the Problem which the agent will resolve ----------*/
+
         Problem problem = new Problem(objetivoCaperucita, estadoCaperucita, actions);
         setProblem(problem);
     }
