@@ -173,6 +173,7 @@ public class Ambiente extends Environment {
                     arbol_flor = true;
                     break;
             }
+
         }
 
         vista.cantidadPosiciones--;  //Puesto que viene inicializado en 1, debe restarse el movimiento adicional

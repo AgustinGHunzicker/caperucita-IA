@@ -118,23 +118,23 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
         // Lugares libres para mover a la Izquierda
         this.setCantMovimientosIzquierda(perception.getCantMovimientosIzquierda());
-        for (int movIzquierda = 0; movIzquierda <= perception.getCantMovimientosIzquierda(); movIzquierda++)
+        for (int movIzquierda = 1; movIzquierda <= perception.getCantMovimientosIzquierda(); movIzquierda++)
             celdasConocidas[posX - movIzquierda][posY] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a la Derecha
         this.setCantMovimientosDerecha(perception.getCantMovimientosDerecha());
-        for (int movDerecha = 0; movDerecha <= perception.getCantMovimientosDerecha(); movDerecha++)
+        for (int movDerecha = 1; movDerecha <= perception.getCantMovimientosDerecha(); movDerecha++)
             celdasConocidas[posX + movDerecha][posY] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a Arriba
         this.setCantMovimientosArriba(perception.getCantMovimientosArriba());
-        for (int movArriba = 0; movArriba <= perception.getCantMovimientosArriba(); movArriba++)
-            celdasConocidas[posX][posY + movArriba] = EstadoCelda.VACIA;
+        for (int movArriba = 1; movArriba <= perception.getCantMovimientosArriba(); movArriba++)
+            celdasConocidas[posX][posY - movArriba] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a Abajo
         this.setCantMovimientosAbajo(perception.getCantMovimientosAbajo());
-        for (int movAbajo = 0; movAbajo <= perception.getCantMovimientosAbajo(); movAbajo++)
-            celdasConocidas[posX][posY - movAbajo] = EstadoCelda.VACIA;
+        for (int movAbajo = 1; movAbajo <= perception.getCantMovimientosAbajo(); movAbajo++)
+            celdasConocidas[posX][posY + movAbajo] = EstadoCelda.VACIA;
 
 
         // Si sabe donde esta el camino de flores lo guarda

@@ -39,18 +39,7 @@ public class IrAbajo extends SearchAction {
             return null;
         else {
             //realizo todos los movimientos que puedo hacer hacia la derecha
-            estadoCaperucita.setPosicionCaperucita(new Point(posicionCaperucita.x, posicionCaperucita.y - cantMovimientos));
-
-            //teniendo en cuenta que no seria posible ir a la derecha y a la izquierda a la vez desde la posicion,
-            // puedo asumir que tenia cero posiciones a mover hacia la izquierda, entonces ahora le agrego las posiciones que me movi a la derecha
-            //estadoCaperucita.setCantMovimientosIzquierda(estadoCaperucita.getCantMovimientosDerecha());
-            //me movi hasta el final hacia la derecha por lo que ahora no tengo mas movimiento hacia esa direccion
-            //estadoCaperucita.setCantMovimientosDerecha(0);
-            //ahora estoy en otra posicion, debo actualizar mi vista hacia arriba y hacia abajo
-            //int arriba = 0;
-            //TENGO QUE USAR EL ESCENARIO DEL AMBIENTE PARA MIRAR, NO EL DE CAPERUCITA PORQUE NO ES EL REAL, ESE ESCENARIO MAS ADELANTE SACARLO
-            //Escenario escenario = estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario();
-
+            estadoCaperucita.setPosicionCaperucita(new Point(posicionCaperucita.x, posicionCaperucita.y + cantMovimientos));
 
             int capX = estadoCaperucita.getPosicionCaperucita().x;
             int capY = estadoCaperucita.getPosicionCaperucita().y;
