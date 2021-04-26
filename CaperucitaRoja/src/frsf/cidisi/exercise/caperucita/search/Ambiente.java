@@ -8,6 +8,7 @@ import frsf.cidisi.faia.environment.Environment;
 import frsf.cidisi.faia.state.AgentState;
 
 import java.awt.*;
+import java.sql.SQLOutput;
 import java.util.HashSet;
 
 public class Ambiente extends Environment {
@@ -30,7 +31,8 @@ public class Ambiente extends Environment {
         /*------- Primero chequeamos donde está caperucita -------*/
         int posXCap = (int) this.getEnvironmentState().getPosicionCaperucita().getX();
         int posYCap = (int) this.getEnvironmentState().getPosicionCaperucita().getY();
-
+        perception.setPosicionActual(new Point(posXCap, posYCap));
+        System.out.println(posXCap + "/" + posYCap);
         /*------- Se mira hacia las cuatro direcciones -------*/
         VistaCaperucita vistaIzquierda = this.verLado(TipoLado.IZQUIERDA, posXCap, posYCap);
         VistaCaperucita vistaDerecha = this.verLado(TipoLado.DERECHA, posXCap, posYCap);
@@ -53,7 +55,7 @@ public class Ambiente extends Environment {
         perception.setPosicionActual(this.getEnvironmentState().getPosicionCaperucita());
 
         /*------- Se carga las posición de las flores, si es que las haya visto -------*/
-        perception.setPosicionFlores(this.hayElemento(vistaIzquierda.posicionFlores, vistaDerecha.posicionFlores, vistaArriba.posicionFlores, vistaAbajo.posicionFlores));
+        perception.addPosicionFlores(this.hayElemento(vistaIzquierda.posicionFlores, vistaDerecha.posicionFlores, vistaArriba.posicionFlores, vistaAbajo.posicionFlores));
 
         /*------- Se carga las posición del lobo, si es que lo vio -------*/
         perception.setPosicionLobo(this.hayElemento(vistaIzquierda.posicionLobo, vistaDerecha.posicionLobo, vistaArriba.posicionLobo, vistaAbajo.posicionLobo));
@@ -196,7 +198,6 @@ public class Ambiente extends Environment {
             return EstadoCelda.DULCE;
         if (!vistaCaperucita.posicionFlores.equals(UNKNOWN))
             return EstadoCelda.FLORES;
-
         else
             return EstadoCelda.ARBOL;
     }

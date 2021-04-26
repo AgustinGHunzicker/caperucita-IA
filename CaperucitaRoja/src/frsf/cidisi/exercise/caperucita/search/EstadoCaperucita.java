@@ -16,13 +16,13 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     private Escenario escenarioJuego;
     private Ambiente ambienteActual;
     private Point posicionActual;
-    private Point posicionFlores;
+    private HashSet<Point> posicionFlores;
     private Point posicionLobo;
     private HashSet<Point> posicionesDulces;
     private HashSet<Point> posicionesArboles;
     private HashSet<Point> dulcesJuntados;
     private int vidasRestantes;
-
+    private int floresJuntadas;
     private EstadoCelda percepcionCeldasDerecha;
     private EstadoCelda percepcionCeldasIzquierda;
     private EstadoCelda percepcionCeldasArriba;
@@ -44,8 +44,10 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         escenarioJuego = getAmbienteActual().getEnvironmentState().getEscenario();
         /*------- Genera la percepción del ambiente --------*/
         //TODO Este método también debe tomar los valores del escenario particular - ademas inicia valores previamente inicializados
-        posicionFlores = UNKNOWN;
+        //posicionFlores = UNKNOWN;
+        posicionFlores = new HashSet<Point>();
         posicionLobo = UNKNOWN;
+        floresJuntadas = 0;
 
         posicionesArboles = new HashSet<>();
         posicionesDulces = new HashSet<>();
@@ -138,9 +140,11 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
 
         // Si sabe donde esta el camino de flores lo guarda
-        if (!perception.getPosicionFlores().equals(UNKNOWN)) {
+        if (!perception.getPosicionFlores().isEmpty()) {
             this.setPosicionFlores(perception.getPosicionFlores());
-            celdasConocidas[perception.getPosicionFlores().x][perception.getPosicionFlores().y] = EstadoCelda.FLORES;
+            for (Point flor : perception.getPosicionFlores()) {
+                celdasConocidas[flor.x][flor.y] = EstadoCelda.FLORES;
+            }
         }
 
         // Agrego las posiciones de los dulces percibidos
@@ -205,6 +209,13 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         this.ambienteActual.actualizarPosicionCaperucita(x,y);
     }
 
+    public int getFloresJuntadas() {
+        return floresJuntadas;
+    }
+
+    public void setFloresJuntadas(int floresJuntadas) {
+        this.floresJuntadas = floresJuntadas;
+    }
 
     public HashSet<Point> getDulcesJuntados() {
         return dulcesJuntados;
@@ -222,11 +233,11 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         this.posicionActual = posicion;
     }
 
-    public Point getPosicionFlores() {
+    public HashSet<Point>  getPosicionFlores() {
         return this.posicionFlores;
     }
 
-    public void setPosicionFlores(Point posicion) {
+    public void setPosicionFlores(HashSet<Point> posicion) {
         this.posicionFlores = posicion;
     }
 

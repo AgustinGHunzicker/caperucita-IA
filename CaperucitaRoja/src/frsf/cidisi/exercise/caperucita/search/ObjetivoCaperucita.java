@@ -4,20 +4,26 @@ import enumeration.Consola;
 import frsf.cidisi.faia.agent.search.GoalTest;
 import frsf.cidisi.faia.state.AgentState;
 
+import java.awt.*;
+
 public class ObjetivoCaperucita extends GoalTest {
 
     @Override
     public boolean isGoalState(AgentState agentState) {
 
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) agentState;
-        // Si esta en la posición de flores y tiene mas de 0 vidas gana
-        // Si tiene cero vidas, pierde
-        System.out.println(Consola.textoColoreadoGreen("ENTRÓ AL OBJETIVO = "+(estadoCaperucita.getPosicionCaperucita().equals(estadoCaperucita.getPosicionFlores()) &&
-                estadoCaperucita.getVidasRestantes() > 0))+". Vidas: "+estadoCaperucita.getVidasRestantes());
-        //System.out.println();
 
-        return estadoCaperucita.getPosicionCaperucita().equals(estadoCaperucita.getPosicionFlores()) &&
-                estadoCaperucita.getVidasRestantes() > 0; //TODO cambiar cuando se haga aparecer al lobo aleatoriamente
+        //System.out.println(Consola.textoColoreadoGreen("isGoalState = "+(estadoCaperucita.getPosicionCaperucita().equals(estadoCaperucita.getPosicionFlores()) && estadoCaperucita.getVidasRestantes() > 0))+". Vidas: "+estadoCaperucita.getVidasRestantes());
+
+        System.out.println(Consola.textoColoreadoGreen("isGoalState, flores: "+estadoCaperucita.getPosicionFlores().toString()));
+        System.out.println(Consola.textoColoreadoGreen("isGoalState, caperucita: "+estadoCaperucita.getPosicionCaperucita().toString()));
+
+        System.out.println("flores:" + estadoCaperucita.getFloresJuntadas());
+        if (estadoCaperucita.getFloresJuntadas() > 0 && estadoCaperucita.getVidasRestantes() > 0)
+            return true;
+        else
+            return false;
+        //return estadoCaperucita.getPosicionCaperucita().equals(estadoCaperucita.getPosicionFlores()) && estadoCaperucita.getVidasRestantes() > 0;
     }
 
 

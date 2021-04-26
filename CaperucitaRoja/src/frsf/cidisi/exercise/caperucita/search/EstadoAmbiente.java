@@ -147,6 +147,7 @@ public class EstadoAmbiente extends EnvironmentState {
 
     public void actualizarPosicionCaperucita(int x, int y) {
         escenario.setPosicionCelda(x, y, EstadoCelda.CAPERUCITA);
+        posicionCaperucita.setLocation(x, y);
     }
 }
 

@@ -117,12 +117,12 @@ public class Search extends Solve {
                     // TODO: HAY QUE VER SI CONVIENE QUE CUANDO EL OPERADOR NO PUEDA SER 
                     // EJECUTADO DEVUELVA UN OBJETO EN LUGAR DE NULL.
                     if (ast != null) {	// If the action was correctly executed.-
-                        System.out.println("Search.java - solve - if (ast != null) {");
+                       // System.out.println("Search.java - solve - if (ast != null) {");
                         NTree n = new NTree(firstNode, actionList.elementAt(i), ast, nodeIdx);
                         // If the node is not repeated in his search's tree branch
                         // then it can be added to the end of the branch.-
                         if (!existsNode(n, n.getParent())) {
-                            System.out.println("Search.java - solve - if (!existsNode(n, n.getParent())) {");
+                           // System.out.println("Search.java - solve - if (!existsNode(n, n.getParent())) {");
                             firstNode.addSon(n);
                             nodeIdx++;
                             //System.out.println("Nodo nro: " + nodeIdx);
@@ -133,7 +133,7 @@ public class Search extends Solve {
                 // so they can be expanded in the next cycles.-
                 searchStrategy.addNodesToExpand(firstNode.getSons());
             }
-            System.out.println("Search.java - solve ---"+ searchStrategy.getNodesToExpandSize());
+           // System.out.println("Search.java - solve ---"+ searchStrategy.getNodesToExpandSize());
         }
 
         if (goal && !getBestPath().isEmpty()) {

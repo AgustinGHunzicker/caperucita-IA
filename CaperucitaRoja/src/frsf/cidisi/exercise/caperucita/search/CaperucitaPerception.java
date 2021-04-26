@@ -25,7 +25,7 @@ public class CaperucitaPerception extends Perception {
     private int cantMovimientosAbajo;
 
     //Posiciones exactas en el escenario percibido
-    private Point posicionFlores;
+    private HashSet<Point>  posicionFlores;
     private Point posicionLobo;
     private Point posicionActual; //
     private HashSet<Point> posicionesDulces;
@@ -40,7 +40,7 @@ public class CaperucitaPerception extends Perception {
         cantMovimientosDerecha = 0;
         cantMovimientosArriba = 0;
         cantMovimientosAbajo = 0;
-        posicionFlores = UNKNOWN;
+        posicionFlores = new HashSet<Point>();
         posicionLobo = UNKNOWN;
         posicionesDulces = new HashSet<>();
         posicionesArboles = new HashSet<>();
@@ -156,12 +156,16 @@ public class CaperucitaPerception extends Perception {
         this.posicionesArboles = posicionesArboles;
     }
 
-    public Point getPosicionFlores() {
+    public HashSet<Point>  getPosicionFlores() {
         return posicionFlores;
     }
 
-    public void setPosicionFlores(Point posFlores) {
+    public void setPosicionFlores(HashSet<Point> posFlores) {
         this.posicionFlores = posFlores;
+    }
+
+    public void addPosicionFlores(Point posFlores) {
+        this.posicionFlores.add(posFlores);
     }
 
     public HashSet<Point> getPosicionesDulces() {

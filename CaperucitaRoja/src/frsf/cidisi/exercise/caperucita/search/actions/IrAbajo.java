@@ -38,9 +38,16 @@ public class IrAbajo extends SearchAction {
         if (cantMovimientos == 0 || celda.equals(EstadoCelda.LOBO))
             return null;
         else {
+            //debo actualizar en el ambiente la posicion vieja de caperucita
+            estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario().setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
             //realizo todos los movimientos que puedo hacer hacia la derecha
             estadoCaperucita.setPosicionCaperucita(new Point(posicionCaperucita.x, posicionCaperucita.y + cantMovimientos));
-
+            for (Point p : estadoCaperucita.getPosicionFlores()) {
+                if (p.equals(estadoCaperucita.getPosicionCaperucita())) {
+                    estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
+                    break;
+                }
+            }
             int capX = estadoCaperucita.getPosicionCaperucita().x;
             int capY = estadoCaperucita.getPosicionCaperucita().y;
             //actualizar el ambiente con mi posicion el ambiente - posiblemente se pueda hacer con un solo metodo
