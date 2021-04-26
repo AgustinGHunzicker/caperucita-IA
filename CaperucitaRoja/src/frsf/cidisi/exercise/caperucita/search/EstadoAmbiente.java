@@ -105,7 +105,7 @@ public class EstadoAmbiente extends EnvironmentState {
 
         //getPosicionesDulces().add(new Point(9, 5));
         //getEscenario().setPosicionCelda(9, 5, EstadoCelda.DULCE);
-        System.out.println("escenario-"+getEscenario());
+        //System.out.println("escenario-"+getEscenario());
     }
 
     private int getRandomNumber(int min, int max) {

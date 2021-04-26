@@ -89,7 +89,7 @@ public class Search extends Solve {
 
         tree.setAgentState(agentState);
 
-        System.out.println("Search.java - solve" + agentState);
+        //System.out.println("Search.java - solve" + agentState);
         searchStrategy.initNodesToExpandList(tree);
 
         boolean goal = false;
@@ -138,7 +138,7 @@ public class Search extends Solve {
 
         if (goal && !getBestPath().isEmpty()) {
             // This variable store the branch's path where the node belongs.-
-            System.out.println("Search.java - solve - Encontro un camino a las flores");
+            //System.out.println("Search.java - solve - Encontro un camino a las flores");
             Vector<NTree> path = getBestPath();
 
             // The first node of the branch has the action that must be executed by the agent.-

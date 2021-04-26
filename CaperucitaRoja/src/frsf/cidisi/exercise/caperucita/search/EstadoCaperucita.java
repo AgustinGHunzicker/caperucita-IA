@@ -179,9 +179,9 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
 
         // Actualizo las posiciones del escenario
-        getEscenarioJuego().setCeldas(celdasConocidas);
+        //getEscenarioJuego().setCeldas(celdasConocidas);
 
-        System.out.println("updateState()-EstadoCaperucita"+escenarioJuego);
+        //System.out.println("updateState()-EstadoCaperucita"+escenarioJuego);
     }
 
     @Override

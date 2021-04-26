@@ -69,14 +69,25 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public EnvironmentState execute(AgentState ast, EnvironmentState est) {
-        System.out.println(Consola.textoColoreadoWhite("IrAbajo -> EnvironmentState"));
+        System.out.println(Consola.textoColoreadoWhite("IrAbajo -> EnvironmentState - Actualizar el Mundo real"));
         EstadoAmbiente environmentState = (EstadoAmbiente) est;
         Escenario escenario = environmentState.getEscenario();
-
+        //fijarse que ya esta actualizando el mundo real cuando lo hace arriba, arriba solo deberia actualizarlo en una copia
         EstadoCaperucita estadoCaperucita = ((EstadoCaperucita) ast);
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
 
+
+        for (Point p : estadoCaperucita.getPosicionFlores()) {
+            if (p.equals(posicionCaperucita)) {
+                estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
+                environmentState.setPosicionCaperucita(posicionCaperucita);
+                return environmentState;
+
+            }
+        }
+
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasAbajo();
+        System.out.println(estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario());
 
 
         int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();

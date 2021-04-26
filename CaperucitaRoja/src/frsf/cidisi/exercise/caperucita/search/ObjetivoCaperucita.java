@@ -17,16 +17,14 @@ public class ObjetivoCaperucita extends GoalTest {
 
         System.out.println(Consola.textoColoreadoGreen("isGoalState, flores: "+estadoCaperucita.getPosicionFlores().toString()));
         System.out.println(Consola.textoColoreadoGreen("isGoalState, caperucita: "+estadoCaperucita.getPosicionCaperucita().toString()));
+        System.out.println(Consola.textoColoreadoGreen("flores encontradas:" + estadoCaperucita.getFloresJuntadas()));
 
-        System.out.println("flores:" + estadoCaperucita.getFloresJuntadas());
         if (estadoCaperucita.getFloresJuntadas() > 0 && estadoCaperucita.getVidasRestantes() > 0)
             return true;
         else
             return false;
         //return estadoCaperucita.getPosicionCaperucita().equals(estadoCaperucita.getPosicionFlores()) && estadoCaperucita.getVidasRestantes() > 0;
     }
-
-
 
     @Override
     public String toString() {

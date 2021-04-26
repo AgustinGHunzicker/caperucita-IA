@@ -32,7 +32,7 @@ public class Ambiente extends Environment {
         int posXCap = (int) this.getEnvironmentState().getPosicionCaperucita().getX();
         int posYCap = (int) this.getEnvironmentState().getPosicionCaperucita().getY();
         perception.setPosicionActual(new Point(posXCap, posYCap));
-        System.out.println(posXCap + "/" + posYCap);
+        //System.out.println(posXCap + "/" + posYCap);
         /*------- Se mira hacia las cuatro direcciones -------*/
         VistaCaperucita vistaIzquierda = this.verLado(TipoLado.IZQUIERDA, posXCap, posYCap);
         VistaCaperucita vistaDerecha = this.verLado(TipoLado.DERECHA, posXCap, posYCap);
