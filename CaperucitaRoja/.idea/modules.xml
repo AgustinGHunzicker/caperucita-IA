@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CaperucitaRoja.iml" filepath="$PROJECT_DIR$/CaperucitaRoja.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lib/faia-0.4.2/faia-0.4.21.iml" filepath="$PROJECT_DIR$/../lib/faia-0.4.2/faia-0.4.21.iml" />
+    </modules>
+  </component>
+</project>

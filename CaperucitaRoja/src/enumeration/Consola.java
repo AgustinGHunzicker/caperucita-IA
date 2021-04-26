@@ -76,7 +76,7 @@ public enum Consola {
         if (celda.equals(UNKNOWN)) {
             return "UNKNOWN";
         }
-        return "[x:" + ((int) celda.getX() + 1) + ", y:" + ((int) celda.getY() + 1) + "]";
+        return "[x:" + ((int) celda.getX()) + ", y:" + ((int) celda.getY()) + "]";
     }
 
     public static String celdaToString(List<Point> celdas) {

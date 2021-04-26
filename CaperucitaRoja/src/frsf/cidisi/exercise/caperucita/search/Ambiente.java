@@ -78,6 +78,22 @@ public class Ambiente extends Environment {
     }
 
     /**
+     * Si caperucita no tiene mas vidas, entonces su objetivo falló
+     */
+    public boolean agentFailed(AgentState state) {
+        EstadoCaperucita estadoCaperucita = (EstadoCaperucita) state;
+        System.out.println(Consola.textoColoreadoRed("entro " + (estadoCaperucita.getVidasRestantes() < 0) + " - vidas: " + estadoCaperucita.getVidasRestantes()));
+
+        //TODO entra pero no lo ejecuta
+        return estadoCaperucita.getVidasRestantes() <= 0;
+    }
+
+    public void actualizarPosicionCaperucita(int x, int y) {
+        ((EstadoAmbiente)environmentState).actualizarPosicionCaperucita(x, y);
+    }
+
+
+    /**
      * Clase que funciona como estructura de vista de caperucita hacia una dirección en particular
      */
     private static class VistaCaperucita {
@@ -205,14 +221,5 @@ public class Ambiente extends Environment {
         return environmentState.toString();
     }
 
-    /**
-     * Si caperucita no tiene mas vidas, entonces su objetivo falló
-     */
-    public boolean agentFailed(AgentState state) {
-        EstadoCaperucita estadoCaperucita = (EstadoCaperucita) state;
-        System.out.println(Consola.textoColoreadoRed("entro " + (estadoCaperucita.getVidasRestantes() < 0) + " - vidas: " + estadoCaperucita.getVidasRestantes()));
 
-        //TODO entra pero no lo ejecuta
-        return estadoCaperucita.getVidasRestantes() <= 0;
-    }
 }

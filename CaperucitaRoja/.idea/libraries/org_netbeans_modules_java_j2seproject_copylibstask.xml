@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org-netbeans-modules-java-j2seproject-copylibstask">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../lib/faia-0.4.2/ar.edu.utn.frsf.cidisi.faia/lib/CopyLibs/org-netbeans-modules-java-j2seproject-copylibstask.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

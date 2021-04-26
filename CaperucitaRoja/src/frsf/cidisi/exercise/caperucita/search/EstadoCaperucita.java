@@ -129,12 +129,12 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         // Lugares libres para mover a Arriba
         this.setCantMovimientosArriba(perception.getCantMovimientosArriba());
         for (int movArriba = 0; movArriba <= perception.getCantMovimientosArriba(); movArriba++)
-            celdasConocidas[posX][posY - movArriba] = EstadoCelda.VACIA;
+            celdasConocidas[posX][posY + movArriba] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a Abajo
         this.setCantMovimientosAbajo(perception.getCantMovimientosAbajo());
         for (int movAbajo = 0; movAbajo <= perception.getCantMovimientosAbajo(); movAbajo++)
-            celdasConocidas[posX][posY + movAbajo] = EstadoCelda.VACIA;
+            celdasConocidas[posX][posY - movAbajo] = EstadoCelda.VACIA;
 
 
         // Si sabe donde esta el camino de flores lo guarda
@@ -177,10 +177,15 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         // Actualizo las posiciones del escenario
         getEscenarioJuego().setCeldas(celdasConocidas);
 
-        System.out.println(escenarioJuego);
-        //TODO En este momento ya tiene actualizado el estado, debe invocar al metodo de busqueda de caminos
-        // Search donde elije que operador aplicar
+        System.out.println("updateState()-EstadoCaperucita"+escenarioJuego);
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EstadoCaperucita)) return false;
+        EstadoCaperucita that = (EstadoCaperucita) o;
+        return vidasRestantes == that.vidasRestantes && Objects.equals(escenarioJuego, that.escenarioJuego) && Objects.equals(ambienteActual, that.ambienteActual) && Objects.equals(posicionActual, that.posicionActual) && Objects.equals(posicionFlores, that.posicionFlores) && Objects.equals(posicionLobo, that.posicionLobo) && Objects.equals(posicionesDulces, that.posicionesDulces);
     }
 
     @Override
@@ -191,6 +196,13 @@ public class EstadoCaperucita extends SearchBasedAgentState {
                 "\n" + Consola.textoColoreadoRed("- Posición dulces: " + Consola.celdaToString(posicionesDulces)) +
                 "\n" + Consola.textoColoreadoRed("- Vidas restantes: " + vidasRestantes) +
                 "\n ---------------------------------------------------- \n";
+    }
+
+    //TODO quisiera ver si puedo usar el updateState(), utilizo este meotodo en las acciones, donde hago un cambio
+    //provisorio en una copia, pero no en el mundo real, si uso el updateState cae en loop, porque neceseta una percepcion
+    //y la percepcion que puede realizar en la accion es siempre la misma, porque no llega a la nueva posicion
+    public void actualizarPosicionCaperucita(int x, int y){
+        this.ambienteActual.actualizarPosicionCaperucita(x,y);
     }
 
 
@@ -328,14 +340,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     public void setCantMovimientosAbajo(int cantMovimientosAbajo) {
         this.cantMovimientosAbajo = cantMovimientosAbajo;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof EstadoCaperucita)) return false;
-        EstadoCaperucita that = (EstadoCaperucita) o;
-        return vidasRestantes == that.vidasRestantes && Objects.equals(escenarioJuego, that.escenarioJuego) && Objects.equals(ambienteActual, that.ambienteActual) && Objects.equals(posicionActual, that.posicionActual) && Objects.equals(posicionFlores, that.posicionFlores) && Objects.equals(posicionLobo, that.posicionLobo) && Objects.equals(posicionesDulces, that.posicionesDulces);
     }
 
     @Override

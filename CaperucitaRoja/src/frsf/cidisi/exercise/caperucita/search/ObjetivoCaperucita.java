@@ -16,11 +16,6 @@ public class ObjetivoCaperucita extends GoalTest {
                 estadoCaperucita.getVidasRestantes() > 0))+". Vidas: "+estadoCaperucita.getVidasRestantes());
         //System.out.println();
 
-        if(estadoCaperucita.getVidasRestantes() <= 0){
-            estadoCaperucita.getAmbienteActual().agentFailed(estadoCaperucita);
-            return false;
-        }
-
         return estadoCaperucita.getPosicionCaperucita().equals(estadoCaperucita.getPosicionFlores()) &&
                 estadoCaperucita.getVidasRestantes() > 0; //TODO cambiar cuando se haga aparecer al lobo aleatoriamente
     }

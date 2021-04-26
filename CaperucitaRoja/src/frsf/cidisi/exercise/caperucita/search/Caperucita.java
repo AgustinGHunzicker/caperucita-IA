@@ -27,9 +27,9 @@ public class Caperucita extends SearchBasedAgent {
 
         Vector<SearchAction> actions = new Vector<>();
         //actions.addElement(new RecolectarDulce());
-        actions.addElement(new IrDerecha());
-        actions.addElement(new IrIzquierda());
-        //actions.addElement(new IrAbajo());
+        //actions.addElement(new IrDerecha());
+        //actions.addElement(new IrIzquierda());
+        actions.addElement(new IrAbajo());
         //actions.addElement(new IrArriba());
 
         Problem problem = new Problem(objetivoCaperucita, estadoCaperucita, actions);
@@ -43,7 +43,6 @@ public class Caperucita extends SearchBasedAgent {
     public Action selectAction() {
 
         // Create the search strategy
-        //DepthFirstSearch strategy = new DepthFirstSearch();
         BreathFirstSearch strategy = new BreathFirstSearch();
 
         // Create a Search object with the strategy

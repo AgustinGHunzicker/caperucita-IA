@@ -5,6 +5,7 @@ import enumeration.Consola;
 import enumeration.EstadoCelda;
 import frsf.cidisi.exercise.caperucita.search.EstadoAmbiente;
 import frsf.cidisi.exercise.caperucita.search.EstadoCaperucita;
+import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
 import frsf.cidisi.faia.state.AgentState;
@@ -21,75 +22,50 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
+
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
+
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
 
+        //Me devuelve que ve a primera vista caperucita, el lobo, un dulce, flores o arbol-> puede ser que antes del arbol haya vacio
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasAbajo();
 
+        System.out.println("\n" + Consola.textoColoreadoWhite("IrAbajo -> SearchBasedAgentState -> " + celda + " posCaperucita: " + estadoCaperucita.getPosicionCaperucita()));
+
         int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
-        posicionCaperucita = new Point(posicionCaperucita.x, posicionCaperucita.y + cantMovimientos);
 
-        System.out.println(Consola.textoColoreadoWhite("IrAbajo -> SearchBasedAgentState -> " + celda));
+        // Si no tiene movimiento o esta el lobo, es una accion no valida
+        if (cantMovimientos == 0 || celda.equals(EstadoCelda.LOBO))
+            return null;
+        else {
+            //realizo todos los movimientos que puedo hacer hacia la derecha
+            estadoCaperucita.setPosicionCaperucita(new Point(posicionCaperucita.x, posicionCaperucita.y - cantMovimientos));
 
-        // verifica que haya movimientos disponibles y que las posiciones sean válidas
-        if (cantMovimientos > 0
-                && Escenario.LIMITE_IZQUIERDA <= posicionCaperucita.x
-                && posicionCaperucita.x <= Escenario.LIMITE_DERECHA
-                && Escenario.LIMITE_ARRIBA <= posicionCaperucita.y
-                && posicionCaperucita.y <= Escenario.LIMITE_ABAJO
-        ) {
-
-            //actualizo el estado de caperucita
-            estadoCaperucita.setPosicionCaperucita(posicionCaperucita);
-            int posXActual = posicionCaperucita.x;
-            int posYActual = posicionCaperucita.y;
+            //teniendo en cuenta que no seria posible ir a la derecha y a la izquierda a la vez desde la posicion,
+            // puedo asumir que tenia cero posiciones a mover hacia la izquierda, entonces ahora le agrego las posiciones que me movi a la derecha
+            //estadoCaperucita.setCantMovimientosIzquierda(estadoCaperucita.getCantMovimientosDerecha());
+            //me movi hasta el final hacia la derecha por lo que ahora no tengo mas movimiento hacia esa direccion
+            //estadoCaperucita.setCantMovimientosDerecha(0);
+            //ahora estoy en otra posicion, debo actualizar mi vista hacia arriba y hacia abajo
+            //int arriba = 0;
+            //TENGO QUE USAR EL ESCENARIO DEL AMBIENTE PARA MIRAR, NO EL DE CAPERUCITA PORQUE NO ES EL REAL, ESE ESCENARIO MAS ADELANTE SACARLO
+            //Escenario escenario = estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario();
 
 
-            switch (celda) {
-                case LOBO:
-                    //Haciendo este movimiento el lobo se come a Caperucita // TODO no se mueve a la pos inicial de nuevo?
-                    estadoCaperucita.setVidasRestantes(estadoCaperucita.getVidasRestantes() - 1);
-                    ////System.out.println(Consola.textoColoreadoRed("Me mató el lobo"));
-                    // TODO se fija si el agente falla?
-                    break;
+            int capX = estadoCaperucita.getPosicionCaperucita().x;
+            int capY = estadoCaperucita.getPosicionCaperucita().y;
+            //actualizar el ambiente con mi posicion el ambiente - posiblemente se pueda hacer con un solo metodo
+            //lo hace en el ambiente, puede ser que lo este haciendo en una copia o en el real, dependiendo de donde se llama el execute()
+            estadoCaperucita.actualizarPosicionCaperucita(capX, capY);
+            //TODO debo actualizar las otras cosas tambien
 
-                case FLORES:
-                    //Caperucita se desplaza hasta llegar a la meta
-                    //System.out.println(Consola.textoColoreadoCyan("Llegué a la meta en " + posXActual + ", " + posYActual));
-                    break;
+            //para no rehacer todo los metodos de nuevo, hago una percepcion sobre el ambiente clonado, y actualizo su vista de caperucita
+            Perception p = estadoCaperucita.getAmbienteActual().getPercept();
+            estadoCaperucita.updateState(p);
 
-                case DULCE:
-                    //Caperucita va a juntar el/los dulce/s y se desplaza hasta chocar con un arbol
-                    HashSet<Point> dulcesNoJuntados = estadoCaperucita.getPosicionesDulces();
-                    HashSet<Point> dulcesJuntados = estadoCaperucita.getPosicionesDulces();
-                    int posXDulce;
-                    int posYDulce;
-
-                    for (Point dulce : dulcesNoJuntados) {
-                        posXDulce = (int) dulce.getX();
-                        posYDulce = (int) dulce.getY();
-
-                        //Si está en la misma columna y está dentro de los posibles movimientos hacia abajo
-                        if (posXActual == posXDulce && posYActual <= posYDulce && posYDulce <= (posYActual + cantMovimientos)) {
-                            dulcesJuntados.add(dulce);
-                            //System.out.println(Consola.textoColoreadoCyan("Junté un dulce en " + posXDulce + ", " + posYDulce));
-                        }
-                    }
-
-                    dulcesNoJuntados.removeAll(dulcesJuntados);
-
-                    estadoCaperucita.setDulcesJuntados(dulcesJuntados);
-                    estadoCaperucita.setPosicionesDulces(dulcesNoJuntados);
-                    break;
-
-                case ARBOL:
-                    //Caperucita se desplaza hasta chocar un arbol
-                    ////System.out.println(Consola.textoColoreadoCyan("Me choqué con un árbol en " + posXActual + ", " + posYActual));
-                    break;
-
-            }
+            return estadoCaperucita;
         }
-        return estadoCaperucita;
+
     }
 
     /**
