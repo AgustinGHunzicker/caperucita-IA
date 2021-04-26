@@ -1,6 +1,7 @@
 package frsf.cidisi.exercise.caperucita.search;
 
 import domain.Escenario;
+import enumeration.Consola;
 import enumeration.EstadoCelda;
 import enumeration.TipoLado;
 import frsf.cidisi.faia.environment.Environment;
@@ -209,6 +210,9 @@ public class Ambiente extends Environment {
      */
     public boolean agentFailed(AgentState state) {
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) state;
+        System.out.println(Consola.textoColoreadoRed("entro " + (estadoCaperucita.getVidasRestantes() < 0) + " - vidas: " + estadoCaperucita.getVidasRestantes()));
+
+        //TODO entra pero no lo ejecuta
         return estadoCaperucita.getVidasRestantes() <= 0;
     }
 }

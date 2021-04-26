@@ -116,6 +116,15 @@ public class IrAbajo extends SearchAction {
                 && Escenario.LIMITE_ARRIBA <= (posicionCaperucita.y + cantMovimientos)
                 && (posicionCaperucita.y + cantMovimientos) <= Escenario.LIMITE_ABAJO
         ) {
+            if (celda.equals(EstadoCelda.LOBO)) {
+                //Haciendo este movimiento el lobo se come a Caperucita
+                estadoCaperucita.setVidasRestantes(estadoCaperucita.getVidasRestantes() - 1);
+
+                if (estadoCaperucita.getVidasRestantes() < 1) return null;
+                // TODO se fija si el agente falla?
+                return environmentState;
+            }
+
             escenario.setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
             posicionCaperucita = new Point(posicionCaperucita.x, posicionCaperucita.y + cantMovimientos);
 
@@ -127,16 +136,7 @@ public class IrAbajo extends SearchAction {
             int posYActual = posicionCaperucita.y;
 
             switch (celda) {
-                case LOBO:
-                    //Haciendo este movimiento el lobo se come a Caperucita // TODO no se mueve a la pos inicial de nuevo?
-                    estadoCaperucita.setVidasRestantes(estadoCaperucita.getVidasRestantes() - 1);
-                    //System.out.println(Consola.textoColoreadoRed("Me mató el lobo"));
-                    // TODO se fija si el agente falla?
-                    break;
-                case FLORES:
-                    //Caperucita se desplaza hasta llegar a la meta
-                    //System.out.println(Consola.textoColoreadoCyan("Llegué a la meta en " + posXActual + ", " + posYActual));
-                    break;
+
                 case DULCE:
                     //Caperucita va a juntar el/los dulce/s y se desplaza hasta chocar con un arbol
                     HashSet<Point> dulcesNoJuntados = estadoCaperucita.getPosicionesDulces();
@@ -159,6 +159,10 @@ public class IrAbajo extends SearchAction {
 
                     estadoCaperucita.setDulcesJuntados(dulcesJuntados);
                     estadoCaperucita.setPosicionesDulces(dulcesNoJuntados);
+                    break;
+                case FLORES:
+                    //Caperucita se desplaza hasta llegar a la meta
+                    //System.out.println(Consola.textoColoreadoCyan("Llegué a la meta en " + posXActual + ", " + posYActual));
                     break;
                 case ARBOL:
                     //Caperucita se desplaza hasta chocar un arbol

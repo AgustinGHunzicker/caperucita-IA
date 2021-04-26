@@ -25,20 +25,19 @@ public class IrIzquierda extends SearchAction {
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
 
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasIzquierda();
-        System.out.println(Consola.textoColoreadoWhite("IrIzquierda -> SearchBasedAgentState -> "+celda));
+        System.out.println("\n" + Consola.textoColoreadoWhite("IrIzquierda -> SearchBasedAgentState -> " + celda + " posCaperucita: " + estadoCaperucita.getPosicionCaperucita()));
 
         int cantMovimientos = estadoCaperucita.getCantMovimientosIzquierda();
 
-        posicionCaperucita = new Point(posicionCaperucita.x - cantMovimientos, posicionCaperucita.y);
-
         // verifica que haya movimientos disponibles y que las posiciones sean válidas
-        if (Escenario.LIMITE_IZQUIERDA <= posicionCaperucita.x
-                && posicionCaperucita.x <= Escenario.LIMITE_DERECHA
+        if (Escenario.LIMITE_IZQUIERDA <= (posicionCaperucita.x - cantMovimientos)
+                && (posicionCaperucita.x - cantMovimientos) <= Escenario.LIMITE_DERECHA
                 && Escenario.LIMITE_ARRIBA <= posicionCaperucita.y
                 && posicionCaperucita.y <= Escenario.LIMITE_ABAJO
         ) {
-
             //actualizo el estado de caperucita
+
+            posicionCaperucita = new Point(posicionCaperucita.x - cantMovimientos, posicionCaperucita.y);
             estadoCaperucita.setPosicionCaperucita(posicionCaperucita);
 
             int posXActual = posicionCaperucita.x;
@@ -46,15 +45,12 @@ public class IrIzquierda extends SearchAction {
 
             switch (celda) {
                 case LOBO:
-                    //Haciendo este movimiento el lobo se come a Caperucita // TODO no se mueve a la pos inicial de nuevo?
+                    //Haciendo este movimiento el lobo se come a Caperucita
                     estadoCaperucita.setVidasRestantes(estadoCaperucita.getVidasRestantes() - 1);
-                    //System.out.println(Consola.textoColoreadoRed("Me mató el lobo"));
+                    estadoCaperucita.setPosicionLobo(new Point(1, 1));
+                    if (estadoCaperucita.getVidasRestantes() < 1) return null;
                     // TODO se fija si el agente falla?
-                    break;
-                case FLORES:
-                    //Caperucita se desplaza hasta llegar a la meta
-                    System.out.println(Consola.textoColoreadoCyan("Llegué a la meta en " + posXActual + ", " + posYActual));
-                    break;
+                    return estadoCaperucita;
                 case DULCE:
                     //Caperucita va a juntar el/los dulce/s y se desplaza hasta chocar con un arbol
                     HashSet<Point> dulcesNoJuntados = estadoCaperucita.getPosicionesDulces();
@@ -69,7 +65,6 @@ public class IrIzquierda extends SearchAction {
                         //Si está en la misma columna y está dentro de los posibles movimientos a la izquierda
                         if (posYActual == posYDulce && (posXActual + cantMovimientos) >= posXDulce && posXDulce >= posXActual) {
                             dulcesJuntados.add(dulce);
-                            //System.out.println(Consola.textoColoreadoCyan("Junté un dulce en " + posXDulce + ", " + posYDulce));
                         }
                     }
 
@@ -78,17 +73,20 @@ public class IrIzquierda extends SearchAction {
                     estadoCaperucita.setDulcesJuntados(dulcesJuntados);
                     estadoCaperucita.setPosicionesDulces(dulcesNoJuntados);
                     break;
+                case FLORES:
+                    //Caperucita se desplaza hasta llegar a la meta
+                    break;
                 case ARBOL:
+                    if (estadoCaperucita.getPosicionesArboles().contains(estadoCaperucita.getPosicionCaperucita()))
+                        return null;
                     //Caperucita se desplaza hasta chocar un arbol
-                    //System.out.println(Consola.textoColoreadoCyan("Me choqué con un árbol en " + posXActual + ", " + posYActual));
                     break;
             }
-        } else {
-            return null;
+
+            return estadoCaperucita;
         }
 
-
-        return estadoCaperucita;
+        return null;
     }
 
     /**
@@ -114,6 +112,15 @@ public class IrIzquierda extends SearchAction {
                 && Escenario.LIMITE_ARRIBA <= posicionCaperucita.y
                 && posicionCaperucita.y <= Escenario.LIMITE_ABAJO
         ) {
+            if (celda.equals(EstadoCelda.LOBO)) {
+                //Haciendo este movimiento el lobo se come a Caperucita
+                estadoCaperucita.setVidasRestantes(estadoCaperucita.getVidasRestantes() - 1);
+
+                if (estadoCaperucita.getVidasRestantes() < 1) return null;
+
+                return environmentState;
+            }
+
             escenario.setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
 
             posicionCaperucita = new Point(posicionCaperucita.x - cantMovimientos, posicionCaperucita.y);
@@ -126,16 +133,7 @@ public class IrIzquierda extends SearchAction {
             int posYActual = posicionCaperucita.y;
 
             switch (celda) {
-                case LOBO:
-                    //Haciendo este movimiento el lobo se come a Caperucita // TODO no se mueve a la pos inicial de nuevo?
-                    estadoCaperucita.setVidasRestantes(estadoCaperucita.getVidasRestantes() - 1);
-                    //System.out.println(Consola.textoColoreadoRed("Me mató el lobo"));
-                    // TODO se fija si el agente falla?
-                    break;
-                case FLORES:
-                    //Caperucita se desplaza hasta llegar a la meta
-                    //System.out.println(Consola.textoColoreadoCyan("Llegué a la meta en " + posXActual + ", " + posYActual));
-                    break;
+
                 case DULCE:
                     //Caperucita va a juntar el/los dulce/s y se desplaza hasta chocar con un arbol
                     HashSet<Point> dulcesNoJuntados = estadoCaperucita.getPosicionesDulces();
@@ -150,7 +148,6 @@ public class IrIzquierda extends SearchAction {
                         //Si está en la misma columna y está dentro de los posibles movimientos a la izquierda
                         if (posYActual == posYDulce && (posXActual + cantMovimientos) >= posXDulce && posXDulce >= posXActual) {
                             dulcesJuntados.add(dulce);
-                            //System.out.println(Consola.textoColoreadoCyan("Junté un dulce en " + posXDulce + ", " + posYDulce));
                         }
                     }
 
@@ -159,11 +156,15 @@ public class IrIzquierda extends SearchAction {
                     estadoCaperucita.setDulcesJuntados(dulcesJuntados);
                     estadoCaperucita.setPosicionesDulces(dulcesNoJuntados);
                     break;
+                case FLORES:
+                    //Caperucita se desplaza hasta llegar a la meta
+                    break;
                 case ARBOL:
                     //Caperucita se desplaza hasta chocar un arbol
-                    //System.out.println(Consola.textoColoreadoCyan("Me choqué con un árbol en " + posXActual + ", " + posYActual));
                     break;
             }
+        } else {
+            return null;
         }
 
         environmentState.setEscenario(escenario);

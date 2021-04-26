@@ -9,9 +9,8 @@ import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.agent.search.Problem;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgent;
-import frsf.cidisi.faia.solver.search.AStarSearch;
 import frsf.cidisi.faia.solver.search.BreathFirstSearch;
-import frsf.cidisi.faia.solver.search.DepthFirstSearch;
+import frsf.cidisi.faia.solver.search.GreedySearch;
 import frsf.cidisi.faia.solver.search.Search;
 
 import java.util.Vector;
@@ -30,8 +29,8 @@ public class Caperucita extends SearchBasedAgent {
         //actions.addElement(new RecolectarDulce());
         actions.addElement(new IrDerecha());
         actions.addElement(new IrIzquierda());
-        actions.addElement(new IrAbajo());
-        actions.addElement(new IrArriba());
+        //actions.addElement(new IrAbajo());
+        //actions.addElement(new IrArriba());
 
         Problem problem = new Problem(objetivoCaperucita, estadoCaperucita, actions);
         setProblem(problem);
@@ -60,8 +59,7 @@ public class Caperucita extends SearchBasedAgent {
         // Ask the solver for the best action
         Action selectedAction = null;
         try {
-            selectedAction =
-                    this.getSolver().solve(new Object[]{this.getProblem()});
+            selectedAction = this.getSolver().solve(new Object[]{this.getProblem()});
         } catch (Exception ex) {
             Logger.getLogger(Caperucita.class.getName()).log(Level.SEVERE, null, ex);
         }
