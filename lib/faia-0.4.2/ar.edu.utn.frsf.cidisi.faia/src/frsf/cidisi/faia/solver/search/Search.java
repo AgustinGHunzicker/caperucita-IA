@@ -80,7 +80,8 @@ public class Search extends Solve {
         Problem problem = (Problem) params[0];
 
         Vector<SearchAction> actionList = problem.getActions();
-        SearchBasedAgentState agentState = problem.getAgentState();//.clone();
+        SearchBasedAgentState agentState = problem.getAgentState().clone();
+        
         GoalTest goalTest = problem.getGoalState();
 
         int nodeIdx = 1;
@@ -99,7 +100,7 @@ public class Search extends Solve {
             NTree firstNode = (NTree) searchStrategy.getNode();
 
             //System.out.println("Profundidad: " + firstNode.getDeep());
-
+            
             // If the actual node is a goal node then the search must finish.-
             if (goalTest.isGoalState(firstNode.getAgentState())) {
                 goal = true;

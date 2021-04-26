@@ -23,7 +23,7 @@ public class EstadoAmbiente extends EnvironmentState {
         escenario = new Escenario();
         posicionCaperucita = new Point();
         posicionLobo = new Point();
-        posicionesDulces = new ArrayList<>();
+        posicionesDulces = new ArrayList<Point>();
         this.initState();
     }
 

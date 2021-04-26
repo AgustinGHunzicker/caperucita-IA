@@ -36,11 +36,12 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         /*------- Genera la percepción del ambiente --------*/
         //TODO Este método también debe tomar los valores del escenario particular - ademas inicia valores previamente inicializados
         escenarioJuego = new Escenario();
+        posicionActual = ambienteActual.getEnvironmentState().getPosicionCaperucita();
         posicionFlores = UNKNOWN;
         posicionLobo = UNKNOWN;
-        posicionesArboles = new HashSet<>();
-        posicionesDulces = new HashSet<>();
-        dulcesJuntados = new HashSet<>();
+        posicionesArboles = new HashSet<Point>();
+        posicionesDulces = new HashSet<Point>();
+        dulcesJuntados = new HashSet<Point>();
         vidasRestantes = 3;
     }
 

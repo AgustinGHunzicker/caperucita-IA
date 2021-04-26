@@ -14,7 +14,7 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
-        return Moverse.modelSearchBasedAgentState(s, TipoLado.ABAJO);
+    	return Moverse.modelSearchBasedAgentState(s, TipoLado.ABAJO);
     }
 
     /**

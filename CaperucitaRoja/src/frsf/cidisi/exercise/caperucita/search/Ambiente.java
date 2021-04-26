@@ -91,7 +91,7 @@ public class Ambiente extends Environment {
             this.posicionLobo = new Point(-1, -1);
             this.posicionFlores = new Point(-1, -1);
             this.posicionArbol = new Point(-1, -1);
-            this.posicionDulces = new HashSet<>();
+            this.posicionDulces = new HashSet<Point>();
             this.cantidadPosiciones = 1;
         }
     }

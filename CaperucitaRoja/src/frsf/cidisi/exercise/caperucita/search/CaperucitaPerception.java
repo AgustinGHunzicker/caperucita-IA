@@ -43,8 +43,8 @@ public class CaperucitaPerception extends Perception {
         cantMovimientosAbajo = 0;
         posicionFlores = UNKNOWN;
         posicionLobo = UNKNOWN;
-        posicionesDulces = new HashSet<>();
-        posicionesArboles = new HashSet<>();
+        posicionesDulces = new HashSet<Point>();
+        posicionesArboles = new HashSet<Point>();
     }
 
     public CaperucitaPerception(Agent agent, Environment environment) {

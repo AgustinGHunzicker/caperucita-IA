@@ -27,13 +27,13 @@ public class Caperucita extends SearchBasedAgent {
         setAgentState(estadoCaperucita);
 
         //---------- Create the actions ----------
-        Vector<SearchAction> actions = new Vector<>();
+        Vector<SearchAction> actions = new Vector<SearchAction>();
         //actions.addElement(new RecolectarDulce());
         actions.addElement(new IrDerecha());
         actions.addElement(new IrIzquierda());
         actions.addElement(new IrAbajo());
         actions.addElement(new IrArriba());
-
+        
         /*---------- Create the Problem which the agent will resolve ----------*/
         Problem problem = new Problem(objetivoCaperucita, estadoCaperucita, actions);
         setProblem(problem);

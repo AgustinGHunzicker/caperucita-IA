@@ -11,6 +11,8 @@ import frsf.cidisi.faia.state.AgentState;
 import frsf.cidisi.faia.state.EnvironmentState;
 
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Moverse {
@@ -108,8 +110,10 @@ public class Moverse {
         HashSet<Point> dulcesNoJuntados = estadoCaperucita.getPosicionesDulces();
         HashSet<Point> dulcesJuntados = estadoCaperucita.getPosicionesDulces();
         int posXDulce;
-        int posYDulce;
-        for (Point dulce : dulcesNoJuntados) {
+        int posYDulce; 
+        HashSet<Point> auxIteracion = new HashSet<Point>();
+        auxIteracion.addAll(dulcesNoJuntados);
+        for (Point dulce : auxIteracion) {
             posXDulce = (int) dulce.getX();
             posYDulce = (int) dulce.getY();
 
@@ -129,7 +133,7 @@ public class Moverse {
         Point nuevaPosicion = new Point(posicionCaperucita);
         switch (movimiento) {
             case IZQUIERDA:
-                nuevaPosicion = new Point(posicionCaperucita.x - cantMovimientos, posicionCaperucita.y);
+            	nuevaPosicion = new Point(posicionCaperucita.x - cantMovimientos, posicionCaperucita.y);
                 break;
             case DERECHA:
                 nuevaPosicion = new Point(posicionCaperucita.x + cantMovimientos, posicionCaperucita.y);
