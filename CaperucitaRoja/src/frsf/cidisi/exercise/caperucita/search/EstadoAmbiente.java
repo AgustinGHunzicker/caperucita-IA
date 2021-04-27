@@ -91,8 +91,8 @@ public class EstadoAmbiente extends EnvironmentState {
         getPosicionesDulces().add(new Point(6, 6));
         getEscenario().setPosicionCelda(6, 6, EstadoCelda.DULCE);*/
 
-        this.setPosicionCaperucita(new Point(6, 6));
-        getEscenario().setPosicionCelda(6, 6, EstadoCelda.CAPERUCITA);
+        this.setPosicionCaperucita(new Point(6, 1));
+        getEscenario().setPosicionCelda(6, 1, EstadoCelda.CAPERUCITA);
         //
         setPosicionLobo(new Point(4, 6));
         getEscenario().setPosicionCelda(4, 6, EstadoCelda.LOBO);

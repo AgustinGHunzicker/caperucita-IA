@@ -225,6 +225,10 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         this.dulcesJuntados = dulcesJuntados;
     }
 
+    public void addDulceJuntado(Point dulceJuntado) {
+        this.dulcesJuntados.add(dulceJuntado);
+    }
+
     public Point getPosicionCaperucita() {
         return this.posicionActual;
     }

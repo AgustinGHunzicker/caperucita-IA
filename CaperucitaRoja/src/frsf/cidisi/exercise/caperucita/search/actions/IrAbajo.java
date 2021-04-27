@@ -3,6 +3,9 @@ package frsf.cidisi.exercise.caperucita.search.actions;
 import domain.Escenario;
 import enumeration.Consola;
 import enumeration.EstadoCelda;
+import enumeration.TipoLado;
+import frsf.cidisi.exercise.caperucita.search.Ambiente;
+import frsf.cidisi.exercise.caperucita.search.CaperucitaPerception;
 import frsf.cidisi.exercise.caperucita.search.EstadoAmbiente;
 import frsf.cidisi.exercise.caperucita.search.EstadoCaperucita;
 import frsf.cidisi.faia.agent.Perception;
@@ -31,36 +34,41 @@ public class IrAbajo extends SearchAction {
 
         int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
 
-        // Si no tiene movimiento o esta el lobo, es una accion no valida
+        // Si no tiene movimiento -> ARBOL o esta el LOBO, es una accion no valida -> quitaria una vida
         if (cantMovimientos < 1 || celda.equals(EstadoCelda.LOBO))
             return null;
         else {
             //debo actualizar en el ambiente la posicion vieja de caperucita
-
             estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario().setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
+            //Para verificar los dulces
+            int inf = posicionCaperucita.y;
+            int sup = posicionCaperucita.y + cantMovimientos;
             //realizo todos los movimientos que puedo hacer hacia la derecha
             estadoCaperucita.setPosicionCaperucita(new Point(posicionCaperucita.x, posicionCaperucita.y + cantMovimientos));
-
+            //si hay un dulce en esa dirección
+            // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
+            if (celda.equals(EstadoCelda.DULCE)) {
+                for (Point d : estadoCaperucita.getPosicionesDulces()) {
+                    if (d.x == estadoCaperucita.getPosicionCaperucita().x && d.y <= sup && d.y >= inf) {
+                        estadoCaperucita.addDulceJuntado(d);
+                        estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario().setPosicionCelda(d.x, d.y, EstadoCelda.VACIA);
+                        estadoCaperucita.getPosicionesDulces().remove(d);
+                        estadoCaperucita.getAmbienteActual().getEnvironmentState().getPosicionesDulces().remove(d);
+                    }
+                }
+            }
+            //Se debe verificar si no esta sobre las flores,
+            // puesto que la bandera FLORES puede quedar anulada por los dulces
             for (Point p : estadoCaperucita.getPosicionFlores()) {
                 if (p.equals(estadoCaperucita.getPosicionCaperucita())) {
                     estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
                     break;
                 }
             }
-
-            int capX = estadoCaperucita.getPosicionCaperucita().x;
-            int capY = estadoCaperucita.getPosicionCaperucita().y;
-            //actualizar el ambiente con mi posicion el ambiente - posiblemente se pueda hacer con un solo metodo
-            //lo hace en el ambiente, puede ser que lo este haciendo en una copia o en el real, dependiendo de donde se llama el execute()
-            estadoCaperucita.actualizarPosicionCaperucita(capX, capY);
-            //TODO debo actualizar las otras cosas tambien
-            //para no rehacer todo los metodos de nuevo, hago una percepcion sobre el ambiente clonado, y actualizo su vista de caperucita
-            //estadoCaperucita.getAmbienteActual().actualizarPosicionCaperucita(capX, capY);
-            //estadoCaperucita.getAmbienteActual().getEnvironmentState().setPosicionCaperucita(new Point(capX, capY));
-            //System.out.println("\n" + Consola.textoColoreadoWhite(estadoCaperucita.getAmbienteActual().toString()));
-            //Perception p = estadoCaperucita.getAmbienteActual().getPercept();
-            //estadoCaperucita.updateState(p);
-
+            estadoCaperucita.actualizarPosicionCaperucita(estadoCaperucita.getPosicionCaperucita().x, estadoCaperucita.getPosicionCaperucita().y);
+            //tengo que actualizar todo el estado caperucita completo, en esta copia
+            CaperucitaPerception p = estadoCaperucita.getAmbienteActual().getPercept();
+            estadoCaperucita.updateState(p);
             return estadoCaperucita;
         }
 
@@ -71,11 +79,16 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public EnvironmentState execute(AgentState ast, EnvironmentState est) {
+
         System.out.println(Consola.textoColoreadoWhite("IrAbajo -> EnvironmentState - Actualizar el Mundo real"));
         EstadoAmbiente environmentState = (EstadoAmbiente) est;
         Escenario escenario = environmentState.getEscenario();
         //fijarse que ya esta actualizando el mundo real cuando lo hace arriba, arriba solo deberia actualizarlo en una copia
         EstadoCaperucita estadoCaperucita = ((EstadoCaperucita) ast);
+
+        System.out.println(" en el segundo execute() "+estadoCaperucita);
+
+
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
 
 
