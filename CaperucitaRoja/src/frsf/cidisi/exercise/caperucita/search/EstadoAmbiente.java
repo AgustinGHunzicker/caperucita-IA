@@ -97,14 +97,14 @@ public class EstadoAmbiente extends EnvironmentState {
         setPosicionLobo(new Point(4, 6));
         getEscenario().setPosicionCelda(4, 6, EstadoCelda.LOBO);
 
-        //getPosicionesDulces().add(new Point(8, 3));
-        //getEscenario().setPosicionCelda(8, 3, EstadoCelda.DULCE);
+        getPosicionesDulces().add(new Point(8, 3));
+        getEscenario().setPosicionCelda(8, 3, EstadoCelda.DULCE);
 
-        //getPosicionesDulces().add(new Point(3, 3));
-        //getEscenario().setPosicionCelda(3, 3, EstadoCelda.DULCE);
+        getPosicionesDulces().add(new Point(3, 3));
+        getEscenario().setPosicionCelda(3, 3, EstadoCelda.DULCE);
 
-        //getPosicionesDulces().add(new Point(9, 5));
-        //getEscenario().setPosicionCelda(9, 5, EstadoCelda.DULCE);
+        getPosicionesDulces().add(new Point(9, 5));
+        getEscenario().setPosicionCelda(9, 5, EstadoCelda.DULCE);
         //System.out.println("escenario-"+getEscenario());
     }
 

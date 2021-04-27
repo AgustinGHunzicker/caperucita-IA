@@ -34,7 +34,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     private int cantMovimientosAbajo;
 
     public EstadoCaperucita() {
-
         initState();
     }
 
@@ -80,14 +79,15 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         newState.setDulcesJuntados(this.getDulcesJuntados());
         newState.setPosicionesArboles(this.getPosicionesArboles());
         newState.setPosicionFlores(this.getPosicionFlores());
-
+        //newState.setPosicionLobo(this.getPosicionLobo());
+        //Movimientos posibles hacia los lados
         newState.setCantMovimientosAbajo(this.getCantMovimientosAbajo());
         newState.setCantMovimientosArriba(this.getCantMovimientosArriba());
         newState.setCantMovimientosDerecha(this.getCantMovimientosDerecha());
         newState.setCantMovimientosIzquierda(this.getCantMovimientosIzquierda());
-
-        newState.setPercepcionCeldasArriba(this.getPercepcionCeldasAbajo());
-        newState.setPercepcionCeldasAbajo(this.getPercepcionCeldasArriba());
+        //Percepciones de vista hacia los lados
+        newState.setPercepcionCeldasAbajo(this.getPercepcionCeldasAbajo());
+        newState.setPercepcionCeldasArriba(this.getPercepcionCeldasArriba());
         newState.setPercepcionCeldasDerecha(this.getPercepcionCeldasDerecha());
         newState.setPercepcionCeldasIzquierda(this.getPercepcionCeldasIzquierda());
 
@@ -112,7 +112,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
         // Traigo las posiciones conocidas por caperucita hasta el momento
         EstadoCelda[][] celdasConocidas = getEscenarioJuego().getCeldas();
-
 
 
         int posX = perception.getPosicionActual().x;

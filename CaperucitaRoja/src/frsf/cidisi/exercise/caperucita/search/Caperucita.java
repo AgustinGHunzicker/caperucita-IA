@@ -33,7 +33,24 @@ public class Caperucita extends SearchBasedAgent {
         //actions.addElement(new IrArriba());
 
         Problem problem = new Problem(objetivoCaperucita, estadoCaperucita, actions);
-        setProblem(problem);
+        this.setProblem(problem);
+    }
+
+    public Caperucita(Ambiente a) {
+        ObjetivoCaperucita objetivoCaperucita = new ObjetivoCaperucita();
+
+        EstadoCaperucita estadoCaperucita = new EstadoCaperucita();
+        this.setAgentState(estadoCaperucita);
+
+        Vector<SearchAction> actions = new Vector<>();
+        //actions.addElement(new RecolectarDulce());
+        //actions.addElement(new IrDerecha());
+        //actions.addElement(new IrIzquierda());
+        actions.addElement(new IrAbajo());
+        //actions.addElement(new IrArriba());
+
+        Problem problem = new Problem(objetivoCaperucita, estadoCaperucita, actions);
+        this.setProblem(problem);
     }
 
     /**
@@ -50,7 +67,7 @@ public class Caperucita extends SearchBasedAgent {
 
         /* Generate an XML file with the search tree. It can also be generated
          * in other formats like PDF with PDF_TREE */
-        searchSolver.setVisibleTree(Search.GRAPHICAL_TREE);
+        searchSolver.setVisibleTree(Search.GRAPHVIZ_TREE);
 
         // Set the Search searchSolver.
         this.setSolver(searchSolver);

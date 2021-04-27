@@ -23,6 +23,7 @@ public class IrAbajo extends SearchAction {
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
 
+        //
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
 
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
@@ -35,10 +36,11 @@ public class IrAbajo extends SearchAction {
         int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
 
         // Si no tiene movimiento o esta el lobo, es una accion no valida
-        if (cantMovimientos == 0 || celda.equals(EstadoCelda.LOBO))
+        if (cantMovimientos < 1 || celda.equals(EstadoCelda.LOBO))
             return null;
         else {
             //debo actualizar en el ambiente la posicion vieja de caperucita
+
             estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario().setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
             //realizo todos los movimientos que puedo hacer hacia la derecha
             estadoCaperucita.setPosicionCaperucita(new Point(posicionCaperucita.x, posicionCaperucita.y + cantMovimientos));
@@ -48,6 +50,7 @@ public class IrAbajo extends SearchAction {
                     break;
                 }
             }
+
             int capX = estadoCaperucita.getPosicionCaperucita().x;
             int capY = estadoCaperucita.getPosicionCaperucita().y;
             //actualizar el ambiente con mi posicion el ambiente - posiblemente se pueda hacer con un solo metodo
