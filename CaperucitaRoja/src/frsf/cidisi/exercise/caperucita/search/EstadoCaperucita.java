@@ -18,11 +18,14 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     private Point posicionActual;
     private HashSet<Point> posicionFlores;
     private Point posicionLobo;
+
     private HashSet<Point> posicionesDulces;
     private HashSet<Point> posicionesArboles;
     private HashSet<Point> dulcesJuntados;
+
     private int vidasRestantes;
     private int floresJuntadas;
+
     private EstadoCelda percepcionCeldasDerecha;
     private EstadoCelda percepcionCeldasIzquierda;
     private EstadoCelda percepcionCeldasArriba;
@@ -79,7 +82,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         newState.setDulcesJuntados(this.getDulcesJuntados());
         newState.setPosicionesArboles(this.getPosicionesArboles());
         newState.setPosicionFlores(this.getPosicionFlores());
-        //newState.setPosicionLobo(this.getPosicionLobo());
+        newState.setPosicionLobo(this.getPosicionLobo());
         //Movimientos posibles hacia los lados
         newState.setCantMovimientosAbajo(this.getCantMovimientosAbajo());
         newState.setCantMovimientosArriba(this.getCantMovimientosArriba());
@@ -90,6 +93,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         newState.setPercepcionCeldasArriba(this.getPercepcionCeldasArriba());
         newState.setPercepcionCeldasDerecha(this.getPercepcionCeldasDerecha());
         newState.setPercepcionCeldasIzquierda(this.getPercepcionCeldasIzquierda());
+        newState.setFloresJuntadas(this.getFloresJuntadas());
 
         return newState;
     }
@@ -103,8 +107,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         CaperucitaPerception perception = (CaperucitaPerception) p;
 
         this.setPosicionCaperucita(perception.getPosicionActual());
-
-
         this.setPercepcionCeldasAbajo(perception.getPercepcionCeldasAbajo());
         this.setPercepcionCeldasArriba(perception.getPercepcionCeldasArriba());
         this.setPercepcionCeldasDerecha(perception.getPercepcionCeldasDerecha());
@@ -116,7 +118,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
         int posX = perception.getPosicionActual().x;
         int posY = perception.getPosicionActual().y;
-
         // Lugares libres para mover a la Izquierda
         this.setCantMovimientosIzquierda(perception.getCantMovimientosIzquierda());
         for (int movIzquierda = 1; movIzquierda <= perception.getCantMovimientosIzquierda(); movIzquierda++)

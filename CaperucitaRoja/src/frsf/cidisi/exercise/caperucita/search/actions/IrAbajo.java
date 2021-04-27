@@ -23,15 +23,11 @@ public class IrAbajo extends SearchAction {
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
 
-        //
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
-
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
-
-        //Me devuelve que ve a primera vista caperucita, el lobo, un dulce, flores o arbol-> puede ser que antes del arbol haya vacio
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasAbajo();
-
         System.out.println("\n" + Consola.textoColoreadoWhite("IrAbajo -> SearchBasedAgentState -> " + celda + " posCaperucita: " + estadoCaperucita.getPosicionCaperucita()));
+        System.out.println("\n" + Consola.textoColoreadoWhite("IrAbajo -> SearchBasedAgentState -> " + celda + " posFlores: " + estadoCaperucita.getPosicionFlores()));
 
         int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
 
@@ -44,6 +40,7 @@ public class IrAbajo extends SearchAction {
             estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario().setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
             //realizo todos los movimientos que puedo hacer hacia la derecha
             estadoCaperucita.setPosicionCaperucita(new Point(posicionCaperucita.x, posicionCaperucita.y + cantMovimientos));
+
             for (Point p : estadoCaperucita.getPosicionFlores()) {
                 if (p.equals(estadoCaperucita.getPosicionCaperucita())) {
                     estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
@@ -57,10 +54,12 @@ public class IrAbajo extends SearchAction {
             //lo hace en el ambiente, puede ser que lo este haciendo en una copia o en el real, dependiendo de donde se llama el execute()
             estadoCaperucita.actualizarPosicionCaperucita(capX, capY);
             //TODO debo actualizar las otras cosas tambien
-
             //para no rehacer todo los metodos de nuevo, hago una percepcion sobre el ambiente clonado, y actualizo su vista de caperucita
-            Perception p = estadoCaperucita.getAmbienteActual().getPercept();
-            estadoCaperucita.updateState(p);
+            //estadoCaperucita.getAmbienteActual().actualizarPosicionCaperucita(capX, capY);
+            //estadoCaperucita.getAmbienteActual().getEnvironmentState().setPosicionCaperucita(new Point(capX, capY));
+            //System.out.println("\n" + Consola.textoColoreadoWhite(estadoCaperucita.getAmbienteActual().toString()));
+            //Perception p = estadoCaperucita.getAmbienteActual().getPercept();
+            //estadoCaperucita.updateState(p);
 
             return estadoCaperucita;
         }

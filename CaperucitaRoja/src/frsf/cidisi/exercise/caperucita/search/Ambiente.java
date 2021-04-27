@@ -27,12 +27,11 @@ public class Ambiente extends Environment {
     public CaperucitaPerception getPercept() {
         /* -------Creamos la percepción que el agente obtendrá, a partir del estado actual del ambiente -------*/
         CaperucitaPerception perception = new CaperucitaPerception();
-
         /*------- Primero chequeamos donde está caperucita -------*/
         int posXCap = (int) this.getEnvironmentState().getPosicionCaperucita().getX();
         int posYCap = (int) this.getEnvironmentState().getPosicionCaperucita().getY();
         perception.setPosicionActual(new Point(posXCap, posYCap));
-        //System.out.println(posXCap + "/" + posYCap);
+
         /*------- Se mira hacia las cuatro direcciones -------*/
         VistaCaperucita vistaIzquierda = this.verLado(TipoLado.IZQUIERDA, posXCap, posYCap);
         VistaCaperucita vistaDerecha = this.verLado(TipoLado.DERECHA, posXCap, posYCap);
@@ -44,6 +43,7 @@ public class Ambiente extends Environment {
         perception.setPercepcionCeldasDerecha(this.getContenidoEnVista(vistaDerecha));
         perception.setArribaPerception(this.getContenidoEnVista(vistaArriba));
         perception.setAbajoPerception(this.getContenidoEnVista(vistaAbajo));
+
 
         /*------- Se carga los movimientos permitidos en cada dirección -------*/
         perception.setCantMovimientosIzquierda(vistaIzquierda.cantidadPosiciones);

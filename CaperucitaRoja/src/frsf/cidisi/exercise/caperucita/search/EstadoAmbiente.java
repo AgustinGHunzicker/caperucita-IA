@@ -91,21 +91,18 @@ public class EstadoAmbiente extends EnvironmentState {
         getPosicionesDulces().add(new Point(6, 6));
         getEscenario().setPosicionCelda(6, 6, EstadoCelda.DULCE);*/
 
-        setPosicionCaperucita(new Point(6, 6));
+        this.setPosicionCaperucita(new Point(6, 6));
         getEscenario().setPosicionCelda(6, 6, EstadoCelda.CAPERUCITA);
-
+        //
         setPosicionLobo(new Point(4, 6));
         getEscenario().setPosicionCelda(4, 6, EstadoCelda.LOBO);
-
+        //
         getPosicionesDulces().add(new Point(8, 3));
         getEscenario().setPosicionCelda(8, 3, EstadoCelda.DULCE);
-
-        getPosicionesDulces().add(new Point(3, 3));
-        getEscenario().setPosicionCelda(3, 3, EstadoCelda.DULCE);
-
+        getPosicionesDulces().add(new Point(6, 3));
+        getEscenario().setPosicionCelda(6, 3, EstadoCelda.DULCE);
         getPosicionesDulces().add(new Point(9, 5));
         getEscenario().setPosicionCelda(9, 5, EstadoCelda.DULCE);
-        //System.out.println("escenario-"+getEscenario());
     }
 
     private int getRandomNumber(int min, int max) {
