@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CaperucitaRoja.iml" filepath="$PROJECT_DIR$/CaperucitaRoja.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../lib/faia-0.4.2/faia-0.4.21.iml" filepath="$PROJECT_DIR$/../lib/faia-0.4.2/faia-0.4.21.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lib/faia-0.4.2/ar.edu.utn.frsf.cidisi.faia/faia.iml" filepath="$PROJECT_DIR$/../lib/faia-0.4.2/ar.edu.utn.frsf.cidisi.faia/faia.iml" />
     </modules>
   </component>
 </project>

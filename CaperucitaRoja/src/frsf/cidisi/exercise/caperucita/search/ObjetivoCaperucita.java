@@ -10,12 +10,12 @@ public class ObjetivoCaperucita extends GoalTest {
 
     @Override
     public boolean isGoalState(AgentState agentState) {
-
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) agentState;
-        System.out.println(Consola.textoColoreadoGreen("isGoalState, flores: "+estadoCaperucita.getPosicionFlores().toString() +" - caperucita " +estadoCaperucita.getPosicionCaperucita().toString()));
+        System.out.println(Consola.textoColoreadoGreen("isGoalState, flores: " + Consola.celdaToString(estadoCaperucita.getPosicionFlores()) + " - caperucita " + estadoCaperucita.getPosicionCaperucita().toString()));
 
-        for (Point p : estadoCaperucita.getPosicionFlores())
-            if (p.equals(estadoCaperucita.getPosicionCaperucita())) return true;
+        for (Point posicionFlor : estadoCaperucita.getPosicionFlores())
+            if (posicionFlor.equals(estadoCaperucita.getPosicionCaperucita())) return true;
+
         return estadoCaperucita.getFloresJuntadas() > 0 && estadoCaperucita.getVidasRestantes() > 0;
     }
 

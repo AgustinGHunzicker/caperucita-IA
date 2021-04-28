@@ -4,6 +4,7 @@ import domain.Escenario;
 import enumeration.Consola;
 import enumeration.EstadoCelda;
 import frsf.cidisi.exercise.caperucita.search.Ambiente;
+import frsf.cidisi.exercise.caperucita.search.CaperucitaPerception;
 import frsf.cidisi.exercise.caperucita.search.EstadoAmbiente;
 import frsf.cidisi.exercise.caperucita.search.EstadoCaperucita;
 import frsf.cidisi.faia.agent.Perception;
@@ -23,49 +24,68 @@ public class IrDerecha extends SearchAction {
      */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
+
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
-
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
-
-        //Me devuelve que ve a primera vista caperucita, el lobo, un dulce, flores o arbol-> puede ser que antes del arbol haya vacio
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasDerecha();
 
-        System.out.println("\n"+Consola.textoColoreadoWhite("IrDerecha -> SearchBasedAgentState -> " + celda + " posCaperucita: " + estadoCaperucita.getPosicionCaperucita()));
+
+        //---------------------------------------------------
+        //System.out.println("\n" + Consola.textoColoreadoWhite("IrDerecha -> SearchBasedAgentState -> " + celda));
+        System.out.println(Consola.textoColoreadoWhite("IrDerecha: posCaperucita: " + estadoCaperucita.getPosicionCaperucita()));
+        //System.out.println(Consola.textoColoreadoWhite("posFlores: " + estadoCaperucita.getPosicionFlores()));
+        //---------------------------------------------------
 
         int cantMovimientos = estadoCaperucita.getCantMovimientosDerecha();
 
-        // Si no tiene movimiento o esta el lobo, es una accion no valida
-        if (cantMovimientos == 0 || celda.equals(EstadoCelda.LOBO))
+        if (!((posicionCaperucita.x + cantMovimientos) <= Escenario.LIMITE_DERECHA)) {
+            System.out.println("ESTÁ FUERA DE POSICION " + ((posicionCaperucita.x + cantMovimientos) > Escenario.LIMITE_DERECHA));
             return null;
-        else {
-            //realizo todos los movimientos que puedo hacer hacia la derecha
-            estadoCaperucita.setPosicionCaperucita(new Point(posicionCaperucita.x+cantMovimientos,posicionCaperucita.y));
-            //teniendo en cuenta que no seria posible ir a la derecha y a la izquierda a la vez desde la posicion,
-            // puedo asumir que tenia cero posiciones a mover hacia la izquierda, entonces ahora le agrego las posiciones que me movi a la derecha
-            //estadoCaperucita.setCantMovimientosIzquierda(estadoCaperucita.getCantMovimientosDerecha());
-            //me movi hasta el final hacia la derecha por lo que ahora no tengo mas movimiento hacia esa direccion
-            //estadoCaperucita.setCantMovimientosDerecha(0);
-            //ahora estoy en otra posicion, debo actualizar mi vista hacia arriba y hacia abajo
-            //int arriba = 0;
-            //TENGO QUE USAR EL ESCENARIO DEL AMBIENTE PARA MIRAR, NO EL DE CAPERUCITA PORQUE NO ES EL REAL, ESE ESCENARIO MAS ADELANTE SACARLO
-            //Escenario escenario = estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario();
-
-
-            int capX = estadoCaperucita.getPosicionCaperucita().x;
-            int capY = estadoCaperucita.getPosicionCaperucita().y;
-            //actualizar el ambiente con mi posicion el ambiente - posiblemente se pueda hacer con un solo metodo
-            //lo hace en el ambiente, puede ser que lo este haciendo en una copia o en el real, dependiendo de donde se llama el execute()
-            estadoCaperucita.actualizarPosicionCaperucita(capX, capY);
-            //TODO debo actualizar las otras cosas tambien
-
-            //para no rehacer todo los metodos de nuevo, hago una percepcion sobre el ambiente clonado, y actualizo su vista de caperucita
-            Perception p = estadoCaperucita.getAmbienteActual().getPercept();
-            estadoCaperucita.updateState(p);
-
-            return estadoCaperucita;
         }
 
-        //return null;
+        // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
+        if (cantMovimientos < 1 || celda.equals(EstadoCelda.LOBO))
+            return null;
+        else {
+            //debo actualizar en el ambiente la posicion vieja de caperucita
+            estadoCaperucita.getEstadoAmbienteActual().getEscenario().setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
+            //Para verificar los dulces
+            int pisoInferior = posicionCaperucita.x;
+            int pisoSuperior = posicionCaperucita.x + cantMovimientos;
+            //realizo todos los movimientos que puedo hacer hacia la derecha
+            estadoCaperucita.setPosicionCaperucita(new Point(posicionCaperucita.x + cantMovimientos, posicionCaperucita.y));
+
+            //si hay un dulce en esa dirección
+            // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
+            if (celda.equals(EstadoCelda.DULCE)) {
+                for (Point posDulce : estadoCaperucita.getPosicionesDulces()) {
+                    if (posDulce.x == estadoCaperucita.getPosicionCaperucita().x && posDulce.x <= pisoSuperior && pisoInferior <= posDulce.x) {
+                        estadoCaperucita.addDulceJuntado(posDulce);
+                        estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario().setPosicionCelda(posDulce.x, posDulce.y, EstadoCelda.VACIA);
+                        estadoCaperucita.getPosicionesDulces().remove(posDulce);
+                        estadoCaperucita.getAmbienteActual().getEnvironmentState().getPosicionesDulces().remove(posDulce);
+                    }
+                }
+            }
+
+            //Se debe verificar si no esta sobre las flores,
+            // puesto que la bandera FLORES puede quedar anulada por los dulces
+            for (Point posicionFlor : estadoCaperucita.getPosicionFlores()) {
+                if (posicionFlor.equals(estadoCaperucita.getPosicionCaperucita())) {
+                    estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
+                    break;
+                }
+            }
+            estadoCaperucita.actualizarPosicionCaperucita(estadoCaperucita.getPosicionCaperucita().x, estadoCaperucita.getPosicionCaperucita().y);
+            //tengo que actualizar todo el estado caperucita completo, en esta copia
+            //CaperucitaPerception p = estadoCaperucita.getAmbienteActual().getPercept();
+
+            System.out.println(estadoCaperucita.getEscenarioJuego());
+            //System.out.println("------------------ PERCEPCION 1 - DERECHA ------------------");
+            //System.out.println(p);
+            //estadoCaperucita.updateState(p);
+            return estadoCaperucita;
+        }
     }
 
     /**
@@ -146,6 +166,7 @@ public class IrDerecha extends SearchAction {
         } else {
             return null;
         }
+        System.out.println(escenario);
 
         environmentState.setPosicionCaperucita(estadoCaperucita.getPosicionCaperucita());
         environmentState.setEscenario(escenario);

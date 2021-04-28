@@ -15,10 +15,11 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     private Escenario escenarioJuego;
     private Ambiente ambienteActual;
+
     private Point posicionActual;
-    private HashSet<Point> posicionFlores;
     private Point posicionLobo;
 
+    private HashSet<Point> posicionFlores;
     private HashSet<Point> posicionesDulces;
     private HashSet<Point> posicionesArboles;
     private HashSet<Point> dulcesJuntados;
@@ -42,18 +43,21 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     @Override
     public void initState() {
+        //TODO Este método también debe tomar los valores del escenario particular - ademas inicia valores previamente inicializados
+
+        // todo USAR ESTO PARA PONER A CAPERUCITA EN SU SITIO INICIAL DESPUES DE MORIR
         ambienteActual = new Ambiente();
         escenarioJuego = getAmbienteActual().getEnvironmentState().getEscenario();
-        /*------- Genera la percepción del ambiente --------*/
-        //TODO Este método también debe tomar los valores del escenario particular - ademas inicia valores previamente inicializados
-        //posicionFlores = UNKNOWN;
-        posicionFlores = new HashSet<Point>();
-        posicionLobo = UNKNOWN;
-        floresJuntadas = 0;
 
+        posicionLobo = UNKNOWN;
+        posicionActual = getAmbienteActual().getEnvironmentState().getPosicionCaperucita();
+
+        posicionFlores = new HashSet<>();
         posicionesArboles = new HashSet<>();
         posicionesDulces = new HashSet<>();
         dulcesJuntados = new HashSet<>();
+
+        floresJuntadas = 0;
         vidasRestantes = 3;
 
         percepcionCeldasDerecha = EstadoCelda.ARBOL;
@@ -67,33 +71,42 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         cantMovimientosAbajo = 0;
     }
 
+
     /**
      * This method clones the state of the agent. It's used in the search
      * process, when creating the search tree.
      */
     @Override
     public SearchBasedAgentState clone() {
+        //System.out.println("clone --> " + this.getAmbienteActual().getPercept());
         EstadoCaperucita newState = new EstadoCaperucita();
+        this.updateState(getAmbienteActual().getPercept());
         newState.setAmbienteActual(this.getAmbienteActual());
         newState.setEscenarioJuego(this.getEscenarioJuego());
-        newState.setVidasRestantes(this.getVidasRestantes());
+
         newState.setPosicionCaperucita(this.getPosicionCaperucita());
+        newState.setPosicionLobo(this.getPosicionLobo());
+
+        newState.setPosicionFlores(this.getPosicionFlores());
+        newState.setPosicionesArboles(this.getPosicionesArboles());
         newState.setPosicionesDulces(this.getPosicionesDulces());
         newState.setDulcesJuntados(this.getDulcesJuntados());
-        newState.setPosicionesArboles(this.getPosicionesArboles());
-        newState.setPosicionFlores(this.getPosicionFlores());
-        newState.setPosicionLobo(this.getPosicionLobo());
-        //Movimientos posibles hacia los lados
-        newState.setCantMovimientosAbajo(this.getCantMovimientosAbajo());
-        newState.setCantMovimientosArriba(this.getCantMovimientosArriba());
-        newState.setCantMovimientosDerecha(this.getCantMovimientosDerecha());
-        newState.setCantMovimientosIzquierda(this.getCantMovimientosIzquierda());
+
+        newState.setFloresJuntadas(this.getFloresJuntadas());
+        newState.setVidasRestantes(this.getVidasRestantes());
+
         //Percepciones de vista hacia los lados
         newState.setPercepcionCeldasAbajo(this.getPercepcionCeldasAbajo());
         newState.setPercepcionCeldasArriba(this.getPercepcionCeldasArriba());
         newState.setPercepcionCeldasDerecha(this.getPercepcionCeldasDerecha());
         newState.setPercepcionCeldasIzquierda(this.getPercepcionCeldasIzquierda());
-        newState.setFloresJuntadas(this.getFloresJuntadas());
+
+        //Movimientos posibles hacia los lados
+        newState.setCantMovimientosAbajo(this.getCantMovimientosAbajo());
+
+        newState.setCantMovimientosArriba(this.getCantMovimientosArriba());
+        newState.setCantMovimientosDerecha(this.getCantMovimientosDerecha());
+        newState.setCantMovimientosIzquierda(this.getCantMovimientosIzquierda());
 
         return newState;
     }
@@ -104,61 +117,65 @@ public class EstadoCaperucita extends SearchBasedAgentState {
      */
     @Override
     public void updateState(Perception p) {
+
         CaperucitaPerception perception = (CaperucitaPerception) p;
 
         this.setPosicionCaperucita(perception.getPosicionActual());
+
         this.setPercepcionCeldasAbajo(perception.getPercepcionCeldasAbajo());
         this.setPercepcionCeldasArriba(perception.getPercepcionCeldasArriba());
         this.setPercepcionCeldasDerecha(perception.getPercepcionCeldasDerecha());
         this.setPercepcionCeldasIzquierda(perception.getPercepcionCeldasIzquierda());
 
+        this.setCantMovimientosIzquierda(perception.getCantMovimientosIzquierda());
+        this.setCantMovimientosDerecha(perception.getCantMovimientosDerecha());
+        this.setCantMovimientosArriba(perception.getCantMovimientosArriba());
+        this.setCantMovimientosAbajo(perception.getCantMovimientosAbajo());
+
         // Traigo las posiciones conocidas por caperucita hasta el momento
         EstadoCelda[][] celdasConocidas = getEscenarioJuego().getCeldas();
-
 
         int posX = perception.getPosicionActual().x;
         int posY = perception.getPosicionActual().y;
         // Lugares libres para mover a la Izquierda
-        this.setCantMovimientosIzquierda(perception.getCantMovimientosIzquierda());
         for (int movIzquierda = 1; movIzquierda <= perception.getCantMovimientosIzquierda(); movIzquierda++)
             celdasConocidas[posX - movIzquierda][posY] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a la Derecha
-        this.setCantMovimientosDerecha(perception.getCantMovimientosDerecha());
         for (int movDerecha = 1; movDerecha <= perception.getCantMovimientosDerecha(); movDerecha++)
             celdasConocidas[posX + movDerecha][posY] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a Arriba
-        this.setCantMovimientosArriba(perception.getCantMovimientosArriba());
         for (int movArriba = 1; movArriba <= perception.getCantMovimientosArriba(); movArriba++)
             celdasConocidas[posX][posY - movArriba] = EstadoCelda.VACIA;
 
         // Lugares libres para mover a Abajo
-        this.setCantMovimientosAbajo(perception.getCantMovimientosAbajo());
         for (int movAbajo = 1; movAbajo <= perception.getCantMovimientosAbajo(); movAbajo++)
             celdasConocidas[posX][posY + movAbajo] = EstadoCelda.VACIA;
 
 
-        // Si sabe donde esta el camino de flores lo guarda
+        //----------- FLORES -----------
+        this.getPosicionFlores().addAll(perception.getPosicionFlores());
         if (!perception.getPosicionFlores().isEmpty()) {
-            this.setPosicionFlores(perception.getPosicionFlores());
-            for (Point flor : perception.getPosicionFlores()) {
-                celdasConocidas[flor.x][flor.y] = EstadoCelda.FLORES;
+            for (Point celdaFlor : this.getPosicionFlores()) {
+                celdasConocidas[celdaFlor.x][celdaFlor.y] = EstadoCelda.FLORES;
             }
         }
 
-        // Agrego las posiciones de los dulces percibidos
-        for (Point celdaDulce : perception.getPosicionesDulces()) {
-            if (!getDulcesJuntados().contains(celdaDulce))
-                getPosicionesDulces().add(celdaDulce); //TODO revisar si esto funciona
+        //----------- FLORES -----------
+        // todo si no lo juntó que lo agregue // getDulceJuntados()
+        this.getPosicionesDulces().addAll(perception.getPosicionesDulces());
+        for (Point celdaDulce : this.getPosicionesDulces()) {
             celdasConocidas[celdaDulce.x][celdaDulce.y] = EstadoCelda.DULCE;
         }
 
-        // Agrego las posiciones de los árboles percibidos
-        for (Point celdaArbol : perception.getPosicionesArboles()) {
-            getPosicionesArboles().add(celdaArbol);
+        //----------- ÁRBOLES -----------
+        this.getPosicionesArboles().addAll(perception.getPosicionesArboles());
+        for (Point celdaArbol : this.getPosicionesArboles()) {
             celdasConocidas[celdaArbol.x][celdaArbol.y] = EstadoCelda.ARBOL;
         }
+
+
         this.setPosicionCaperucita(perception.getPosicionActual());
         celdasConocidas[this.getPosicionCaperucita().x][this.getPosicionCaperucita().y] = EstadoCelda.CAPERUCITA;
 
@@ -177,11 +194,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
             celdasConocidas[perception.getPosicionLobo().x][perception.getPosicionLobo().y] = EstadoCelda.LOBO;
         }
 
+        this.setVidasRestantes(-1);
 
-        // Actualizo las posiciones del escenario
-        //getEscenarioJuego().setCeldas(celdasConocidas);
-
-        //System.out.println("updateState()-EstadoCaperucita"+escenarioJuego);
     }
 
     @Override
@@ -196,8 +210,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     public String toString() {
         return "\n" + Consola.textoColoreadoRed("- Posición actual: " + Consola.celdaToString(posicionActual)) +
                 "\n" + Consola.textoColoreadoRed("- Posición lobo: " + Consola.celdaToString(posicionLobo)) +
-                "\n" + Consola.textoColoreadoRed("- Posición flores: " + Consola.celdaToString(posicionFlores)) +
-                "\n" + Consola.textoColoreadoRed("- Posición dulces: " + Consola.celdaToString(posicionesDulces)) +
+                "\n" + Consola.textoColoreadoRed("- Posiciones flores: " + Consola.celdaToString(posicionFlores)) +
+                "\n" + Consola.textoColoreadoRed("- Posiciones dulces: " + Consola.celdaToString(posicionesDulces)) +
                 "\n" + Consola.textoColoreadoRed("- Vidas restantes: " + vidasRestantes) +
                 "\n ---------------------------------------------------- \n";
     }
@@ -205,8 +219,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     //TODO quisiera ver si puedo usar el updateState(), utilizo este meotodo en las acciones, donde hago un cambio
     //provisorio en una copia, pero no en el mundo real, si uso el updateState cae en loop, porque neceseta una percepcion
     //y la percepcion que puede realizar en la accion es siempre la misma, porque no llega a la nueva posicion
-    public void actualizarPosicionCaperucita(int x, int y){
-        this.ambienteActual.actualizarPosicionCaperucita(x,y);
+    public void actualizarPosicionCaperucita(int x, int y) {
+        this.ambienteActual.actualizarPosicionCaperucita(x, y);
     }
 
     public int getFloresJuntadas() {
@@ -237,7 +251,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         this.posicionActual = posicion;
     }
 
-    public HashSet<Point>  getPosicionFlores() {
+    public HashSet<Point> getPosicionFlores() {
         return this.posicionFlores;
     }
 
@@ -267,6 +281,10 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     public Ambiente getAmbienteActual() {
         return ambienteActual;
+    }
+
+    public EstadoAmbiente getEstadoAmbienteActual() {
+        return ambienteActual.getEnvironmentState();
     }
 
     public void setAmbienteActual(Ambiente ambienteActual) {

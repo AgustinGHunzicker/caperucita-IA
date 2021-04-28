@@ -71,6 +71,10 @@ public enum Consola {
         return "" + ANSI_WHITE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
     }
 
+    public static String textoColoreadoPurple(String texto) {
+        return "" + ANSI_PURPLE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+    }
+
     //nada que ver aca, pero era para centralizar
     public static String celdaToString(Point celda) {
         if (celda.equals(UNKNOWN)) {

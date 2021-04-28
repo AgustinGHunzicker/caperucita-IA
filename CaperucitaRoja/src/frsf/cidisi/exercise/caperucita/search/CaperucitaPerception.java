@@ -40,8 +40,8 @@ public class CaperucitaPerception extends Perception {
         cantMovimientosDerecha = 0;
         cantMovimientosArriba = 0;
         cantMovimientosAbajo = 0;
-        posicionFlores = new HashSet<Point>();
         posicionLobo = UNKNOWN;
+        posicionFlores = new HashSet<>();
         posicionesDulces = new HashSet<>();
         posicionesArboles = new HashSet<>();
     }
@@ -67,8 +67,8 @@ public class CaperucitaPerception extends Perception {
         return "\n" + Consola.textoColoreadoYellow("- Posición CAPERUCITA: " + Consola.celdaToString(posicionActual)) +
                 "\n" + Consola.textoColoreadoYellow("- Posición LOBO: " + Consola.celdaToString(posicionLobo)) +
                 "\n" + Consola.textoColoreadoYellow("- Posición DULCES: " + Consola.celdaToString(posicionesDulces)) +
-                "\n" + Consola.textoColoreadoYellow("- Posición FLORES: " + Consola.celdaToString(posicionFlores)) +
-                "\n" + Consola.textoColoreadoYellow("- Posición ÁRBOLES: " + Consola.celdaToString(posicionesArboles)) +
+                "\n" + Consola.textoColoreadoYellow("- Posiciones FLORES: " + Consola.celdaToString(posicionFlores)) +
+                "\n" + Consola.textoColoreadoYellow("- Posiciones ÁRBOLES: " + Consola.celdaToString(posicionesArboles)) +
                 "\n" + Consola.textoColoreadoYellow("- IZQUIERDA:   Percepción - " + percepcionCeldasIzquierda + ". Movimientos disponibles = " + cantMovimientosIzquierda) +
                 "\n" + Consola.textoColoreadoYellow("- DERECHA:     Percepción - " + percepcionCeldasDerecha + ". Movimientos disponibles = " + cantMovimientosDerecha) +
                 "\n" + Consola.textoColoreadoYellow("- ARRIBA:      Percepción - " + percepcionCeldasArriba + ". Movimientos disponibles = " + cantMovimientosArriba) +
@@ -152,8 +152,9 @@ public class CaperucitaPerception extends Perception {
         return posicionesArboles;
     }
 
-    public void setPosicionesArboles(HashSet<Point> posicionesArboles) {
-        this.posicionesArboles = posicionesArboles;
+    public void addPosicionArbol(Point posicionArbol) {
+        if(!posicionArbol.equals(UNKNOWN))
+            this.posicionesArboles.add(posicionArbol);
     }
 
     public HashSet<Point>  getPosicionFlores() {
@@ -164,16 +165,17 @@ public class CaperucitaPerception extends Perception {
         this.posicionFlores = posFlores;
     }
 
-    public void addPosicionFlores(Point posFlores) {
-        this.posicionFlores.add(posFlores);
+    public void addPosicionFlores(HashSet<Point> posFlores) {
+        this.posicionFlores.addAll(posFlores);
     }
 
     public HashSet<Point> getPosicionesDulces() {
         return posicionesDulces;
     }
 
-    public void setPosicionesDulces(HashSet<Point> dulces) {
-        this.posicionesDulces = dulces;
+    public void addPosicionesDulces(HashSet<Point> dulces) {
+        //TODO ¿vemos si ya los juntó?
+        this.posicionesDulces.addAll(dulces);
     }
 
     public Point getPosicionActual() {

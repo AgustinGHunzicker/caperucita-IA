@@ -26,26 +26,8 @@ public class Caperucita extends SearchBasedAgent {
         setAgentState(estadoCaperucita);
 
         Vector<SearchAction> actions = new Vector<>();
-        //actions.addElement(new RecolectarDulce());
-        //actions.addElement(new IrDerecha());
-        //actions.addElement(new IrIzquierda());
-        actions.addElement(new IrAbajo());
-        //actions.addElement(new IrArriba());
-
-        Problem problem = new Problem(objetivoCaperucita, estadoCaperucita, actions);
-        this.setProblem(problem);
-    }
-
-    public Caperucita(Ambiente a) {
-        ObjetivoCaperucita objetivoCaperucita = new ObjetivoCaperucita();
-
-        EstadoCaperucita estadoCaperucita = new EstadoCaperucita();
-        this.setAgentState(estadoCaperucita);
-
-        Vector<SearchAction> actions = new Vector<>();
-        //actions.addElement(new RecolectarDulce());
-        //actions.addElement(new IrDerecha());
-        //actions.addElement(new IrIzquierda());
+        actions.addElement(new IrDerecha());
+        actions.addElement(new IrIzquierda());
         actions.addElement(new IrAbajo());
         //actions.addElement(new IrArriba());
 
@@ -89,7 +71,7 @@ public class Caperucita extends SearchBasedAgent {
      * This method is executed by the simulator to give the agent a perception.
      * Then it updates its state.
      *
-     * @param p
+     * @param p percepción del agente
      */
     @Override
     public void see(Perception p) {

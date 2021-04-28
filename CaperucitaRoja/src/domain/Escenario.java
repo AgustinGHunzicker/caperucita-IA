@@ -180,7 +180,7 @@ public class Escenario {
         if (!this.nombre.equals("")) escenario.append(Consola.textoColoreadoGreen(this.nombre)).append("\n");
 
         for (int movVertical = LIMITE_ARRIBA; movVertical <= LIMITE_ABAJO; movVertical++) {
-            escenario.append(movVertical + 1);
+            escenario.append(movVertical);
 
             for (int movHorizontal = LIMITE_IZQUIERDA; movHorizontal <= LIMITE_DERECHA; movHorizontal++) {
                 switch (this.celdas[movHorizontal][movVertical]) {

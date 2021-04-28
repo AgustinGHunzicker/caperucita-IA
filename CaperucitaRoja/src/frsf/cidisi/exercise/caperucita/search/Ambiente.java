@@ -8,7 +8,6 @@ import frsf.cidisi.faia.environment.Environment;
 import frsf.cidisi.faia.state.AgentState;
 
 import java.awt.*;
-import java.sql.SQLOutput;
 import java.util.HashSet;
 
 public class Ambiente extends Environment {
@@ -25,12 +24,12 @@ public class Ambiente extends Environment {
 
     @Override
     public CaperucitaPerception getPercept() {
-        /* -------Creamos la percepción que el agente obtendrá, a partir del estado actual del ambiente -------*/
+        /* ------- Creamos la percepción que el agente obtendrá, a partir del estado actual del ambiente -------*/
         CaperucitaPerception perception = new CaperucitaPerception();
         /*------- Primero chequeamos donde está caperucita -------*/
         int posXCap = (int) this.getEnvironmentState().getPosicionCaperucita().getX();
         int posYCap = (int) this.getEnvironmentState().getPosicionCaperucita().getY();
-        perception.setPosicionActual(new Point(posXCap, posYCap));
+        perception.setPosicionActual(new Point(posXCap, posYCap)); //TODO porque está esto
 
         /*------- Se mira hacia las cuatro direcciones -------*/
         VistaCaperucita vistaIzquierda = this.verLado(TipoLado.IZQUIERDA, posXCap, posYCap);
@@ -54,27 +53,26 @@ public class Ambiente extends Environment {
         /*------- Se pasa la ubicación actual de caperucita -------*/
         perception.setPosicionActual(this.getEnvironmentState().getPosicionCaperucita());
 
-        /*------- Se carga las posición de las flores, si es que las haya visto -------*/
-        perception.addPosicionFlores(this.hayElemento(vistaIzquierda.posicionFlores, vistaDerecha.posicionFlores, vistaArriba.posicionFlores, vistaAbajo.posicionFlores));
+         /*------- Se carga las posición del lobo, si es que lo vió -------*/
+        perception.setPosicionLobo(this.loboEsta(vistaIzquierda.posicionLobo, vistaDerecha.posicionLobo, vistaArriba.posicionLobo, vistaAbajo.posicionLobo));
 
-        /*------- Se carga las posición del lobo, si es que lo vio -------*/
-        perception.setPosicionLobo(this.hayElemento(vistaIzquierda.posicionLobo, vistaDerecha.posicionLobo, vistaArriba.posicionLobo, vistaAbajo.posicionLobo));
+        /*------- Se carga las posición de las flores, si es que las haya visto -------*/
+        perception.addPosicionFlores(vistaIzquierda.posicionFlores);
+        perception.addPosicionFlores(vistaDerecha.posicionFlores);
+        perception.addPosicionFlores(vistaArriba.posicionFlores);
+        perception.addPosicionFlores(vistaAbajo.posicionFlores);
 
         /*------- Se carga las posición de los árboles que haya visto -------*/
-        HashSet<Point> arboles = perception.getPosicionesArboles();
-        if (!vistaIzquierda.posicionArbol.equals(UNKNOWN)) arboles.add(vistaIzquierda.posicionArbol);
-        if (!vistaDerecha.posicionArbol.equals(UNKNOWN)) arboles.add(vistaDerecha.posicionArbol);
-        if (!vistaArriba.posicionArbol.equals(UNKNOWN)) arboles.add(vistaArriba.posicionArbol);
-        if (!vistaAbajo.posicionArbol.equals(UNKNOWN)) arboles.add(vistaAbajo.posicionArbol);
-        perception.setPosicionesArboles(arboles);
+        perception.addPosicionArbol(vistaIzquierda.posicionArbol);
+        perception.addPosicionArbol(vistaDerecha.posicionArbol);
+        perception.addPosicionArbol(vistaArriba.posicionArbol);
+        perception.addPosicionArbol(vistaAbajo.posicionArbol);
 
         /*------- Se carga las posición de los dulces, si hubiese -------*/
-        HashSet<Point> dulces = perception.getPosicionesDulces();
-        dulces.addAll(vistaIzquierda.posicionDulces);
-        dulces.addAll(vistaDerecha.posicionDulces);
-        dulces.addAll(vistaArriba.posicionDulces);
-        dulces.addAll(vistaAbajo.posicionDulces);
-        perception.setPosicionesDulces(dulces);
+        perception.addPosicionesDulces(vistaIzquierda.posicionDulces);
+        perception.addPosicionesDulces(vistaDerecha.posicionDulces);
+        perception.addPosicionesDulces(vistaArriba.posicionDulces);
+        perception.addPosicionesDulces(vistaAbajo.posicionDulces);
 
         return perception;
     }
@@ -84,14 +82,14 @@ public class Ambiente extends Environment {
      */
     public boolean agentFailed(AgentState state) {
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) state;
-        System.out.println(Consola.textoColoreadoRed("entro " + (estadoCaperucita.getVidasRestantes() < 0) + " - vidas: " + estadoCaperucita.getVidasRestantes()));
+        System.out.println(Consola.textoColoreadoRed("Agente falló (entró a Ambiente.agentFailed(AgentState state)) " + (estadoCaperucita.getVidasRestantes() < 0) + " - vidas: " + estadoCaperucita.getVidasRestantes()));
 
         //TODO entra pero no lo ejecuta
         return estadoCaperucita.getVidasRestantes() <= 0;
     }
 
     public void actualizarPosicionCaperucita(int x, int y) {
-        ((EstadoAmbiente)environmentState).actualizarPosicionCaperucita(x, y);
+        ((EstadoAmbiente) environmentState).actualizarPosicionCaperucita(x, y);
     }
 
 
@@ -100,15 +98,15 @@ public class Ambiente extends Environment {
      */
     private static class VistaCaperucita {
         protected Point posicionLobo;
-        protected Point posicionFlores;
+        protected HashSet<Point> posicionFlores;
         protected Point posicionArbol;
         protected HashSet<Point> posicionDulces;
         protected int cantidadPosiciones;
 
         public VistaCaperucita() {
             this.posicionLobo = new Point(-1, -1);
-            this.posicionFlores = new Point(-1, -1);
             this.posicionArbol = new Point(-1, -1);
+            this.posicionFlores = new HashSet<>();
             this.posicionDulces = new HashSet<>();
             this.cantidadPosiciones = 1;
         }
@@ -117,6 +115,11 @@ public class Ambiente extends Environment {
     /**
      * Devuelve los objetos encontrados en linea horizontal al lado indicado.
      * Realiza la búsqueda hasta encontrar un árbol o un lobo.
+     *
+     * @param lado    - Lado a buscar elementos.
+     * @param posXCap - posicion x de caperucita.
+     * @param posYCap - posicion y de caperucita.
+     * @return VistaCaperucita - retorna la vista de caperucita del lado deseado.
      */
     private VistaCaperucita verLado(TipoLado lado, int posXCap, int posYCap) {
         /*------- Recuperamos el estado del escenario en cuestión -------*/
@@ -159,9 +162,8 @@ public class Ambiente extends Environment {
                     break;
                 /* hay un dulce, lo tengo que juntar y puedo seguir avanzando */
                 case DULCE:
-                    Point dulce = new Point(posicionXActual, posicionYActual);
-                    vista.posicionDulces.add(dulce);
                     vista.cantidadPosiciones++;
+                    vista.posicionDulces.add(new Point(posicionXActual, posicionYActual));
                     break;
                 /* está el lobo, no debería moverse en esta dirección */
                 case LOBO://TODO debería cortar con el lobo o sigue viendo hasta el árbol igual?
@@ -170,9 +172,14 @@ public class Ambiente extends Environment {
                     break;
                 /* está el camino de flores, la meta */
                 case FLORES:
-                    vista.cantidadPosiciones++;
-                    vista.posicionFlores.setLocation(posicionXActual, posicionYActual);
-                    arbol_flor = true;
+                    vista.posicionFlores.add(new Point(posicionXActual, posicionYActual));
+                    if (posicionYActual == Escenario.LIMITE_ABAJO) {
+                        // Llegó al borde del mapa
+                        arbol_flor = true;
+                    } else {
+                        vista.cantidadPosiciones++;
+                    }
+                    if (vista.posicionDulces.size() == 2) arbol_flor = true;
                     break;
             }
 
@@ -196,17 +203,17 @@ public class Ambiente extends Environment {
             return EstadoCelda.LOBO;
         if (!vistaCaperucita.posicionDulces.isEmpty())
             return EstadoCelda.DULCE;
-        if (!vistaCaperucita.posicionFlores.equals(UNKNOWN))
+        if (!vistaCaperucita.posicionFlores.isEmpty())
             return EstadoCelda.FLORES;
         else
             return EstadoCelda.ARBOL;
     }
 
     /*
-     * Devuelve la posicion del elemento si hay a la vista en alguno de los lados,
+     * Devuelve la posicion del lobo si hay a la vista en alguno de los lados,
      * en caso contrario, devuelve un fuera de rango - "pointOutOfRange"
      */
-    private Point hayElemento(Point celdaIzquierda, Point celdaDerecha, Point celdaArriba, Point celdaAbajo) {
+    private Point loboEsta(Point celdaIzquierda, Point celdaDerecha, Point celdaArriba, Point celdaAbajo) {
         if (!celdaIzquierda.equals(UNKNOWN))
             return celdaIzquierda;
         if (!celdaDerecha.equals(UNKNOWN))
@@ -218,7 +225,6 @@ public class Ambiente extends Environment {
         else
             return UNKNOWN;
     }
-
     public String toString() {
         return environmentState.toString();
     }
