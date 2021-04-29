@@ -24,6 +24,7 @@ public class IrDerecha extends SearchAction {
      */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
+        System.out.println(Consola.textoColoreadoPurple("Probando "+this));
 
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
@@ -33,11 +34,7 @@ public class IrDerecha extends SearchAction {
         int cantMovimientos = estadoCaperucita.getCantMovimientosDerecha();
 
         // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
-        if (cantMovimientos < 1 || celda.equals(EstadoCelda.LOBO))
-            return null;
-        else {
-            //debo actualizar en el ambiente la posicion vieja de caperucita
-            estadoCaperucita.getEstadoAmbienteActual().getEscenario().setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
+        if (cantMovimientos > 0 && !celda.equals(EstadoCelda.LOBO)) {
             //Para verificar los dulces
             int pisoInferior = posicionCaperucita.x;
             int pisoSuperior = posicionCaperucita.x + cantMovimientos;
@@ -65,14 +62,10 @@ public class IrDerecha extends SearchAction {
                     break;
                 }
             }
-            estadoCaperucita.actualizarPosicionCaperucita(estadoCaperucita.getPosicionCaperucita().x, estadoCaperucita.getPosicionCaperucita().y);
-            //tengo que actualizar todo el estado caperucita completo, en esta copia
-
-            CaperucitaPerception p = estadoCaperucita.getAmbienteActual().getPercept();
-            estadoCaperucita.updateState(p);
-
             return estadoCaperucita;
         }
+
+        return null;
     }
 
     /**
@@ -80,6 +73,7 @@ public class IrDerecha extends SearchAction {
      */
     @Override
     public EnvironmentState execute(AgentState ast, EnvironmentState est) {
+        System.out.println(Consola.textoColoreadoPurple("Usando "+this));
 
         EstadoAmbiente environmentState = (EstadoAmbiente) est;
         Escenario escenario = environmentState.getEscenario();
@@ -88,7 +82,6 @@ public class IrDerecha extends SearchAction {
 
 
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasDerecha();
-        System.out.println(Consola.textoColoreadoWhite("IrDerecha -> EnvironmentState -> " + celda));
 
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
         int cantMovimientos = estadoCaperucita.getCantMovimientosDerecha();

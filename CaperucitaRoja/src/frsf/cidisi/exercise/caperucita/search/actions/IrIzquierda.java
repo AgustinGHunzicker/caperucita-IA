@@ -3,7 +3,6 @@ package frsf.cidisi.exercise.caperucita.search.actions;
 import domain.Escenario;
 import enumeration.Consola;
 import enumeration.EstadoCelda;
-import frsf.cidisi.exercise.caperucita.search.CaperucitaPerception;
 import frsf.cidisi.exercise.caperucita.search.EstadoAmbiente;
 import frsf.cidisi.exercise.caperucita.search.EstadoCaperucita;
 import frsf.cidisi.faia.agent.search.SearchAction;
@@ -20,6 +19,7 @@ public class IrIzquierda extends SearchAction {
 
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
+        System.out.println(Consola.textoColoreadoPurple("Probando " + this));
 
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
@@ -29,11 +29,7 @@ public class IrIzquierda extends SearchAction {
         int cantMovimientos = estadoCaperucita.getCantMovimientosIzquierda();
 
         // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
-        if (cantMovimientos < 1 || celda.equals(EstadoCelda.LOBO))
-            return null;
-        else {
-            //debo actualizar en el ambiente la posicion vieja de caperucita
-            estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario().setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
+        if (cantMovimientos > 0 && !celda.equals(EstadoCelda.LOBO)) {
             //Para verificar los dulces
             int pisoInferior = posicionCaperucita.x - cantMovimientos;
             int pisoSuperior = posicionCaperucita.x;
@@ -61,14 +57,11 @@ public class IrIzquierda extends SearchAction {
                     break;
                 }
             }
-            estadoCaperucita.actualizarPosicionCaperucita(estadoCaperucita.getPosicionCaperucita().x, estadoCaperucita.getPosicionCaperucita().y);
-            //tengo que actualizar todo el estado caperucita completo, en esta copia
-
-            //CaperucitaPerception p = estadoCaperucita.getAmbienteActual().getPercept();
-            //estadoCaperucita.updateState(p);
 
             return estadoCaperucita;
         }
+
+        return null;
     }
 
     /**
@@ -77,13 +70,12 @@ public class IrIzquierda extends SearchAction {
     @Override
     public EnvironmentState execute(AgentState ast, EnvironmentState est) {
 
-        System.out.println(Consola.textoColoreadoWhite("IrIzquierda -> EnvironmentState - Actualizar el Mundo real"));
+        System.out.println(Consola.textoColoreadoPurple("Usando " + this));
+
         EstadoAmbiente environmentState = (EstadoAmbiente) est;
         Escenario escenario = environmentState.getEscenario();
         //fijarse que ya esta actualizando el mundo real cuando lo hace arriba, arriba solo deberia actualizarlo en una copia
         EstadoCaperucita estadoCaperucita = ((EstadoCaperucita) ast);
-
-        System.out.println(" en el segundo execute() " + estadoCaperucita);
 
 
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
@@ -99,7 +91,6 @@ public class IrIzquierda extends SearchAction {
         }
 
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasIzquierda();
-        System.out.println(estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario());
 
 
         int cantMovimientos = estadoCaperucita.getCantMovimientosIzquierda();

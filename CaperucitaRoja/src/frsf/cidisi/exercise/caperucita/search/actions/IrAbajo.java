@@ -1,6 +1,7 @@
 package frsf.cidisi.exercise.caperucita.search.actions;
 
 import domain.Escenario;
+import enumeration.Consola;
 import enumeration.EstadoCelda;
 import frsf.cidisi.exercise.caperucita.search.EstadoAmbiente;
 import frsf.cidisi.exercise.caperucita.search.EstadoCaperucita;
@@ -18,6 +19,7 @@ public class IrAbajo extends SearchAction {
 
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
+        System.out.println(Consola.textoColoreadoPurple("Probando "+this));
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
 
@@ -26,11 +28,7 @@ public class IrAbajo extends SearchAction {
         int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
 
         // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
-        if (cantMovimientos < 1 || celda.equals(EstadoCelda.LOBO))
-            return null;
-        else {
-            //debo actualizar en el ambiente la posicion vieja de caperucita
-            estadoCaperucita.getEstadoAmbienteActual().getEscenario().setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
+        if (cantMovimientos > 0 && !celda.equals(EstadoCelda.LOBO)) {
             //Para verificar los dulces
             int pisoInferior = posicionCaperucita.y;
             int pisoSuperior = posicionCaperucita.y + cantMovimientos;
@@ -60,35 +58,10 @@ public class IrAbajo extends SearchAction {
                 }
             }
 
-            System.out.println(estadoCaperucita.getEstadoAmbienteActual().getEscenario());
-            estadoCaperucita.actualizarPosicionCaperucita(estadoCaperucita.getPosicionCaperucita().x, estadoCaperucita.getPosicionCaperucita().y);
-            //CaperucitaPerception p = estadoCaperucita.getAmbienteActual().getPercept();
-            //estadoCaperucita.updateState(p);
             return estadoCaperucita;
         }
 
-        /*EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
-        Point posCaperucitaVieja = estadoCaperucita.getPosicionCaperucita();
-        EstadoCelda perceptCeldasAbajo = estadoCaperucita.getPercepcionCeldasAbajo();
-
-        System.out.println("\n" + Consola.textoColoreadoWhite("IrAbajo -> SearchBasedAgentState -> " + perceptCeldasAbajo + " posCaperucita: " + estadoCaperucita.getPosicionCaperucita()));
-        System.out.println("\n" + Consola.textoColoreadoWhite("IrAbajo -> SearchBasedAgentState -> " + perceptCeldasAbajo + " posFlores: " + estadoCaperucita.getPosicionFlores()));
-
-
-        int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
-        int posXActual = posCaperucitaVieja.x;
-        int posYActual = posCaperucitaVieja.y + cantMovimientos;
-
-        /* verifica que haya movimientos disponibles y que las posiciones sean válidas *
-        if (cantMovimientos > 0 &&
-                Escenario.LIMITE_IZQUIERDA <= posXActual && posXActual <= Escenario.LIMITE_DERECHA &&
-                Escenario.LIMITE_ARRIBA <= posYActual && posYActual <= Escenario.LIMITE_ABAJO) {
-
-            moverseAbajo(estadoCaperucita, perceptCeldasAbajo, cantMovimientos, posXActual, posYActual);
-
-            return estadoCaperucita;
-        }
-        return null;*/
+        return null;
     }
 
     /**
@@ -96,6 +69,8 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public EnvironmentState execute(AgentState ast, EnvironmentState est) {
+        System.out.println(Consola.textoColoreadoPurple("Usando "+this));
+
         EstadoAmbiente environmentState = (EstadoAmbiente) est;
         Escenario escenario = environmentState.getEscenario();
         EstadoCaperucita estadoCaperucita = ((EstadoCaperucita) ast);
@@ -176,79 +151,6 @@ public class IrAbajo extends SearchAction {
         System.out.print(escenario);
         return environmentState;
     }
-
-
-    /*@Override
-    public EnvironmentState execute(AgentState ast, EnvironmentState est) {
-
-        EstadoAmbiente environmentState = (EstadoAmbiente) est;
-        Escenario escenario = environmentState.getEscenario();
-
-        EstadoCaperucita estadoCaperucita = ((EstadoCaperucita) ast);
-        Point posCaperucitaVieja = estadoCaperucita.getPosicionCaperucita();
-
-        EstadoCelda perceptCeldasAbajo = estadoCaperucita.getPercepcionCeldasAbajo();
-
-        int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
-        int posXActual = posCaperucitaVieja.x;
-        int posYActual = posCaperucitaVieja.y + cantMovimientos;
-
-        moverseAbajo(estadoCaperucita, perceptCeldasAbajo, cantMovimientos, posXActual, posYActual);
-
-        environmentState.setEscenario(escenario);
-        environmentState.setPosicionCaperucita(posCaperucitaVieja);
-
-        return environmentState;
-    }
-
-    private void moverseAbajo(EstadoCaperucita estadoCaperucita, EstadoCelda percepCeldasAbajo, int cantMovimientos, int posX, int posY) {
-        if (percepCeldasAbajo.equals(EstadoCelda.LOBO)) {
-            // volvemos a establecer el estado inicial de la simulación, pero esta vez caperucita tiene una vida menos
-            //estadoCaperucita.disminuirVidas();
-            //estadoCaperucita.getAmbienteActual().setEstadoAmbienteInicial();
-            Point posInicialCap = estadoCaperucita.getEstadoAmbienteActual().getPosicionCaperucita();
-            estadoCaperucita.actualizarPosicionCaperucita(posInicialCap.x, posInicialCap.y);
-
-            costo += 5;
-        } else {
-            switch (percepCeldasAbajo) {
-                case DULCE:
-                    //Caperucita va a juntar el/los dulce/s y se desplaza hasta chocar con un árbol
-                    HashSet<Point> dulcesNoJuntados = estadoCaperucita.getPosicionesDulces();
-                    HashSet<Point> dulcesJuntados = estadoCaperucita.getPosicionesDulces();
-                    int posXDulce;
-                    int posYDulce;
-
-                    for (Point dulce : dulcesNoJuntados) {
-                        posXDulce = (int) dulce.getX();
-                        posYDulce = (int) dulce.getY();
-
-                        //Si está en la misma columna y está dentro de los posibles movimientos hacia abajo
-                        if (posX == posXDulce && posY <= posYDulce && posYDulce <= (posY + cantMovimientos)) {
-                            costo -= 3;
-                            dulcesJuntados.add(dulce);
-                        }
-                    }
-                    dulcesNoJuntados.removeAll(dulcesJuntados);
-                    estadoCaperucita.setDulcesJuntados(dulcesJuntados);
-                    estadoCaperucita.setPosicionesDulces(dulcesNoJuntados);
-                    break;
-                case FLORES:
-                    for (Point p : estadoCaperucita.getPosicionFlores()) {
-                        if (p.equals(estadoCaperucita.getPosicionCaperucita())) {
-                            estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
-                            break;
-                        }
-                    }
-                    costo -= 3;
-                    break;
-            }
-            // Caperucita se desplaza a la nueva posición siempre que no se encuentre al lobo (se actualiza el estado y el ambiente)
-            estadoCaperucita.actualizarPosicionCaperucita(posX, posY);
-
-            costo += cantMovimientos;
-        }
-    }*/
 
     /**
      * This method returns the action cost.
