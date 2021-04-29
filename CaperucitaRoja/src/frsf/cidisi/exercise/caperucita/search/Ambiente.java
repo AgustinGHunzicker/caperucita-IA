@@ -1,7 +1,6 @@
 package frsf.cidisi.exercise.caperucita.search;
 
 import domain.Escenario;
-import enumeration.Consola;
 import enumeration.EstadoCelda;
 import enumeration.TipoLado;
 import frsf.cidisi.faia.environment.Environment;
@@ -29,7 +28,7 @@ public class Ambiente extends Environment {
         /*------- Primero chequeamos donde está caperucita -------*/
         int posXCap = (int) this.getEnvironmentState().getPosicionCaperucita().getX();
         int posYCap = (int) this.getEnvironmentState().getPosicionCaperucita().getY();
-        perception.setPosicionActual(new Point(posXCap, posYCap)); //TODO porque está esto
+        perception.setPosicionActual(new Point(posXCap, posYCap));
 
         /*------- Se mira hacia las cuatro direcciones -------*/
         VistaCaperucita vistaIzquierda = this.verLado(TipoLado.IZQUIERDA, posXCap, posYCap);
@@ -82,9 +81,6 @@ public class Ambiente extends Environment {
      */
     public boolean agentFailed(AgentState state) {
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) state;
-        System.out.println(Consola.textoColoreadoRed("Agente falló (entró a Ambiente.agentFailed(AgentState state)) " + (estadoCaperucita.getVidasRestantes() < 0) + " - vidas: " + estadoCaperucita.getVidasRestantes()));
-
-        //TODO entra pero no lo ejecuta
         return estadoCaperucita.getVidasRestantes() <= 0;
     }
 

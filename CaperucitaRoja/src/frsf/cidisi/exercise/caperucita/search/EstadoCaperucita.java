@@ -13,7 +13,8 @@ import java.util.Objects;
 public class EstadoCaperucita extends SearchBasedAgentState {
     private final static Point UNKNOWN = new Point(-1, -1);
 
-    private Escenario escenarioJuego;
+    private Ambiente ambiente;
+    private Escenario escenarioDescubierto;
 
     private Point posicionActual;
     private Point posicionLobo;
@@ -36,7 +37,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     private int cantMovimientosArriba;
     private int cantMovimientosAbajo;
 
-    public EstadoCaperucita() {
+    public EstadoCaperucita(Ambiente ambiente) {
+        this.ambiente = ambiente;
         initState();
     }
 
@@ -45,7 +47,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         //TODO Este método también debe tomar los valores del escenario particular - ademas inicia valores previamente inicializados
 
         // todo USAR ESTO PARA PONER A CAPERUCITA EN SU SITIO INICIAL DESPUES DE MORIR
-        escenarioJuego = new Escenario();
+        escenarioDescubierto = new Escenario();
 
         posicionLobo = UNKNOWN;
         posicionActual = UNKNOWN;
@@ -69,15 +71,14 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         cantMovimientosAbajo = 0;
     }
 
-
     /**
      * This method clones the state of the agent. It's used in the search
      * process, when creating the search tree.
      */
     @Override
     public SearchBasedAgentState clone() {
-        EstadoCaperucita newState = new EstadoCaperucita();
-        newState.setEscenarioJuego(this.getEscenarioJuego());
+        EstadoCaperucita newState = new EstadoCaperucita(this.getAmbiente());
+        newState.setEscenarioDescubierto(this.getEscenarioDescubierto());
 
         newState.setPosicionCaperucita(this.getPosicionCaperucita());
         newState.setPosicionLobo(this.getPosicionLobo());
@@ -114,6 +115,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     public void updateState(Perception p) {
 
         CaperucitaPerception perception = (CaperucitaPerception) p;
+        EstadoCelda[][] celdasConocidas = getEscenarioDescubierto().getCeldas();
 
         this.setPosicionCaperucita(perception.getPosicionActual());
 
@@ -128,7 +130,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         this.setCantMovimientosAbajo(perception.getCantMovimientosAbajo());
 
         // Traigo las posiciones conocidas por caperucita hasta el momento
-        EstadoCelda[][] celdasConocidas = getEscenarioJuego().getCeldas();
 
         int posX = perception.getPosicionActual().x;
         int posY = perception.getPosicionActual().y;
@@ -171,8 +172,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         }
 
 
-        this.setPosicionCaperucita(perception.getPosicionActual());
-        celdasConocidas[this.getPosicionCaperucita().x][this.getPosicionCaperucita().y] = EstadoCelda.CAPERUCITA;
+        //this.setPosicionCaperucita(perception.getPosicionActual());
+        //celdasConocidas[this.getPosicionCaperucita().x][this.getPosicionCaperucita().y] = EstadoCelda.CAPERUCITA;
 
         /*TODO Pongo la posicion del lobo, puede ser que antes sabia donde esta,
         pero como el lobo se mueve, puede que ya no este a la vista,
@@ -188,6 +189,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
             this.setPosicionLobo(perception.getPosicionLobo());
             celdasConocidas[perception.getPosicionLobo().x][perception.getPosicionLobo().y] = EstadoCelda.LOBO;
         }
+        escenarioDescubierto.setCeldas(celdasConocidas);
     }
 
     @Override
@@ -209,8 +211,18 @@ public class EstadoCaperucita extends SearchBasedAgentState {
                 "\n" + Consola.textoColoreadoRed("- Posición lobo: " + Consola.celdaToString(posicionLobo)) +
                 "\n" + Consola.textoColoreadoRed("- Posiciones flores: " + Consola.celdaToString(posicionFlores)) +
                 "\n" + Consola.textoColoreadoRed("- Posiciones dulces: " + Consola.celdaToString(posicionesDulces)) +
+                "\n" + Consola.textoColoreadoRed("- Dulces juntados: " + Consola.celdaToString(dulcesJuntados)) +
+                "\n" + Consola.textoColoreadoRed("- Flores pisadas: " + floresJuntadas) +
                 "\n" + Consola.textoColoreadoRed("- Vidas restantes: " + vidasRestantes) +
                 "\n ---------------------------------------------------- \n";
+    }
+
+    public EstadoAmbiente getEstadoAmbiente() {
+        return ambiente.getEnvironmentState();
+    }
+
+    public Ambiente getAmbiente() {
+        return ambiente;
     }
 
     public int getFloresJuntadas() {
@@ -265,8 +277,18 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         this.vidasRestantes = vidas;
     }
 
-    public Escenario getEscenarioJuego() {
-        return escenarioJuego;
+    public Escenario getEscenarioDescubierto() {
+        return escenarioDescubierto;
+    }
+
+    public void imprimirEscenarioDescubierto() {
+        if (!this.posicionActual.equals(UNKNOWN))
+            escenarioDescubierto.setPosicionCelda(this.posicionActual.x, this.posicionActual.y, EstadoCelda.CAPERUCITA);
+
+        //System.out.println(escenarioDescubierto);
+
+        if (!this.posicionActual.equals(UNKNOWN))
+            escenarioDescubierto.setPosicionCelda(this.posicionActual.x, this.posicionActual.y, EstadoCelda.VACIA);
     }
 
     public Point getPosicionLobo() {
@@ -285,8 +307,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         this.posicionesArboles = posicionesArboles;
     }
 
-    public void setEscenarioJuego(Escenario escenarioJuego) {
-        this.escenarioJuego = escenarioJuego;
+    public void setEscenarioDescubierto(Escenario escenarioDescubierto) {
+        this.escenarioDescubierto = escenarioDescubierto;
     }
 
     public EstadoCelda getPercepcionCeldasDerecha() {

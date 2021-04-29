@@ -13,6 +13,8 @@ import java.util.List;
  * This class represents the real world state.
  */
 public class EstadoAmbiente extends EnvironmentState {
+    private final static Point UNKNOWN = new Point(-1, -1);
+
 
     private Escenario escenario;
     private final List<Point> posicionesDulces;
@@ -29,9 +31,10 @@ public class EstadoAmbiente extends EnvironmentState {
 
     @Override
     public void initState() {
-        /* TODO descomentar
-        int numeroEscenario = getRandomNumber(1, 3);
+        //TODO descomentar
+        /*int numeroEscenario = getRandomNumber(1, 3);
         getEscenario().generarEscenario(numeroEscenario);
+       // getEscenario().generarEscenario(2);
 
         int x;
         int y;
@@ -71,12 +74,12 @@ public class EstadoAmbiente extends EnvironmentState {
                 cantFlores--;
             }
         } while (cantFlores > 0);
-        */
+*/
 
         // TODO eliminar, es para pruebas fijas
         getEscenario().generarEscenario(2);
 
-        Point caperucita = new Point(6, 1);
+        Point caperucita = new Point(4, 2);
         Point lobo = new Point(4, 6);
         Point dulce1 = new Point(8, 3);
         Point dulce2 = new Point(6, 3);
@@ -113,7 +116,13 @@ public class EstadoAmbiente extends EnvironmentState {
     }
 
     public void setPosicionCaperucita(Point posicionCap) {
-        posicionCaperucita = posicionCap;
+        if (!posicionCaperucita.equals(UNKNOWN))
+            escenario.setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
+
+        if (!posicionCap.equals(UNKNOWN)) {
+            escenario.setPosicionCelda(posicionCap.x, posicionCap.y, EstadoCelda.CAPERUCITA);
+            posicionCaperucita = posicionCap;
+        }
     }
 
     public Escenario getEscenario() {

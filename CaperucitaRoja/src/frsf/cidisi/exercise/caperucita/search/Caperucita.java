@@ -1,7 +1,7 @@
 package frsf.cidisi.exercise.caperucita.search;
 
-import frsf.cidisi.exercise.caperucita.search.actions.IrAbajo;
 import frsf.cidisi.exercise.caperucita.search.actions.IrArriba;
+import frsf.cidisi.exercise.caperucita.search.actions.IrAbajo;
 import frsf.cidisi.exercise.caperucita.search.actions.IrDerecha;
 import frsf.cidisi.exercise.caperucita.search.actions.IrIzquierda;
 import frsf.cidisi.faia.agent.Action;
@@ -21,10 +21,10 @@ import java.util.logging.Logger;
 
 public class Caperucita extends SearchBasedAgent {
 
-    public Caperucita() {
+    public Caperucita(Ambiente ambiente) {
         ObjetivoCaperucita objetivoCaperucita = new ObjetivoCaperucita();
 
-        EstadoCaperucita estadoCaperucita = new EstadoCaperucita();
+        EstadoCaperucita estadoCaperucita = new EstadoCaperucita(ambiente);
         setAgentState(estadoCaperucita);
 
         Vector<SearchAction> actions = new Vector<>();
@@ -52,7 +52,7 @@ public class Caperucita extends SearchBasedAgent {
 
         /* Generate an XML file with the search tree. It can also be generated
          * in other formats like PDF with PDF_TREE */
-        searchSolver.setVisibleTree(Search.PDF_TREE);
+        searchSolver.setVisibleTree(Search.GRAPHVIZ_TREE);
 
         // Set the Search searchSolver.
         this.setSolver(searchSolver);

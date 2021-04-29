@@ -25,11 +25,11 @@ public class CaperucitaPerception extends Perception {
     private int cantMovimientosAbajo;
 
     //Posiciones exactas en el escenario percibido
-    private HashSet<Point>  posicionFlores;
     private Point posicionLobo;
-    private Point posicionActual; //
-    private HashSet<Point> posicionesDulces;
-    private HashSet<Point> posicionesArboles;
+    private Point posicionActual;
+    private final HashSet<Point> posicionFlores;
+    private final HashSet<Point> posicionesDulces;
+    private final HashSet<Point> posicionesArboles;
 
     public CaperucitaPerception() {
         percepcionCeldasIzquierda = EstadoCelda.VACIA;
@@ -46,20 +46,8 @@ public class CaperucitaPerception extends Perception {
         posicionesArboles = new HashSet<>();
     }
 
-    public CaperucitaPerception(Agent agent, Environment environment) {
-        super(agent, environment);
-    }
-
     @Override
     public void initPerception(Agent agentIn, Environment environmentIn) {
-        System.out.println(Consola.textoColoreadoYellow("ENTRO A INIT PERCEPCION"));
-        // TODO no se debería usar?
-        //TODO para mi lo que se hizo en ambiente debería ir acá
-        Caperucita agent = (Caperucita) agentIn;
-        Ambiente environment = (Ambiente) environmentIn;
-        EstadoAmbiente environmentState = environment.getEnvironmentState();
-        //Acá se crea la percepción inicial del agente
-        Point position = environmentState.getPosicionCaperucita();
     }
 
     @Override
@@ -153,16 +141,12 @@ public class CaperucitaPerception extends Perception {
     }
 
     public void addPosicionArbol(Point posicionArbol) {
-        if(!posicionArbol.equals(UNKNOWN))
+        if (!posicionArbol.equals(UNKNOWN))
             this.posicionesArboles.add(posicionArbol);
     }
 
-    public HashSet<Point>  getPosicionFlores() {
+    public HashSet<Point> getPosicionFlores() {
         return posicionFlores;
-    }
-
-    public void setPosicionFlores(HashSet<Point> posFlores) {
-        this.posicionFlores = posFlores;
     }
 
     public void addPosicionFlores(HashSet<Point> posFlores) {

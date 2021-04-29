@@ -1,6 +1,5 @@
 package frsf.cidisi.exercise.caperucita.search;
 
-import enumeration.Consola;
 import frsf.cidisi.faia.agent.search.GoalTest;
 import frsf.cidisi.faia.state.AgentState;
 
@@ -11,12 +10,16 @@ public class ObjetivoCaperucita extends GoalTest {
     @Override
     public boolean isGoalState(AgentState agentState) {
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) agentState;
-        //System.out.println(Consola.textoColoreadoGreen("isGoalState, flores: " + Consola.celdaToString(estadoCaperucita.getPosicionFlores()) + " - caperucita " + estadoCaperucita.getPosicionCaperucita().toString()));
 
-        for (Point posicionFlor : estadoCaperucita.getPosicionFlores())
-            if (posicionFlor.equals(estadoCaperucita.getPosicionCaperucita())) return true;
+        boolean estaEnFlores = false;
+        for (Point posicionFlor : estadoCaperucita.getPosicionFlores()) {
+            if (posicionFlor.equals(estadoCaperucita.getPosicionCaperucita())) {
+                estaEnFlores = true;
+                break;
+            }
+        }
 
-        return estadoCaperucita.getFloresJuntadas() > 0 && estadoCaperucita.getVidasRestantes() > 0; // TODO cambiar
+        return (estadoCaperucita.getFloresJuntadas() > 0 || estaEnFlores) && estadoCaperucita.getVidasRestantes() > 0;
     }
 
     @Override

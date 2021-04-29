@@ -1,9 +1,0 @@
-digraph g {
-node [shape = Mrecord];
-nodo0[label="{EO: 0|cost: 0.0|A: null}"]
-nodo1[label="{EO: 1|cost: 1.0|A: IrAbajo}"]
-
-nodo0 -> nodo1;
-
-
-}

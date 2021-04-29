@@ -176,7 +176,9 @@ public class Escenario {
         final String flor = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_YELLOW + Consola.EMOJI_FLOWER + Consola.ANSI_BLACK + Consola.ANSI_YELLOW + Consola.ANSI_RESET_BACKGROUND;
 
         StringBuilder escenario = new StringBuilder();
-        if (!this.nombre.equals("")) escenario.append(Consola.textoColoreadoGreen(" --- "+this.nombre+" ---")).append("\n");
+        escenario.append("\n");
+        if (!this.nombre.equals(""))
+            escenario.append(Consola.textoColoreadoGreen(" --- " + this.nombre + " ---")).append("\n");
 
         for (int movVertical = LIMITE_ARRIBA; movVertical <= LIMITE_ABAJO; movVertical++) {
             escenario.append(movVertical);
