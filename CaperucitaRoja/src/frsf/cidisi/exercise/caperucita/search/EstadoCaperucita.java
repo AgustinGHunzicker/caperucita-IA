@@ -78,9 +78,9 @@ public class EstadoCaperucita extends SearchBasedAgentState {
      */
     @Override
     public SearchBasedAgentState clone() {
-        //System.out.println("clone --> " + this.getAmbienteActual().getPercept());
+       // System.out.println("clone --> " + this.getAmbienteActual().getPercept());
         EstadoCaperucita newState = new EstadoCaperucita();
-        this.updateState(getAmbienteActual().getPercept());
+        //this.updateState(getAmbienteActual().getPercept());
         newState.setAmbienteActual(this.getAmbienteActual());
         newState.setEscenarioJuego(this.getEscenarioJuego());
 
@@ -198,12 +198,40 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     }
 
+    /*@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EstadoCaperucita)) return false;
+        EstadoCaperucita that = (EstadoCaperucita) o;
+        return getCantMovimientosDerecha() == that.getCantMovimientosDerecha() && getCantMovimientosIzquierda() == that.getCantMovimientosIzquierda() && getCantMovimientosArriba() == that.getCantMovimientosArriba() && getCantMovimientosAbajo() == that.getCantMovimientosAbajo() && posicionActual.equals(that.posicionActual) && getPercepcionCeldasDerecha() == that.getPercepcionCeldasDerecha() && getPercepcionCeldasIzquierda() == that.getPercepcionCeldasIzquierda() && getPercepcionCeldasArriba() == that.getPercepcionCeldasArriba() && getPercepcionCeldasAbajo() == that.getPercepcionCeldasAbajo();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(posicionActual, getPercepcionCeldasDerecha(), getPercepcionCeldasIzquierda(), getPercepcionCeldasArriba(), getPercepcionCeldasAbajo(), getCantMovimientosDerecha(), getCantMovimientosIzquierda(), getCantMovimientosArriba(), getCantMovimientosAbajo());
+    }*/
+
+/*    @Override
+    public boolean equals(Object o) {
+        System.out.println("this "+this);
+        System.out.println("nuevo: "+o);
+        if (this == o) return true;
+        if (!(o instanceof EstadoCaperucita)) return false;
+        EstadoCaperucita that = (EstadoCaperucita) o;
+        return cantMovimientosDerecha == that.cantMovimientosDerecha && cantMovimientosIzquierda == that.cantMovimientosIzquierda && cantMovimientosArriba == that.cantMovimientosArriba && cantMovimientosAbajo == that.cantMovimientosAbajo && Objects.equals(posicionActual, that.posicionActual);
+    }*/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof EstadoCaperucita)) return false;
         EstadoCaperucita that = (EstadoCaperucita) o;
-        return vidasRestantes == that.vidasRestantes && Objects.equals(escenarioJuego, that.escenarioJuego) && Objects.equals(ambienteActual, that.ambienteActual) && Objects.equals(posicionActual, that.posicionActual) && Objects.equals(posicionFlores, that.posicionFlores) && Objects.equals(posicionLobo, that.posicionLobo) && Objects.equals(posicionesDulces, that.posicionesDulces);
+        return Objects.equals(posicionActual, that.posicionActual);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(posicionActual);
     }
 
     @Override
@@ -217,8 +245,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     }
 
     //TODO quisiera ver si puedo usar el updateState(), utilizo este meotodo en las acciones, donde hago un cambio
-    //provisorio en una copia, pero no en el mundo real, si uso el updateState cae en loop, porque neceseta una percepcion
-    //y la percepcion que puede realizar en la accion es siempre la misma, porque no llega a la nueva posicion
+    //  provisorio en una copia, pero no en el mundo real, si uso el updateState cae en loop, porque neceseta una percepcion
+    //  y la percepcion que puede realizar en la accion es siempre la misma, porque no llega a la nueva posicion
     public void actualizarPosicionCaperucita(int x, int y) {
         this.ambienteActual.actualizarPosicionCaperucita(x, y);
     }
@@ -373,11 +401,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     public void setCantMovimientosAbajo(int cantMovimientosAbajo) {
         this.cantMovimientosAbajo = cantMovimientosAbajo;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(escenarioJuego, ambienteActual, posicionActual, posicionFlores, posicionLobo, posicionesDulces, vidasRestantes);
     }
 }
 

@@ -1,9 +1,7 @@
 package frsf.cidisi.exercise.caperucita.search.actions;
 
 import domain.Escenario;
-import enumeration.Consola;
 import enumeration.EstadoCelda;
-import frsf.cidisi.exercise.caperucita.search.CaperucitaPerception;
 import frsf.cidisi.exercise.caperucita.search.EstadoAmbiente;
 import frsf.cidisi.exercise.caperucita.search.EstadoCaperucita;
 import frsf.cidisi.faia.agent.search.SearchAction;
@@ -16,46 +14,33 @@ import java.util.HashSet;
 
 public class IrAbajo extends SearchAction {
 
-    private Double costo = 0.0;
+    //private Double costo = 0.0;
 
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
-
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
+
+        // particular de IrAbajo
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasAbajo();
-
-        //---------------------------------------------------
-        //System.out.println("\n" + Consola.textoColoreadoWhite("IrAbajo -> SearchBasedAgentState -> " + celda));
-        //System.out.println(Consola.textoColoreadoWhite("IrAbajo: posCaperucita: " + estadoCaperucita.getPosicionCaperucita()));
-        //System.out.println(Consola.textoColoreadoWhite("posFlores: " + estadoCaperucita.getPosicionFlores()));
-
-        System.out.println(Consola.textoColoreadoWhite("IrAbajo: cantMov: " + estadoCaperucita.getCantMovimientosAbajo()));
-
-        //---------------------------------------------------
-
         int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
-
-        if (!((posicionCaperucita.y + cantMovimientos) <= Escenario.LIMITE_ABAJO)) {
-            System.out.println("ESTÁ FUERA DE POSICION " + ((posicionCaperucita.y + cantMovimientos) <= Escenario.LIMITE_ABAJO));
-            return null;
-        }
 
         // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
         if (cantMovimientos < 1 || celda.equals(EstadoCelda.LOBO))
             return null;
         else {
             //debo actualizar en el ambiente la posicion vieja de caperucita
-            estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario().setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
+            estadoCaperucita.getEstadoAmbienteActual().getEscenario().setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
             //Para verificar los dulces
             int pisoInferior = posicionCaperucita.y;
             int pisoSuperior = posicionCaperucita.y + cantMovimientos;
             //realizo todos los movimientos que puedo hacer hacia la derecha
+            //escenario.setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
             estadoCaperucita.setPosicionCaperucita(new Point(posicionCaperucita.x, pisoSuperior));
 
             //si hay un dulce en esa dirección
             // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
-            if (celda.equals(EstadoCelda.DULCE)) {
+            /*if (celda.equals(EstadoCelda.DULCE)) {
                 for (Point dulce : estadoCaperucita.getPosicionesDulces()) {
                     if (dulce.x == estadoCaperucita.getPosicionCaperucita().x && dulce.y <= pisoSuperior && pisoInferior <= dulce.y) {
                         estadoCaperucita.addDulceJuntado(dulce);
@@ -64,7 +49,7 @@ public class IrAbajo extends SearchAction {
                         estadoCaperucita.getAmbienteActual().getEnvironmentState().getPosicionesDulces().remove(dulce);
                     }
                 }
-            }
+            }*/
 
             //Se debe verificar si no esta sobre las flores,
             // puesto que la bandera FLORES puede quedar anulada por los dulces
@@ -74,13 +59,10 @@ public class IrAbajo extends SearchAction {
                     break;
                 }
             }
-            estadoCaperucita.actualizarPosicionCaperucita(estadoCaperucita.getPosicionCaperucita().x, estadoCaperucita.getPosicionCaperucita().y);
-            //tengo que actualizar todo el estado caperucita completo, en esta copia
-            //CaperucitaPerception p = estadoCaperucita.getAmbienteActual().getPercept();
-            //System.out.println("------------------ PERCEPCION 1 - ABAJO ------------------");
-            //System.out.println(p);
-            System.out.println(estadoCaperucita.getEscenarioJuego());
 
+            System.out.println(estadoCaperucita.getEstadoAmbienteActual().getEscenario());
+            estadoCaperucita.actualizarPosicionCaperucita(estadoCaperucita.getPosicionCaperucita().x, estadoCaperucita.getPosicionCaperucita().y);
+            //CaperucitaPerception p = estadoCaperucita.getAmbienteActual().getPercept();
             //estadoCaperucita.updateState(p);
             return estadoCaperucita;
         }
@@ -114,48 +96,31 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public EnvironmentState execute(AgentState ast, EnvironmentState est) {
-
-        System.out.println(Consola.textoColoreadoWhite("IrAbajo -> EnvironmentState - Actualizar el Mundo real"));
         EstadoAmbiente environmentState = (EstadoAmbiente) est;
         Escenario escenario = environmentState.getEscenario();
-        //fijarse que ya esta actualizando el mundo real cuando lo hace arriba, arriba solo deberia actualizarlo en una copia
         EstadoCaperucita estadoCaperucita = ((EstadoCaperucita) ast);
-
-        System.out.println(" en el segundo execute() " + estadoCaperucita);
 
 
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
 
+        // particular de IrAbajo
+        EstadoCelda celda = estadoCaperucita.getPercepcionCeldasAbajo();
+        int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
 
-        for (Point p : estadoCaperucita.getPosicionFlores()) {
-            if (p.equals(posicionCaperucita)) {
+        for (Point posCaperucita : estadoCaperucita.getPosicionFlores()) {
+            if (posCaperucita.equals(posicionCaperucita)) {
                 estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
                 environmentState.setPosicionCaperucita(posicionCaperucita);
                 return environmentState;
-
             }
         }
 
-        EstadoCelda celda = estadoCaperucita.getPercepcionCeldasAbajo();
-        System.out.println(estadoCaperucita.getAmbienteActual().getEnvironmentState().getEscenario());
-
-
-        int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
 
         // verifica que haya movimientos disponibles y que las posiciones sean válidas
-        if (cantMovimientos > 0
-                && Escenario.LIMITE_IZQUIERDA <= posicionCaperucita.x
-                && posicionCaperucita.x <= Escenario.LIMITE_DERECHA
-                && Escenario.LIMITE_ARRIBA <= (posicionCaperucita.y + cantMovimientos)
-                && (posicionCaperucita.y + cantMovimientos) <= Escenario.LIMITE_ABAJO
-        ) {
+        if (cantMovimientos > 0) {
             if (celda.equals(EstadoCelda.LOBO)) {
                 //Haciendo este movimiento el lobo se come a Caperucita
                 estadoCaperucita.setVidasRestantes(estadoCaperucita.getVidasRestantes() - 1);
-
-                if (estadoCaperucita.getVidasRestantes() < 1) return null;
-                // TODO se fija si el agente falla?
-                return environmentState;
             }
 
             escenario.setPosicionCelda(posicionCaperucita.x, posicionCaperucita.y, EstadoCelda.VACIA);
@@ -206,10 +171,9 @@ public class IrAbajo extends SearchAction {
             return null;
         }
 
-        System.out.println(escenario);
         environmentState.setEscenario(escenario);
         environmentState.setPosicionCaperucita(posicionCaperucita);
-
+        System.out.print(escenario);
         return environmentState;
     }
 
@@ -291,7 +255,7 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public Double getCost() {
-        return costo;
+        return 1.0;
     }
 
     /**

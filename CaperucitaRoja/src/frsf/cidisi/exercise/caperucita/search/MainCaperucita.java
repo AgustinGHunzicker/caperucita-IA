@@ -6,7 +6,8 @@ public class MainCaperucita {
 
     public static void main(String[] args) {
         Caperucita caperucita = new Caperucita();
-        SearchBasedAgentSimulator simulator = new SearchBasedAgentSimulator(((EstadoCaperucita) caperucita.getAgentState()).getAmbienteActual(), caperucita);
+        Ambiente ambiente = new Ambiente();
+        SearchBasedAgentSimulator simulator = new SearchBasedAgentSimulator(ambiente, caperucita);
         simulator.start();
     }
 }

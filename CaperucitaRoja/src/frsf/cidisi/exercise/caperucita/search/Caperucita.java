@@ -9,7 +9,9 @@ import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.agent.search.Problem;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgent;
+import frsf.cidisi.faia.simulator.SearchBasedAgentSimulator;
 import frsf.cidisi.faia.solver.search.BreathFirstSearch;
+import frsf.cidisi.faia.solver.search.DepthFirstSearch;
 import frsf.cidisi.faia.solver.search.GreedySearch;
 import frsf.cidisi.faia.solver.search.Search;
 
@@ -26,10 +28,10 @@ public class Caperucita extends SearchBasedAgent {
         setAgentState(estadoCaperucita);
 
         Vector<SearchAction> actions = new Vector<>();
-        actions.addElement(new IrDerecha());
+        actions.addElement(new IrArriba());
         actions.addElement(new IrIzquierda());
         actions.addElement(new IrAbajo());
-        //actions.addElement(new IrArriba());
+        actions.addElement(new IrDerecha());
 
         Problem problem = new Problem(objetivoCaperucita, estadoCaperucita, actions);
         this.setProblem(problem);
@@ -43,13 +45,14 @@ public class Caperucita extends SearchBasedAgent {
 
         // Create the search strategy
         BreathFirstSearch strategy = new BreathFirstSearch();
+        //DepthFirstSearch strategy = new DepthFirstSearch();
 
         // Create a Search object with the strategy
         Search searchSolver = new Search(strategy);
 
         /* Generate an XML file with the search tree. It can also be generated
          * in other formats like PDF with PDF_TREE */
-        searchSolver.setVisibleTree(Search.GRAPHVIZ_TREE);
+        searchSolver.setVisibleTree(Search.PDF_TREE);
 
         // Set the Search searchSolver.
         this.setSolver(searchSolver);

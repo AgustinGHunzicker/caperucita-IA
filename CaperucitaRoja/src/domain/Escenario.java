@@ -27,7 +27,7 @@ public class Escenario {
      * Genera un tipo de escenario según el parámetro pasado como argumento
      */
     public void generarEscenario(int nroEsc) {
-        this.nombre = " - Escenario Nº" + nroEsc;
+        this.nombre = "Escenario Nº " + nroEsc;
 
         //---------- ÁRBOLES ----------
         for (int posHorizontal = LIMITE_IZQUIERDA; posHorizontal <= LIMITE_DERECHA; posHorizontal++) {
@@ -176,8 +176,7 @@ public class Escenario {
         final String flor = "" + Consola.ANSI_BLACK_BACKGROUND + Consola.ANSI_YELLOW + Consola.EMOJI_FLOWER + Consola.ANSI_BLACK + Consola.ANSI_YELLOW + Consola.ANSI_RESET_BACKGROUND;
 
         StringBuilder escenario = new StringBuilder();
-        escenario.append("\n");
-        if (!this.nombre.equals("")) escenario.append(Consola.textoColoreadoGreen(this.nombre)).append("\n");
+        if (!this.nombre.equals("")) escenario.append(Consola.textoColoreadoGreen(" --- "+this.nombre+" ---")).append("\n");
 
         for (int movVertical = LIMITE_ARRIBA; movVertical <= LIMITE_ABAJO; movVertical++) {
             escenario.append(movVertical);

@@ -76,33 +76,23 @@ public class EstadoAmbiente extends EnvironmentState {
         // TODO eliminar, es para pruebas fijas
         getEscenario().generarEscenario(2);
 
-        /*setPosicionCaperucita(new Point(6, 3));
-        getEscenario().setPosicionCelda(6, 3, EstadoCelda.CAPERUCITA);
+        Point caperucita = new Point(6, 1);
+        Point lobo = new Point(4, 6);
+        Point dulce1 = new Point(8, 3);
+        Point dulce2 = new Point(6, 3);
+        Point dulce3 = new Point(9, 5);
 
-        setPosicionLobo(new Point(6, 1));
-        getEscenario().setPosicionCelda(6, 1, EstadoCelda.LOBO);
+        setPosicionCaperucita(caperucita);
+        setPosicionLobo(lobo);
+        getPosicionesDulces().add(dulce1);
+        getPosicionesDulces().add(dulce2);
+        getPosicionesDulces().add(dulce3);
 
-        getPosicionesDulces().add(new Point(5, 2));
-        getEscenario().setPosicionCelda(5, 2, EstadoCelda.DULCE);
-
-        getPosicionesDulces().add(new Point(8, 3));
-        getEscenario().setPosicionCelda(8, 3, EstadoCelda.DULCE);
-
-        getPosicionesDulces().add(new Point(6, 6));
-        getEscenario().setPosicionCelda(6, 6, EstadoCelda.DULCE);*/
-
-        this.setPosicionCaperucita(new Point(6, 1));
-        getEscenario().setPosicionCelda(6, 1, EstadoCelda.CAPERUCITA);
-        //
-        setPosicionLobo(new Point(4, 6));
-        getEscenario().setPosicionCelda(4, 6, EstadoCelda.LOBO);
-        //
-        getPosicionesDulces().add(new Point(8, 3));
-        getEscenario().setPosicionCelda(8, 3, EstadoCelda.DULCE);
-        getPosicionesDulces().add(new Point(6, 3));
-        getEscenario().setPosicionCelda(6, 3, EstadoCelda.DULCE);
-        getPosicionesDulces().add(new Point(9, 5));
-        getEscenario().setPosicionCelda(9, 5, EstadoCelda.DULCE);
+        escenario.setPosicionCelda(caperucita.x, caperucita.y, EstadoCelda.CAPERUCITA);
+        escenario.setPosicionCelda(lobo.x, lobo.y, EstadoCelda.LOBO);
+        escenario.setPosicionCelda(dulce1.x, dulce1.y, EstadoCelda.DULCE);
+        escenario.setPosicionCelda(dulce2.x, dulce2.y, EstadoCelda.DULCE);
+        escenario.setPosicionCelda(dulce3.x, dulce3.y, EstadoCelda.DULCE);
     }
 
     private int getRandomNumber(int min, int max) {

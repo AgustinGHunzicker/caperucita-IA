@@ -27,21 +27,10 @@ public class IrDerecha extends SearchAction {
 
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
         Point posicionCaperucita = estadoCaperucita.getPosicionCaperucita();
+
+        // DERECHA THINGS
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasDerecha();
-
-
-        //---------------------------------------------------
-        //System.out.println("\n" + Consola.textoColoreadoWhite("IrDerecha -> SearchBasedAgentState -> " + celda));
-        System.out.println(Consola.textoColoreadoWhite("IrDerecha: posCaperucita: " + estadoCaperucita.getPosicionCaperucita()));
-        //System.out.println(Consola.textoColoreadoWhite("posFlores: " + estadoCaperucita.getPosicionFlores()));
-        //---------------------------------------------------
-
         int cantMovimientos = estadoCaperucita.getCantMovimientosDerecha();
-
-        if (!((posicionCaperucita.x + cantMovimientos) <= Escenario.LIMITE_DERECHA)) {
-            System.out.println("ESTÁ FUERA DE POSICION " + ((posicionCaperucita.x + cantMovimientos) > Escenario.LIMITE_DERECHA));
-            return null;
-        }
 
         // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
         if (cantMovimientos < 1 || celda.equals(EstadoCelda.LOBO))
@@ -57,7 +46,7 @@ public class IrDerecha extends SearchAction {
 
             //si hay un dulce en esa dirección
             // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
-            if (celda.equals(EstadoCelda.DULCE)) {
+            /*if (celda.equals(EstadoCelda.DULCE)) {
                 for (Point posDulce : estadoCaperucita.getPosicionesDulces()) {
                     if (posDulce.x == estadoCaperucita.getPosicionCaperucita().x && posDulce.x <= pisoSuperior && pisoInferior <= posDulce.x) {
                         estadoCaperucita.addDulceJuntado(posDulce);
@@ -66,7 +55,7 @@ public class IrDerecha extends SearchAction {
                         estadoCaperucita.getAmbienteActual().getEnvironmentState().getPosicionesDulces().remove(posDulce);
                     }
                 }
-            }
+            }*/
 
             //Se debe verificar si no esta sobre las flores,
             // puesto que la bandera FLORES puede quedar anulada por los dulces
@@ -78,12 +67,10 @@ public class IrDerecha extends SearchAction {
             }
             estadoCaperucita.actualizarPosicionCaperucita(estadoCaperucita.getPosicionCaperucita().x, estadoCaperucita.getPosicionCaperucita().y);
             //tengo que actualizar todo el estado caperucita completo, en esta copia
-            //CaperucitaPerception p = estadoCaperucita.getAmbienteActual().getPercept();
 
-            System.out.println(estadoCaperucita.getEscenarioJuego());
-            //System.out.println("------------------ PERCEPCION 1 - DERECHA ------------------");
-            //System.out.println(p);
-            //estadoCaperucita.updateState(p);
+            CaperucitaPerception p = estadoCaperucita.getAmbienteActual().getPercept();
+            estadoCaperucita.updateState(p);
+
             return estadoCaperucita;
         }
     }
@@ -166,7 +153,6 @@ public class IrDerecha extends SearchAction {
         } else {
             return null;
         }
-        System.out.println(escenario);
 
         environmentState.setPosicionCaperucita(estadoCaperucita.getPosicionCaperucita());
         environmentState.setEscenario(escenario);
