@@ -1,4 +1,4 @@
-package frsf.cidisi.exercise.caperucita.search;
+package search;
 
 import domain.Escenario;
 import enumeration.EstadoCelda;
@@ -146,9 +146,16 @@ public class Ambiente extends Environment {
                     break;
             }
 
+            for(Point flor : this.getEnvironmentState().getPosicionesFlores()){
+                if(flor.equals(new Point(posicionXActual, posicionYActual)))
+                    vista.posicionFlores.add(flor);
+            }
+
+
             switch (escenario.getPosicionCelda(posicionXActual, posicionYActual)) {
                 /* puedo seguir avanzando, está vacío */
                 case VACIA:
+                case CAPERUCITA:
                     vista.cantidadPosiciones++;
                     break;
                 /* hay un arbol, hasta acá nomás se puede llegar */
@@ -168,14 +175,13 @@ public class Ambiente extends Environment {
                     break;
                 /* está el camino de flores, la meta */
                 case FLORES:
-                    vista.posicionFlores.add(new Point(posicionXActual, posicionYActual));
+                    //vista.posicionFlores.add(new Point(posicionXActual, posicionYActual));
                     if (posicionYActual == Escenario.LIMITE_ABAJO) {
                         // Llegó al borde del mapa
                         arbol_flor = true;
                     } else {
                         vista.cantidadPosiciones++;
                     }
-                    if (vista.posicionDulces.size() == 2) arbol_flor = true;
                     break;
             }
 

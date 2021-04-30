@@ -1,6 +1,6 @@
 package enumeration;
 
-import domain.Escenario;
+import frsf.cidisi.faia.agent.search.SearchAction;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -105,5 +105,13 @@ public enum Consola {
         texto.deleteCharAt(texto.length()-1);
         texto.deleteCharAt(texto.length()-1);
         return texto.toString();
+    }
+
+    public static void printExecution1(SearchAction action, Point punto){
+        //System.out.println(Consola.textoColoreadoPurple("Probando " + action + " " + Consola.celdaToString(punto)));
+    }
+
+    public static void printExecution2(SearchAction action){
+        //System.out.println(Consola.textoColoreadoPurple("Usando " + action));
     }
 }

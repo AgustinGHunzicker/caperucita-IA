@@ -3,6 +3,9 @@ package domain;
 import enumeration.Consola;
 import enumeration.EstadoCelda;
 
+import java.awt.*;
+import java.util.HashSet;
+
 public class Escenario {
     public static final int LIMITE_IZQUIERDA = 0;
     public static final int LIMITE_DERECHA = 13;
@@ -161,6 +164,20 @@ public class Escenario {
                 break;
             }
         }
+    }
+
+    public HashSet<Point> getFlores() {
+        HashSet<Point> flores = new HashSet<>();
+
+        for (int i = 0; i <= LIMITE_DERECHA; i++) {
+            for (int j = 0; j <= LIMITE_ABAJO; j++) {
+                if (this.celdas[i][j].equals(EstadoCelda.FLORES)) {
+                    flores.add(new Point(i, j));
+                }
+            }
+        }
+
+        return flores;
     }
 
     /**

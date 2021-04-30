@@ -17,15 +17,16 @@
  */
 package frsf.cidisi.faia.simulator;
 
-import java.util.Vector;
-import frsf.cidisi.faia.state.AgentState;
-import frsf.cidisi.faia.agent.GoalBasedAgent;
-import frsf.cidisi.faia.agent.Agent;
 import frsf.cidisi.faia.agent.Action;
+import frsf.cidisi.faia.agent.Agent;
+import frsf.cidisi.faia.agent.GoalBasedAgent;
 import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.environment.Environment;
 import frsf.cidisi.faia.simulator.events.EventType;
 import frsf.cidisi.faia.simulator.events.SimulatorEventNotifier;
+import frsf.cidisi.faia.state.AgentState;
+
+import java.util.Vector;
 
 public abstract class GoalBasedAgentSimulator extends Simulator {
 
@@ -96,7 +97,8 @@ public abstract class GoalBasedAgentSimulator extends Simulator {
 
         // Check what happened, if agent has reached the goal or not.
         if (this.agentSucceeded(action)) {
-            System.out.println("Agent has reached the goal!");
+            System.out.println("Agent has reached the goal!\n");
+            System.out.println(agent.toString());
         } else {
             System.out.println("ERROR: The simulation has finished, but the agent has not reached his goal.");
         }

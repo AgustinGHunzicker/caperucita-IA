@@ -1,4 +1,4 @@
-package frsf.cidisi.exercise.caperucita.search;
+package search;
 
 import frsf.cidisi.faia.simulator.SearchBasedAgentSimulator;
 
