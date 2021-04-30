@@ -14,12 +14,15 @@ import java.awt.*;
 
 public class IrDerecha extends SearchAction {
 
+    private Double costo = 10.0;
+
     /**
      * This method updates a tree node state when the search process is running.
      * It does not updates the real world state.
      */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
+        costo = 10.0;
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
         Point posInicialCap = estadoCaperucita.getPosicionCaperucita();
 
@@ -32,6 +35,7 @@ public class IrDerecha extends SearchAction {
             Consola.printExecution1(this, estadoCaperucita.getPosicionCaperucita());
 
             if (celda.equals(EstadoCelda.LOBO)) {
+                costo += 10;
                 //TODO hacer lo del lobo
                 return null;
             }
@@ -43,7 +47,8 @@ public class IrDerecha extends SearchAction {
             // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
             for (Point dulce : estadoCaperucita.getPosicionesDulces()) {
                 //Si está en la misma columna y está dentro de los posibles movimientos hacia la derecha
-                if (posFinalCap.y == dulce.y && (posInicialCap.x <= dulce.x) && (dulce.x <= posFinalCap.x)) {
+                if (posFinalCap.y == dulce.y && (posInicialCap.x <= dulce.x) && (dulce.x <= posFinalCap.x) && !estadoCaperucita.getDulcesJuntados().contains(dulce)) {
+                    costo -= 2;
                     estadoCaperucita.getDulcesJuntados().add(dulce);
                     estadoCaperucita.getEstadoAmbiente().getEscenario().setPosicionCelda(dulce.x, dulce.y, EstadoCelda.VACIA);
                 }
@@ -57,9 +62,10 @@ public class IrDerecha extends SearchAction {
             // puesto que la bandera FLORES puede quedar anulada por los dulces
             for (Point posicionFlor : estadoCaperucita.getPosicionFlores()) {
                 if (posicionFlor.equals(estadoCaperucita.getPosicionCaperucita())) {
+                    if(estadoCaperucita.getFloresJuntadas() < 1)
+                        costo -= 3;
                     estadoCaperucita.getPosicionFlores().add(posicionFlor);
                     estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
-                    break;
                 }
             }
 
@@ -95,10 +101,8 @@ public class IrDerecha extends SearchAction {
                 return null;
             }
 
-            //actualizo el estado de caperucita y el escenario
             Point posFinalCap = new Point(posInicialCap.x + cantMovimientos, posInicialCap.y);
             estadoCaperucita.setPosicionCaperucita(posFinalCap);
-
 
             //si hay un dulce en esa dirección
             // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
@@ -114,7 +118,6 @@ public class IrDerecha extends SearchAction {
 
             estadoCaperucita.getEstadoAmbiente().getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
             environmentState.getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
-            estadoCaperucita.getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
             estadoCaperucita.setDulcesJuntados(estadoCaperucita.getDulcesJuntados());
 
             //Se debe verificar si no esta sobre las flores,
@@ -131,13 +134,11 @@ public class IrDerecha extends SearchAction {
             escenario.setPosicionCelda(posInicialCap.x, posInicialCap.y, EstadoCelda.VACIA);
             escenario.setPosicionCelda(posFinalCap.x, posFinalCap.y, EstadoCelda.CAPERUCITA);
 
-
             environmentState.setEscenario(escenario);
             environmentState.setPosicionCaperucita(posFinalCap);
             estadoCaperucita.updateState(estadoCaperucita.getAmbiente().getPercept());
             return environmentState;
         }
-
 
         return null;
     }
@@ -147,7 +148,7 @@ public class IrDerecha extends SearchAction {
      */
     @Override
     public Double getCost() {
-        return 2.0;
+        return costo;
     }
 
     /**

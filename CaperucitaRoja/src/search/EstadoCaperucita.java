@@ -206,13 +206,15 @@ public class EstadoCaperucita extends SearchBasedAgentState {
     @Override
     public String toString() {
         return "\n" + Consola.textoColoreadoRed("- Posición actual: " + Consola.celdaToString(posicionActual)) +
-                "\n" + Consola.textoColoreadoRed("- Posiciones flores: " + Consola.celdaToString(posicionFlores)) +
-                "\n" + Consola.textoColoreadoRed("- Posiciones dulces: " + Consola.celdaToString(posicionesDulces)) +
-                "\n" + Consola.textoColoreadoRed("- Dulces juntados: " + Consola.celdaToString(dulcesJuntados)) +
-                "\n" + Consola.textoColoreadoRed("- Flores pisadas: " + floresJuntadas) +
-                "\n" + Consola.textoColoreadoRed("- Vidas restantes: " + vidasRestantes) +
-                "\n" + Consola.textoColoreadoGreen("- Escenario descubierto") +
-                "\n ----------------------------------------------------\n"; //TODO borrar cuando se presente
+                //"\n" + Consola.textoColoreadoRed("- Posiciones flores: " + Consola.celdaToString(posicionFlores)) +
+                //"\n" + Consola.textoColoreadoRed("- Posiciones dulces: " + Consola.celdaToString(posicionesDulces)) +
+                //"\n" + Consola.textoColoreadoRed("- Dulces juntados: " + Consola.celdaToString(dulcesJuntados.size())) +
+                "\n" + Consola.textoColoreadoRed("- Dulces juntados: " + dulcesJuntados.size()) +
+                //"\n" + Consola.textoColoreadoRed("- Flores pisadas: " + floresJuntadas) +
+                "\n" + Consola.textoColoreadoRed("- Vidas restantes: " + vidasRestantes);
+                //"\n" + Consola.textoColoreadoGreen("- Escenario descubierto") +
+                //escenarioDescubierto+
+                //"\n ----------------------------------------------------\n"; //TODO borrar cuando se presente
 
     }
 

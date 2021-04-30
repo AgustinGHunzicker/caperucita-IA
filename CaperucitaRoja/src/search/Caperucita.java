@@ -5,8 +5,8 @@ import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.agent.search.Problem;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgent;
-import frsf.cidisi.faia.solver.search.BreathFirstSearch;
 import frsf.cidisi.faia.solver.search.Search;
+import frsf.cidisi.faia.solver.search.UniformCostSearch;
 import search.actions.IrAbajo;
 import search.actions.IrArriba;
 import search.actions.IrDerecha;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 public class Caperucita extends SearchBasedAgent {
 
-    private EstadoCaperucita estadoCaperucita;
+    private final EstadoCaperucita estadoCaperucita;
 
     public Caperucita(Ambiente ambiente) {
         ObjetivoCaperucita objetivoCaperucita = new ObjetivoCaperucita();
@@ -43,8 +43,8 @@ public class Caperucita extends SearchBasedAgent {
     public Action selectAction() {
 
         // Create the search strategy
-        BreathFirstSearch strategy = new BreathFirstSearch();
-        //UniformCostSearch strategy = new UniformCostSearch(new CostFunction());
+        //BreathFirstSearch strategy = new BreathFirstSearch();
+        UniformCostSearch strategy = new UniformCostSearch(new CostFunction());
 
 
         // Create a Search object with the strategy

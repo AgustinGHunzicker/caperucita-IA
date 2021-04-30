@@ -14,12 +14,18 @@ import java.awt.*;
 
 public class IrAbajo extends SearchAction {
 
-    //private Double costo = 0.0;
+    private Double costo = 10.0;
 
+    /**
+     * This method updates a tree node state when the search process is running.
+     * It does not updates the real world state.
+     */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
+        costo = 10.0;
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
         Point posInicialCap = estadoCaperucita.getPosicionCaperucita();
+
         // particular de IrAbajo
         EstadoCelda celda = estadoCaperucita.getPercepcionCeldasAbajo();
         int cantMovimientos = estadoCaperucita.getCantMovimientosAbajo();
@@ -29,6 +35,7 @@ public class IrAbajo extends SearchAction {
             Consola.printExecution1(this, estadoCaperucita.getPosicionCaperucita());
 
             if (celda.equals(EstadoCelda.LOBO)) {
+                costo += 10;
                 //TODO hacer lo del lobo
                 return null;
             }
@@ -39,10 +46,12 @@ public class IrAbajo extends SearchAction {
             //si hay un dulce en esa dirección
             // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
             for (Point dulce : estadoCaperucita.getPosicionesDulces()) {
+                System.out.println("Entro dulce");
                 //Si está en la misma columna y está dentro de los posibles movimientos hacia abajo
-                if (posFinalCap.x == dulce.x && (posInicialCap.y <= dulce.y) && (dulce.y <= posFinalCap.y)) {
+                if (posFinalCap.x == dulce.x && (posInicialCap.y <= dulce.y) && (dulce.y <= posFinalCap.y) && !estadoCaperucita.getDulcesJuntados().contains(dulce)) {
+                    costo -= 2;
                     estadoCaperucita.getDulcesJuntados().add(dulce);
-                    estadoCaperucita.getEstadoAmbiente().getEscenario().setPosicionCelda(dulce.x, dulce.y, EstadoCelda.VACIA);
+                    //estadoCaperucita.getEstadoAmbiente().getEscenario().setPosicionCelda(dulce.x, dulce.y, EstadoCelda.VACIA);
                 }
             }
 
@@ -54,6 +63,8 @@ public class IrAbajo extends SearchAction {
             // puesto que la bandera FLORES puede quedar anulada por los dulces
             for (Point posicionFlor : estadoCaperucita.getPosicionFlores()) {
                 if (posicionFlor.equals(estadoCaperucita.getPosicionCaperucita())) {
+                    if (estadoCaperucita.getFloresJuntadas() < 1)
+                        costo -= 3;
                     estadoCaperucita.getPosicionFlores().add(posicionFlor);
                     estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
                 }
@@ -86,7 +97,6 @@ public class IrAbajo extends SearchAction {
 
         // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
         if (cantMovimientos > 0) {
-
             if (celda.equals(EstadoCelda.LOBO)) {
                 //TODO hacer lo del lobo
                 return null;
@@ -95,6 +105,8 @@ public class IrAbajo extends SearchAction {
             Point posFinalCap = new Point(posInicialCap.x, posInicialCap.y + cantMovimientos);
             estadoCaperucita.setPosicionCaperucita(posFinalCap);
 
+            //si hay un dulce en esa dirección
+            // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
             for (Point dulce : estadoCaperucita.getPosicionesDulces()) {
                 escenario.setPosicionCelda(dulce.x, dulce.y, EstadoCelda.DULCE);
                 //Si está en la misma columna y está dentro de los posibles movimientos hacia abajo
@@ -107,7 +119,6 @@ public class IrAbajo extends SearchAction {
 
             estadoCaperucita.getEstadoAmbiente().getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
             environmentState.getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
-            estadoCaperucita.getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
             estadoCaperucita.setDulcesJuntados(estadoCaperucita.getDulcesJuntados());
 
             //Se debe verificar si no esta sobre las flores,
@@ -138,7 +149,7 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public Double getCost() {
-        return 2.0;
+        return costo;
     }
 
     /**
