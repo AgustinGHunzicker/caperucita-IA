@@ -1,6 +1,6 @@
 package enumeration;
 
-import domain.Escenario;
+import frsf.cidisi.faia.agent.search.SearchAction;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -71,12 +71,16 @@ public enum Consola {
         return "" + ANSI_WHITE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
     }
 
+    public static String textoColoreadoPurple(String texto) {
+        return "" + ANSI_PURPLE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+    }
+
     //nada que ver aca, pero era para centralizar
     public static String celdaToString(Point celda) {
         if (celda.equals(UNKNOWN)) {
             return "UNKNOWN";
         }
-        return "[x:" + ((int) celda.getX() + 1) + ", y:" + ((int) celda.getY() + 1) + "]";
+        return "[x:" + ((int) celda.getX()) + ", y:" + ((int) celda.getY()) + "]";
     }
 
     public static String celdaToString(List<Point> celdas) {
@@ -101,5 +105,13 @@ public enum Consola {
         texto.deleteCharAt(texto.length()-1);
         texto.deleteCharAt(texto.length()-1);
         return texto.toString();
+    }
+
+    public static void printExecution1(SearchAction action, Point punto){
+        //System.out.println(Consola.textoColoreadoPurple("Probando " + action + " " + Consola.celdaToString(punto)));
+    }
+
+    public static void printExecution2(SearchAction action){
+        //System.out.println(Consola.textoColoreadoPurple("Usando " + action));
     }
 }

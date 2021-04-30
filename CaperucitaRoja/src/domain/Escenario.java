@@ -3,6 +3,9 @@ package domain;
 import enumeration.Consola;
 import enumeration.EstadoCelda;
 
+import java.awt.*;
+import java.util.HashSet;
+
 public class Escenario {
     public static final int LIMITE_IZQUIERDA = 0;
     public static final int LIMITE_DERECHA = 13;
@@ -27,7 +30,7 @@ public class Escenario {
      * Genera un tipo de escenario según el parámetro pasado como argumento
      */
     public void generarEscenario(int nroEsc) {
-        this.nombre = " - Escenario Nº" + nroEsc;
+        this.nombre = "Escenario Nº " + nroEsc;
 
         //---------- ÁRBOLES ----------
         for (int posHorizontal = LIMITE_IZQUIERDA; posHorizontal <= LIMITE_DERECHA; posHorizontal++) {
@@ -76,11 +79,6 @@ public class Escenario {
                 break;
             }
             case 2: {
-                //TODO quitar
-                this.celdas[7][6] = EstadoCelda.ARBOL;
-                this.celdas[5][6] = EstadoCelda.ARBOL;
-                //
-
                 //---------- FLORES ----------
                 this.celdas[6][7] = EstadoCelda.FLORES;
                 this.celdas[6][8] = EstadoCelda.FLORES;
@@ -168,6 +166,20 @@ public class Escenario {
         }
     }
 
+    public HashSet<Point> getFlores() {
+        HashSet<Point> flores = new HashSet<>();
+
+        for (int i = 0; i <= LIMITE_DERECHA; i++) {
+            for (int j = 0; j <= LIMITE_ABAJO; j++) {
+                if (this.celdas[i][j].equals(EstadoCelda.FLORES)) {
+                    flores.add(new Point(i, j));
+                }
+            }
+        }
+
+        return flores;
+    }
+
     /**
      * Imprime la matriz del escenario, representando el estado de las celdas como emojis.
      */
@@ -182,10 +194,11 @@ public class Escenario {
 
         StringBuilder escenario = new StringBuilder();
         escenario.append("\n");
-        if (!this.nombre.equals("")) escenario.append(Consola.textoColoreadoGreen(this.nombre)).append("\n");
+        if (!this.nombre.equals(""))
+            escenario.append(Consola.textoColoreadoGreen(" --- " + this.nombre + " ---")).append("\n");
 
         for (int movVertical = LIMITE_ARRIBA; movVertical <= LIMITE_ABAJO; movVertical++) {
-            escenario.append(movVertical + 1);
+            escenario.append(movVertical);
 
             for (int movHorizontal = LIMITE_IZQUIERDA; movHorizontal <= LIMITE_DERECHA; movHorizontal++) {
                 switch (this.celdas[movHorizontal][movVertical]) {
