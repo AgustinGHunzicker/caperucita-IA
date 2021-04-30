@@ -41,7 +41,7 @@ public class IrDerecha extends SearchAction {
             }
 
             Point posFinalCap = new Point(posInicialCap.x + cantMovimientos, posInicialCap.y);
-            estadoCaperucita.setPosicionCaperucita(new Point(posFinalCap.x, posFinalCap.y));
+            estadoCaperucita.setPosicionCaperucita(posFinalCap);
 
             //si hay un dulce en esa dirección
             // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
@@ -50,7 +50,6 @@ public class IrDerecha extends SearchAction {
                 if (posFinalCap.y == dulce.y && (posInicialCap.x <= dulce.x) && (dulce.x <= posFinalCap.x) && !estadoCaperucita.getDulcesJuntados().contains(dulce)) {
                     costo -= 2;
                     estadoCaperucita.getDulcesJuntados().add(dulce);
-                    estadoCaperucita.getEstadoAmbiente().getEscenario().setPosicionCelda(dulce.x, dulce.y, EstadoCelda.VACIA);
                 }
             }
 

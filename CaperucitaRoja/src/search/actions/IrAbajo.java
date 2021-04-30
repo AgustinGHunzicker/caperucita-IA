@@ -41,17 +41,15 @@ public class IrAbajo extends SearchAction {
             }
 
             Point posFinalCap = new Point(posInicialCap.x, posInicialCap.y + cantMovimientos);
-            estadoCaperucita.setPosicionCaperucita(new Point(posFinalCap.x, posFinalCap.y));
+            estadoCaperucita.setPosicionCaperucita(posFinalCap);
 
             //si hay un dulce en esa dirección
             // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
             for (Point dulce : estadoCaperucita.getPosicionesDulces()) {
-                System.out.println("Entro dulce");
                 //Si está en la misma columna y está dentro de los posibles movimientos hacia abajo
                 if (posFinalCap.x == dulce.x && (posInicialCap.y <= dulce.y) && (dulce.y <= posFinalCap.y) && !estadoCaperucita.getDulcesJuntados().contains(dulce)) {
                     costo -= 2;
                     estadoCaperucita.getDulcesJuntados().add(dulce);
-                    //estadoCaperucita.getEstadoAmbiente().getEscenario().setPosicionCelda(dulce.x, dulce.y, EstadoCelda.VACIA);
                 }
             }
 
@@ -133,7 +131,7 @@ public class IrAbajo extends SearchAction {
             }
 
             escenario.setPosicionCelda(posInicialCap.x, posInicialCap.y, EstadoCelda.VACIA);
-            escenario.setPosicionCelda(posInicialCap.x, posInicialCap.y, EstadoCelda.CAPERUCITA);
+            escenario.setPosicionCelda(posFinalCap.x, posFinalCap.y, EstadoCelda.CAPERUCITA);
 
             environmentState.setEscenario(escenario);
             environmentState.setPosicionCaperucita(posFinalCap);

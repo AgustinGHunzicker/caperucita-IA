@@ -41,7 +41,7 @@ public class IrIzquierda extends SearchAction {
             }
 
             Point posFinalCap = new Point(posInicialCap.x - cantMovimientos, posInicialCap.y);
-            estadoCaperucita.setPosicionCaperucita(new Point(posFinalCap.x, posFinalCap.y));
+            estadoCaperucita.setPosicionCaperucita(posFinalCap);
 
             //si hay un dulce en esa dirección
             // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
@@ -50,7 +50,6 @@ public class IrIzquierda extends SearchAction {
                 if (posFinalCap.y == dulce.y && (posFinalCap.x <= dulce.x) && (dulce.x <= posInicialCap.x) && !estadoCaperucita.getDulcesJuntados().contains(dulce)) {
                     costo -= 2;
                     estadoCaperucita.getDulcesJuntados().add(dulce);
-                    //estadoCaperucita.getEstadoAmbiente().getEscenario().setPosicionCelda(dulce.x, dulce.y, EstadoCelda.VACIA);
                 }
             }
 
@@ -91,8 +90,8 @@ public class IrIzquierda extends SearchAction {
         Point posInicialCap = estadoCaperucita.getPosicionCaperucita();
 
         // particular de IrDerecha
-        EstadoCelda celda = estadoCaperucita.getPercepcionCeldasDerecha();
-        int cantMovimientos = estadoCaperucita.getCantMovimientosDerecha();
+        EstadoCelda celda = estadoCaperucita.getPercepcionCeldasIzquierda();
+        int cantMovimientos = estadoCaperucita.getCantMovimientosIzquierda();
 
         // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
         if (cantMovimientos > 0) {
@@ -130,13 +129,18 @@ public class IrIzquierda extends SearchAction {
                     break;
                 }
             }
+            System.out.println(Consola.textoColoreadoWhite(estadoCaperucita.getPosicionCaperucita().toString()));
 
             escenario.setPosicionCelda(posInicialCap.x, posInicialCap.y, EstadoCelda.VACIA);
             escenario.setPosicionCelda(posFinalCap.x, posFinalCap.y, EstadoCelda.CAPERUCITA);
-
             environmentState.setEscenario(escenario);
             environmentState.setPosicionCaperucita(posFinalCap);
             estadoCaperucita.updateState(estadoCaperucita.getAmbiente().getPercept());
+            System.out.println(Consola.textoColoreadoWhite(estadoCaperucita.getPosicionCaperucita().toString()));
+
+            System.out.println(Consola.textoColoreadoWhite(posFinalCap.toString()));
+            System.out.println(Consola.textoColoreadoWhite(""+cantMovimientos));
+
             return environmentState;
         }
 
