@@ -14,7 +14,7 @@ import java.awt.*;
 
 public class IrAbajo extends SearchAction {
 
-    private Double costo = 10.0;
+    private Double costo = 0.0;
 
     /**
      * This method updates a tree node state when the search process is running.
@@ -22,7 +22,7 @@ public class IrAbajo extends SearchAction {
      */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
-        costo = 10.0;
+        costo = 0.0;
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
         Point posInicialCap = estadoCaperucita.getPosicionCaperucita();
 
@@ -33,9 +33,9 @@ public class IrAbajo extends SearchAction {
         // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
         if (cantMovimientos > 0) {
             Consola.printExecution1(this, estadoCaperucita.getPosicionCaperucita());
-
+            costo += cantMovimientos * 5;
             if (celda.equals(EstadoCelda.LOBO)) {
-                costo += 10;
+                costo += 5;
                 //TODO hacer lo del lobo
                 return null;
             }
