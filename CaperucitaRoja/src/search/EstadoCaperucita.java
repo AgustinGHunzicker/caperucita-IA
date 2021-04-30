@@ -195,12 +195,12 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         if (this == o) return true;
         if (!(o instanceof EstadoCaperucita)) return false;
         EstadoCaperucita that = (EstadoCaperucita) o;
-        return vidasRestantes == that.vidasRestantes && floresJuntadas == that.floresJuntadas && Objects.equals(posicionActual, that.posicionActual);
+        return vidasRestantes == that.vidasRestantes && Objects.equals(posicionActual, that.posicionActual) && Objects.equals(dulcesJuntados, that.dulcesJuntados);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(posicionActual, vidasRestantes, floresJuntadas);
+        return Objects.hash(posicionActual, dulcesJuntados, vidasRestantes);
     }
 
     @Override

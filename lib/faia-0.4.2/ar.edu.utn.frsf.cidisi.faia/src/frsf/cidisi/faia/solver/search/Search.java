@@ -17,8 +17,6 @@
  */
 package frsf.cidisi.faia.solver.search;
 
-import java.util.Vector;
-
 import frsf.cidisi.faia.agent.search.GoalTest;
 import frsf.cidisi.faia.agent.search.Problem;
 import frsf.cidisi.faia.agent.search.SearchAction;
@@ -30,6 +28,8 @@ import frsf.cidisi.faia.util.GraphvizTree;
 import frsf.cidisi.faia.util.LatexOutput;
 import frsf.cidisi.faia.util.TreeMLWriter;
 import frsf.cidisi.faia.util.XmlTree;
+
+import java.util.Vector;
 
 public class Search extends Solve {
 
@@ -110,10 +110,13 @@ public class Search extends Solve {
                 // Every item in the action list represents a possible son for the actual node.-
                 for (int i = 0; i < actionList.size(); i++) {
                     // The state of the selected node must be cloned to assure consistence.-
+                    System.out.println("asdasdasdasdad asdas da"+i);
                     SearchBasedAgentState ast = firstNode.getAgentState().clone();
-                    // This is the action that can generate a new node.- 
+                    // This is the action that can generate a new node.-
                     SearchAction action = actionList.elementAt(i);
                     ast = action.execute(ast);
+                    System.out.println(ast);
+
                     // TODO: HAY QUE VER SI CONVIENE QUE CUANDO EL OPERADOR NO PUEDA SER 
                     // EJECUTADO DEVUELVA UN OBJETO EN LUGAR DE NULL.
                     if (ast != null) {	// If the action was correctly executed.-
@@ -128,8 +131,10 @@ public class Search extends Solve {
                             //System.out.println("Nodo nro: " + nodeIdx);
                         }
                     }
+                    System.out.println(firstNode.getAgentState());
+
                 }
-                // The nodes are added to the queue of "nodes to expand", 
+                // The nodes are added to the queue of "nodes to expand",
                 // so they can be expanded in the next cycles.-
                 searchStrategy.addNodesToExpand(firstNode.getSons());
             }

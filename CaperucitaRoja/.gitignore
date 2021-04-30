@@ -1,1 +1,6 @@
 bin/
+.idea
+/.idea/
+/searchGVTrees/
+/pdflatex/
+/classes/
