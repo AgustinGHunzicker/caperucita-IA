@@ -212,8 +212,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
                 "\n" + Consola.textoColoreadoRed("- Flores pisadas: " + floresJuntadas) +
                 "\n" + Consola.textoColoreadoRed("- Vidas restantes: " + vidasRestantes) +
                 "\n" + Consola.textoColoreadoGreen("- Escenario descubierto") +
-                escenarioDescubierto +
-                "\n ----------------------------------------------------\n";
+                "\n ----------------------------------------------------\n"; //TODO borrar cuando se presente
 
     }
 

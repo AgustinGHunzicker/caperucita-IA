@@ -17,9 +17,10 @@
  */
 package frsf.cidisi.faia.solver.search;
 
-import java.util.Vector;
 import frsf.cidisi.faia.agent.search.SearchAction;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
+
+import java.util.Vector;
 
 /**
  * @author Jorge M. Roa
@@ -193,7 +194,7 @@ public class NTree implements Cloneable, Comparable<NTree> {
 
         if (this.getParent() != null) {
             if (this.getParent().getParent() != null) {
-                str += "|" + this.getParent().getAgentState().toString().replace(",", "").replace("[", "").replace("]", "").replace(" ", "\\n");
+                str += "|" + this.getParent().getAgentState().toString();//.replace(",", "").replace("[", "").replace("]", "").replace(" ", "\\n")
             }
         }
         str += "}\"]";

@@ -35,6 +35,8 @@ public enum Consola {
     EMOJI_CANDY("\uD83C\uDF6C"),
     EMOJI_FLOWER("\uD83C\uDF39");
 
+    private static boolean withColors = false;
+
     private final String value;
     private static final Point UNKNOWN = new Point(-1,-1);
 
@@ -52,27 +54,39 @@ public enum Consola {
     }
 
     public static String textoColoreadoGreen(String texto) {
-        return "" + ANSI_GREEN_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        if(withColors)
+            return "" + ANSI_GREEN_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        return texto;
     }
 
     public static String textoColoreadoCyan(String texto) {
-        return "" + ANSI_CYAN_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        if(withColors)
+            return "" + ANSI_CYAN_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        return texto;
     }
 
     public static String textoColoreadoYellow(String texto) {
-        return "" + ANSI_YELLOW_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        if(withColors)
+            return "" + ANSI_YELLOW_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        return texto;
     }
 
     public static String textoColoreadoRed(String texto) {
-        return "" + ANSI_RED_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        if(withColors)
+            return "" + ANSI_RED_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        return texto;
     }
 
     public static String textoColoreadoWhite(String texto) {
-        return "" + ANSI_WHITE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        if(withColors)
+            return "" + ANSI_WHITE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        return texto;
     }
 
     public static String textoColoreadoPurple(String texto) {
-        return "" + ANSI_PURPLE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        if(withColors)
+            return "" + ANSI_PURPLE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
+        return texto;
     }
 
     //nada que ver aca, pero era para centralizar

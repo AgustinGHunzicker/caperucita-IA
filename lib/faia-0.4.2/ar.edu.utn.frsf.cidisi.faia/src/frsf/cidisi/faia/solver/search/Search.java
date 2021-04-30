@@ -110,12 +110,10 @@ public class Search extends Solve {
                 // Every item in the action list represents a possible son for the actual node.-
                 for (int i = 0; i < actionList.size(); i++) {
                     // The state of the selected node must be cloned to assure consistence.-
-                    System.out.println("asdasdasdasdad asdas da"+i);
                     SearchBasedAgentState ast = firstNode.getAgentState().clone();
                     // This is the action that can generate a new node.-
                     SearchAction action = actionList.elementAt(i);
                     ast = action.execute(ast);
-                    System.out.println(ast);
 
                     // TODO: HAY QUE VER SI CONVIENE QUE CUANDO EL OPERADOR NO PUEDA SER 
                     // EJECUTADO DEVUELVA UN OBJETO EN LUGAR DE NULL.
@@ -131,8 +129,6 @@ public class Search extends Solve {
                             //System.out.println("Nodo nro: " + nodeIdx);
                         }
                     }
-                    System.out.println(firstNode.getAgentState());
-
                 }
                 // The nodes are added to the queue of "nodes to expand",
                 // so they can be expanded in the next cycles.-

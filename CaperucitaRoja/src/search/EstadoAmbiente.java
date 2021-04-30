@@ -40,7 +40,7 @@ public class EstadoAmbiente extends EnvironmentState {
 
 
         //TODO descomentar
-       /* int numeroEscenario = getRandomNumber(1, 3);
+        int numeroEscenario = getRandomNumber(1, 3);
         getEscenario().generarEscenario(numeroEscenario);
         // getEscenario().generarEscenario(2);
 
@@ -104,11 +104,11 @@ public class EstadoAmbiente extends EnvironmentState {
         System.out.println(lobo);
         System.out.println(dulce1);
         System.out.println(dulce2);
-*/
+
 
 
         // TODO eliminar, es para pruebas fijas
-        getEscenario().generarEscenario(2);
+        /*getEscenario().generarEscenario(2);
 
         caperucita = new Point(9, 2);
         //caperucita = new Point(6, 1);
@@ -116,7 +116,7 @@ public class EstadoAmbiente extends EnvironmentState {
         dulce1 = new Point(6, 5);
         //dulce2 = new Point(6, 3);
         dulce2 = new Point(6, 3);
-        dulce3 = new Point(9, 5);
+        dulce3 = new Point(9, 5);*/
 
         setPosicionCaperucita(caperucita);
         setPosicionLobo(lobo);
