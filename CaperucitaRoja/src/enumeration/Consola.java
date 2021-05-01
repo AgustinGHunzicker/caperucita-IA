@@ -35,7 +35,7 @@ public enum Consola {
     EMOJI_CANDY("\uD83C\uDF6C"),
     EMOJI_FLOWER("\uD83C\uDF39");
 
-    private static boolean debug = true;
+    private static boolean debug = false;
 
     private final String value;
     private static final Point UNKNOWN = new Point(-1,-1);
