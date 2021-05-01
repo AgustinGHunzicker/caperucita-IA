@@ -135,6 +135,7 @@ public class IrArriba extends SearchAction {
 
             environmentState.setEscenario(escenario);
             environmentState.setPosicionCaperucita(posFinalCap);
+            environmentState.updateWolfPosition();
             estadoCaperucita.updateState(estadoCaperucita.getAmbiente().getPercept());
             return environmentState;
         }

@@ -21,6 +21,8 @@ public class EstadoAmbiente extends EnvironmentState {
     private Point posicionCaperucita;
     private Point posicionLobo;
 
+    private EstadoAmbiente estadoAmbienteInicial;
+
     public EstadoAmbiente() {
         escenario = new Escenario();
         posicionCaperucita = new Point();
@@ -101,7 +103,6 @@ public class EstadoAmbiente extends EnvironmentState {
         } while (!hayFlor);*/
 
 
-
         // TODO eliminar, es para pruebas fijas
         getEscenario().generarEscenario(2);
 
@@ -126,6 +127,25 @@ public class EstadoAmbiente extends EnvironmentState {
         escenario.setPosicionCelda(dulce3.x, dulce3.y, EstadoCelda.DULCE);
 
         getPosicionesFlores().addAll(escenario.getFlores());
+    }
+
+    public void updateWolfPosition() {
+        escenario.setPosicionCelda(this.posicionLobo.x, this.posicionLobo.y, EstadoCelda.VACIA);
+        Point newPosition = new Point();
+        int x;
+        int y;
+        boolean hayLobo = false;
+        do {
+            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                newPosition = new Point(x, y);
+                hayLobo = true;
+            }
+        } while (!hayLobo);
+
+        this.setPosicionLobo(newPosition);
+        escenario.setPosicionCelda(newPosition.x, newPosition.y, EstadoCelda.LOBO);
     }
 
     private int getRandomNumber(int min, int max) {
@@ -178,6 +198,10 @@ public class EstadoAmbiente extends EnvironmentState {
     public void actualizarPosicionCaperucita(int x, int y) {
         escenario.setPosicionCelda(x, y, EstadoCelda.CAPERUCITA);
         posicionCaperucita.setLocation(x, y);
+    }
+
+    public Point getPosicionLobo() {
+        return posicionLobo;
     }
 }
 
