@@ -19,8 +19,7 @@ public class ObjetivoCaperucita extends GoalTest {
             }
         }
 
-
-        //System.out.println(Consola.textoColoreadoGreen("Objetivo: cantDulces - "+estadoCaperucita.getDulcesJuntados().size()+". Flores: "+estadoCaperucita.getFloresJuntadas() ));
+        //System.out.println(Consola.textoColoreadoGreen("Objetivo: vidas: "+estadoCaperucita.getVidasRestantes() ));
         return (estadoCaperucita.getFloresJuntadas() > 0 || estaEnFlores ) && estadoCaperucita.getVidasRestantes() > 0;
     }
 

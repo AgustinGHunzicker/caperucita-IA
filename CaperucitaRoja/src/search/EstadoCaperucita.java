@@ -43,9 +43,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     @Override
     public void initState() {
-        //TODO Este método también debe tomar los valores del escenario particular - ademas inicia valores previamente inicializados
-
-        // todo USAR ESTO PARA PONER A CAPERUCITA EN SU SITIO INICIAL DESPUES DE MORIR
         escenarioDescubierto = new Escenario();
 
         posicionActual = UNKNOWN;
@@ -190,6 +187,11 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     }
 
+    public void volverEstadoInicial() {
+        this.ambiente.volverAmbienteInicial();
+        this.setPosicionCaperucita(this.ambiente.getEnvironmentState().getPosicionCaperucita());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -212,10 +214,27 @@ public class EstadoCaperucita extends SearchBasedAgentState {
                 "\n" + Consola.textoColoreadoRed("- Dulces juntados: " + dulcesJuntados.size()) +
                 //"\n" + Consola.textoColoreadoRed("- Flores pisadas: " + floresJuntadas) +
                 "\n" + Consola.textoColoreadoRed("- Vidas restantes: " + vidasRestantes);
-                //"\n" + Consola.textoColoreadoGreen("- Escenario descubierto") +
-                //escenarioDescubierto+
-                //"\n ----------------------------------------------------\n"; //TODO borrar cuando se presente
+        //"\n" + Consola.textoColoreadoGreen("- Escenario descubierto") +
+        //escenarioDescubierto+
+        //"\n ----------------------------------------------------\n";
+    }
 
+    public String toStringDebug() {
+        return Consola.textoColoreadoRed("- Posición actual: " + Consola.celdaToString(posicionActual)) +
+                "\n" + Consola.textoColoreadoRed("- Posiciones flores: " + Consola.celdaToString(posicionFlores)) +
+                "\n" + Consola.textoColoreadoRed("- Posiciones dulces: " + Consola.celdaToString(posicionesDulces)) +
+                "\n" + Consola.textoColoreadoRed("- Dulces juntados: " + Consola.celdaToString(dulcesJuntados)) +
+                "\n" + Consola.textoColoreadoRed("- Dulces juntados: " + dulcesJuntados.size()) +
+                "\n" + Consola.textoColoreadoRed("- Flores pisadas: " + floresJuntadas) +
+                "\n" + Consola.textoColoreadoRed("- Vidas restantes: " + vidasRestantes) +
+                "\n" + Consola.textoColoreadoRed("- Percepción arriba: " + percepcionCeldasArriba) +
+                "\n" + Consola.textoColoreadoRed("- Percepción abajo: " + percepcionCeldasAbajo) +
+                "\n" + Consola.textoColoreadoRed("- Percepción izquierda: " + percepcionCeldasIzquierda) +
+                "\n" + Consola.textoColoreadoRed("- Percepción derecha: " + percepcionCeldasDerecha) +
+
+                "\n" + Consola.textoColoreadoGreen("- Escenario descubierto") +
+                escenarioDescubierto +
+                "\n ----------------------------------------------------\n";
     }
 
     public EstadoAmbiente getEstadoAmbiente() {
@@ -274,8 +293,12 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         return this.vidasRestantes;
     }
 
-    public void setVidasRestantes(int vidas) {
-        this.vidasRestantes = vidas;
+    public void disminuirVidas() {
+        this.vidasRestantes--;
+    }
+
+    public void setVidasRestantes(int vidasRestantes) {
+        this.vidasRestantes = vidasRestantes;
     }
 
     public Escenario getEscenarioDescubierto() {

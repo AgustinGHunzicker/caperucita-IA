@@ -14,6 +14,7 @@ import java.util.HashSet;
 public class EstadoAmbiente extends EnvironmentState {
     private final static Point UNKNOWN = new Point(-1, -1);
 
+    private EstadoAmbiente estadoInicialAmbiente;
 
     private Escenario escenario;
     private final HashSet<Point> posicionesDulces;
@@ -21,12 +22,10 @@ public class EstadoAmbiente extends EnvironmentState {
     private Point posicionCaperucita;
     private Point posicionLobo;
 
-    private EstadoAmbiente estadoAmbienteInicial;
-
     public EstadoAmbiente() {
         escenario = new Escenario();
-        posicionCaperucita = new Point();
-        posicionLobo = new Point();
+        posicionCaperucita = UNKNOWN;
+        posicionLobo = UNKNOWN;
         posicionesDulces = new HashSet<>();
         posicionesFlores = new HashSet<>();
         this.initState();
@@ -103,12 +102,28 @@ public class EstadoAmbiente extends EnvironmentState {
         } while (!hayFlor);*/
 
 
-        // TODO eliminar, es para pruebas fijas
+/*
+        //Escenario 1
         getEscenario().generarEscenario(2);
-
         caperucita = new Point(9, 2);
         //caperucita = new Point(6, 1);
         lobo = new Point(4, 6);
+        dulce1 = new Point(6, 5);
+        //dulce2 = new Point(6, 3);
+        dulce2 = new Point(6, 3);
+        dulce3 = new Point(9, 5);
+        */
+        // Escenario 2
+        getEscenario().generarEscenario(1);
+        escenario.setPosicionCelda(3, 4, EstadoCelda.VACIA);
+        escenario.setPosicionCelda(5, 7, EstadoCelda.ARBOL);
+        escenario.setPosicionCelda(4, 7, EstadoCelda.ARBOL);
+        escenario.setPosicionCelda(4, 6, EstadoCelda.ARBOL);
+        escenario.setPosicionCelda(7, 1, EstadoCelda.VACIA);
+
+        caperucita = new Point(3, 7);
+        //caperucita = new Point(6, 1);
+        lobo = new Point(6, 1);
         dulce1 = new Point(6, 5);
         //dulce2 = new Point(6, 3);
         dulce2 = new Point(6, 3);
@@ -130,7 +145,6 @@ public class EstadoAmbiente extends EnvironmentState {
     }
 
     public void updateWolfPosition() {
-        escenario.setPosicionCelda(this.posicionLobo.x, this.posicionLobo.y, EstadoCelda.VACIA);
         Point newPosition = new Point();
         int x;
         int y;
@@ -143,9 +157,14 @@ public class EstadoAmbiente extends EnvironmentState {
                 hayLobo = true;
             }
         } while (!hayLobo);
-
+        if(!this.posicionLobo.equals(UNKNOWN) && !this.posicionLobo.equals(new Point()))
+            escenario.setPosicionCelda(this.posicionLobo.x, this.posicionLobo.y, EstadoCelda.VACIA);
         this.setPosicionLobo(newPosition);
         escenario.setPosicionCelda(newPosition.x, newPosition.y, EstadoCelda.LOBO);
+    }
+
+    public void disabledWolfPosition(){
+        escenario.setPosicionCelda(this.posicionLobo.x, this.posicionLobo.y, EstadoCelda.VACIA);
     }
 
     private int getRandomNumber(int min, int max) {
@@ -199,6 +218,21 @@ public class EstadoAmbiente extends EnvironmentState {
         escenario.setPosicionCelda(x, y, EstadoCelda.CAPERUCITA);
         posicionCaperucita.setLocation(x, y);
     }
+
+    public EstadoAmbiente getEstadoInicialAmbiente() {
+        return estadoInicialAmbiente;
+    }
+
+    public void setEstadoInicialAmbiente(EstadoAmbiente estadoInicialAmbiente) {
+        this.estadoInicialAmbiente = estadoInicialAmbiente;
+    }
+
+    public void volverEstadoInicial(){
+        EstadoAmbiente inicio = this.getEstadoInicialAmbiente();
+        this.setEscenario(inicio.escenario);
+        this.setPosicionCaperucita(inicio.getPosicionCaperucita());
+    }
+
 
     public Point getPosicionLobo() {
         return posicionLobo;

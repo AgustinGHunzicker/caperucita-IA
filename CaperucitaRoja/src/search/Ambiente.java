@@ -52,7 +52,7 @@ public class Ambiente extends Environment {
         /*------- Se pasa la ubicación actual de caperucita -------*/
         perception.setPosicionActual(this.getEnvironmentState().getPosicionCaperucita());
 
-         /*------- Se carga las posición del lobo, si es que lo vió -------*/
+        /*------- Se carga las posición del lobo, si es que lo vió -------*/
         perception.setPosicionLobo(this.loboEsta(vistaIzquierda.posicionLobo, vistaDerecha.posicionLobo, vistaArriba.posicionLobo, vistaAbajo.posicionLobo));
 
         /*------- Se carga las posición de las flores, si es que las haya visto -------*/
@@ -146,8 +146,8 @@ public class Ambiente extends Environment {
                     break;
             }
 
-            for(Point flor : this.getEnvironmentState().getPosicionesFlores()){
-                if(flor.equals(new Point(posicionXActual, posicionYActual)))
+            for (Point flor : this.getEnvironmentState().getPosicionesFlores()) {
+                if (flor.equals(new Point(posicionXActual, posicionYActual)))
                     vista.posicionFlores.add(flor);
             }
 
@@ -227,9 +227,23 @@ public class Ambiente extends Environment {
         else
             return UNKNOWN;
     }
+
     public String toString() {
         return environmentState.toString();
     }
 
+    public EstadoAmbiente getEstadoInicialAmbiente() {
+        return ((EstadoAmbiente) environmentState).getEstadoInicialAmbiente();
+    }
 
+    public void volverAmbienteInicial() {
+        ((EstadoAmbiente) this.environmentState).volverEstadoInicial();
+    }
+
+    public void setEstadoInicialAmbiente() {
+        EstadoAmbiente inicio = new EstadoAmbiente();
+        inicio.setEstadoInicialAmbiente(null);
+        inicio.setPosicionCaperucita(((EstadoAmbiente)this.environmentState).getPosicionCaperucita());
+        ((EstadoAmbiente) environmentState).setEstadoInicialAmbiente(inicio);
+    }
 }
