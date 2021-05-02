@@ -51,7 +51,7 @@ public class IrDerecha extends SearchAction {
                 for (Point dulce : estadoCaperucita.getPosicionesDulces()) {
                     //Si está en la misma columna y está dentro de los posibles movimientos hacia la derecha
                     if (posFinalCap.y == dulce.y && (posInicialCap.x <= dulce.x) && (dulce.x <= posFinalCap.x) && !estadoCaperucita.getDulcesJuntados().contains(dulce)) {
-                        costo -= 2;
+                        costo -= 1;
                         estadoCaperucita.getDulcesJuntados().add(dulce);
                     }
                 }
@@ -65,7 +65,7 @@ public class IrDerecha extends SearchAction {
                 for (Point posicionFlor : estadoCaperucita.getPosicionFlores()) {
                     if (posicionFlor.equals(estadoCaperucita.getPosicionCaperucita())) {
                         if (estadoCaperucita.getFloresJuntadas() < 1)
-                            costo -= 3;
+                            costo -= 2;
                         estadoCaperucita.getPosicionFlores().add(posicionFlor);
                         estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
                     }

@@ -112,7 +112,7 @@ public class EstadoAmbiente extends EnvironmentState {
         //dulce2 = new Point(6, 3);
         dulce2 = new Point(6, 3);
         dulce3 = new Point(9, 5);
-        */
+        *
         // Escenario 2
         getEscenario().generarEscenario(1);
         escenario.setPosicionCelda(3, 4, EstadoCelda.VACIA);
@@ -123,11 +123,20 @@ public class EstadoAmbiente extends EnvironmentState {
 
         caperucita = new Point(3, 7);
         //caperucita = new Point(6, 1);
-        lobo = new Point(6, 1);
+        lobo = new Point(6, 3);
         dulce1 = new Point(6, 5);
         //dulce2 = new Point(6, 3);
         dulce2 = new Point(6, 3);
-        dulce3 = new Point(9, 5);
+        dulce3 = new Point(9, 5);*/
+
+
+        getEscenario().generarEscenario(3);
+        caperucita = new Point(9, 4);
+        lobo = new Point(12, 5);
+        dulce1 = new Point(7, 5);
+        dulce2 = new Point(5, 3);
+        dulce3 = new Point(4, 6);
+
 
         setPosicionCaperucita(caperucita);
         setPosicionLobo(lobo);
@@ -163,7 +172,7 @@ public class EstadoAmbiente extends EnvironmentState {
         escenario.setPosicionCelda(newPosition.x, newPosition.y, EstadoCelda.LOBO);
     }
 
-    public void disabledWolfPosition(){
+    public void disabledWolfPosition() {
         escenario.setPosicionCelda(this.posicionLobo.x, this.posicionLobo.y, EstadoCelda.VACIA);
     }
 
@@ -227,7 +236,7 @@ public class EstadoAmbiente extends EnvironmentState {
         this.estadoInicialAmbiente = estadoInicialAmbiente;
     }
 
-    public void volverEstadoInicial(){
+    public void volverEstadoInicial() {
         EstadoAmbiente inicio = this.getEstadoInicialAmbiente();
         this.setEscenario(inicio.escenario);
         this.setPosicionCaperucita(inicio.getPosicionCaperucita());

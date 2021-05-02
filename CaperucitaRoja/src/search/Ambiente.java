@@ -28,7 +28,7 @@ public class Ambiente extends Environment {
         /*------- Primero chequeamos donde está caperucita -------*/
         int posXCap = (int) this.getEnvironmentState().getPosicionCaperucita().getX();
         int posYCap = (int) this.getEnvironmentState().getPosicionCaperucita().getY();
-        perception.setPosicionActual(new Point(posXCap, posYCap));
+        perception.setPosicionActual(this.getEnvironmentState().getPosicionCaperucita());
 
         /*------- Se mira hacia las cuatro direcciones -------*/
         VistaCaperucita vistaIzquierda = this.verLado(TipoLado.IZQUIERDA, posXCap, posYCap);
@@ -49,8 +49,6 @@ public class Ambiente extends Environment {
         perception.setCantMovimientosArriba(vistaArriba.cantidadPosiciones);
         perception.setCantMovimientosAbajo(vistaAbajo.cantidadPosiciones);
 
-        /*------- Se pasa la ubicación actual de caperucita -------*/
-        perception.setPosicionActual(this.getEnvironmentState().getPosicionCaperucita());
 
         /*------- Se carga las posición del lobo, si es que lo vió -------*/
         perception.setPosicionLobo(this.loboEsta(vistaIzquierda.posicionLobo, vistaDerecha.posicionLobo, vistaArriba.posicionLobo, vistaAbajo.posicionLobo));
@@ -151,7 +149,6 @@ public class Ambiente extends Environment {
                     vista.posicionFlores.add(flor);
             }
 
-
             switch (escenario.getPosicionCelda(posicionXActual, posicionYActual)) {
                 /* puedo seguir avanzando, está vacío */
                 case VACIA:
@@ -175,11 +172,13 @@ public class Ambiente extends Environment {
                     break;
                 /* está el camino de flores, la meta */
                 case FLORES:
-                    //vista.posicionFlores.add(new Point(posicionXActual, posicionYActual));
-                    if (posicionYActual == Escenario.LIMITE_ABAJO) {
+                    vista.posicionFlores.add(new Point(posicionXActual, posicionYActual));
+                    if (vista.posicionFlores.size() > 1 || posicionYActual == Escenario.LIMITE_ABAJO || posicionYActual == Escenario.LIMITE_ARRIBA) {
+
                         // Llegó al borde del mapa
                         arbol_flor = true;
-                    } else {
+                    }
+                    else{
                         vista.cantidadPosiciones++;
                     }
                     break;
