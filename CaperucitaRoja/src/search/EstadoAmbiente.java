@@ -131,11 +131,11 @@ public class EstadoAmbiente extends EnvironmentState {
 
 
         getEscenario().generarEscenario(3);
-        caperucita = new Point(9, 4);
+        caperucita = new Point(7, 4);
         lobo = new Point(12, 5);
-        dulce1 = new Point(7, 5);
+        dulce1 = new Point(8, 5);
         dulce2 = new Point(5, 3);
-        dulce3 = new Point(4, 6);
+        dulce3 = new Point(6, 5);
 
 
         setPosicionCaperucita(caperucita);
@@ -154,7 +154,8 @@ public class EstadoAmbiente extends EnvironmentState {
     }
 
     public void updateWolfPosition() {
-        Point newPosition = new Point();
+        //TODO descomentar esto para la exposición
+        /*Point newPosition = new Point();
         int x;
         int y;
         boolean hayLobo = false;
@@ -169,7 +170,7 @@ public class EstadoAmbiente extends EnvironmentState {
         if(!this.posicionLobo.equals(UNKNOWN) && !this.posicionLobo.equals(new Point()))
             escenario.setPosicionCelda(this.posicionLobo.x, this.posicionLobo.y, EstadoCelda.VACIA);
         this.setPosicionLobo(newPosition);
-        escenario.setPosicionCelda(newPosition.x, newPosition.y, EstadoCelda.LOBO);
+        escenario.setPosicionCelda(newPosition.x, newPosition.y, EstadoCelda.LOBO);*/
     }
 
     public void disabledWolfPosition() {

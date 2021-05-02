@@ -34,7 +34,7 @@ public class IrAbajo extends SearchAction {
         if (cantMovimientos > 0) {
             Consola.printExecution1(this, estadoCaperucita.getPosicionCaperucita());
             costo += cantMovimientos * 5;
-            Point posFinalCap = posInicialCap;
+            Point posFinalCap;
 
             if (celda.equals(EstadoCelda.LOBO)) {
                 costo += 15;
@@ -56,9 +56,7 @@ public class IrAbajo extends SearchAction {
                     }
                 }
 
-                estadoCaperucita.getEstadoAmbiente().getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
                 estadoCaperucita.getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
-                estadoCaperucita.setDulcesJuntados(estadoCaperucita.getDulcesJuntados());
 
                 //Se debe verificar si no esta sobre las flores,
                 // puesto que la bandera FLORES puede quedar anulada por los dulces
@@ -110,7 +108,7 @@ public class IrAbajo extends SearchAction {
 
                 //si hay un dulce en esa dirección
                 // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
-                for (Point dulce : estadoCaperucita.getPosicionesDulces()) {
+                for (Point dulce : environmentState.getPosicionesDulces()) {
                     escenario.setPosicionCelda(dulce.x, dulce.y, EstadoCelda.DULCE);
                     //Si está en la misma columna y está dentro de los posibles movimientos hacia abajo
                     if (posFinalCap.x == dulce.x && (posInicialCap.y <= dulce.y) && (dulce.y <= posFinalCap.y)) {
@@ -120,9 +118,8 @@ public class IrAbajo extends SearchAction {
                     }
                 }
 
-                estadoCaperucita.getEstadoAmbiente().getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
                 environmentState.getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
-                estadoCaperucita.setDulcesJuntados(estadoCaperucita.getDulcesJuntados());
+                estadoCaperucita.getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
 
                 //Se debe verificar si no esta sobre las flores,
                 // puesto que la bandera FLORES puede quedar anulada por los dulces
@@ -143,7 +140,7 @@ public class IrAbajo extends SearchAction {
             environmentState.updateWolfPosition();
             environmentState.setEscenario(escenario);
             environmentState.setPosicionCaperucita(posFinalCap);
-            estadoCaperucita.updateState(estadoCaperucita.getAmbiente().getPercept());
+            estadoCaperucita.getAmbiente().setEnvironmentState(environmentState);
             return environmentState;
         }
 

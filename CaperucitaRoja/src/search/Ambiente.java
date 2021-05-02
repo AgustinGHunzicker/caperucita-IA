@@ -199,7 +199,6 @@ public class Ambiente extends Environment {
      * - ÁRBOL
      */
     private EstadoCelda getContenidoEnVista(VistaCaperucita vistaCaperucita) {
-        // TODO Prioridades ver si cambiamos primero dulce que flores - edit (milton) le cambie la prioridad, ver si gusta o no
         if (!vistaCaperucita.posicionLobo.equals(UNKNOWN))
             return EstadoCelda.LOBO;
         if (!vistaCaperucita.posicionDulces.isEmpty())
