@@ -166,7 +166,7 @@ public class Ambiente extends Environment {
                     vista.posicionDulces.add(new Point(posicionXActual, posicionYActual));
                     break;
                 /* está el lobo, no debería moverse en esta dirección */
-                case LOBO://TODO debería cortar con el lobo o sigue viendo hasta el árbol igual?
+                case LOBO:
                     vista.cantidadPosiciones++;
                     vista.posicionLobo.setLocation(posicionXActual, posicionYActual);
                     break;

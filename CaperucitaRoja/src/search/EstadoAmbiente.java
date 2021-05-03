@@ -51,7 +51,7 @@ public class EstadoAmbiente extends EnvironmentState {
         boolean hayPosicionCaperucita = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 caperucita = new Point(x, y);
                 hayPosicionCaperucita = true;
@@ -63,7 +63,7 @@ public class EstadoAmbiente extends EnvironmentState {
         boolean hayPosicionLobo = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 lobo = new Point(x, y);
                 hayPosicionLobo = true;
@@ -74,7 +74,7 @@ public class EstadoAmbiente extends EnvironmentState {
         boolean hayFlor = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 dulce1 = new Point(x, y);
                 hayFlor = true;
@@ -84,7 +84,7 @@ public class EstadoAmbiente extends EnvironmentState {
         hayFlor = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 dulce2 = new Point(x, y);
                 hayFlor = true;
@@ -94,7 +94,7 @@ public class EstadoAmbiente extends EnvironmentState {
         hayFlor = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 dulce3 = new Point(x, y);
                 hayFlor = true;
@@ -155,22 +155,29 @@ public class EstadoAmbiente extends EnvironmentState {
 
     public void updateWolfPosition() {
         //TODO descomentar esto para la exposición
-        /*Point newPosition = new Point();
+        Point newPosition = new Point();
         int x;
         int y;
         boolean hayLobo = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 newPosition = new Point(x, y);
                 hayLobo = true;
             }
         } while (!hayLobo);
-        if(!this.posicionLobo.equals(UNKNOWN) && !this.posicionLobo.equals(new Point()))
-            escenario.setPosicionCelda(this.posicionLobo.x, this.posicionLobo.y, EstadoCelda.VACIA);
+
+        for (int movHoriz = 0; movHoriz <= Escenario.LIMITE_DERECHA; movHoriz++) {
+            for (int movVert = 0; movVert <= Escenario.LIMITE_ABAJO; movVert++) {
+                if (escenario.getCeldas()[movHoriz][movVert].equals(EstadoCelda.LOBO)) {
+                    escenario.getCeldas()[movHoriz][movVert] = EstadoCelda.VACIA;
+                }
+            }
+        }
+
         this.setPosicionLobo(newPosition);
-        escenario.setPosicionCelda(newPosition.x, newPosition.y, EstadoCelda.LOBO);*/
+        escenario.setPosicionCelda(newPosition.x, newPosition.y, EstadoCelda.LOBO);
     }
 
     public void disabledWolfPosition() {
