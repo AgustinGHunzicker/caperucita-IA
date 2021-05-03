@@ -123,6 +123,8 @@ public class IrAbajo extends SearchAction {
 
                 //Se debe verificar si no esta sobre las flores,
                 // puesto que la bandera FLORES puede quedar anulada por los dulces
+
+
                 for (Point posicionFlor : environmentState.getPosicionesFlores()) {
                     escenario.setPosicionCelda(posicionFlor.x, posicionFlor.y, EstadoCelda.FLORES);
                     if (posicionFlor.equals(estadoCaperucita.getPosicionCaperucita())) {

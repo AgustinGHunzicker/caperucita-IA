@@ -39,11 +39,8 @@ public class EstadoAmbiente extends EnvironmentState {
         Point dulce2 = null;
         Point dulce3 = null;
 
-
-        //TODO descomentar
-       /* int numeroEscenario = getRandomNumber(1, 3);
+        int numeroEscenario = getRandomNumber(1, 3);
         getEscenario().generarEscenario(numeroEscenario);
-        // getEscenario().generarEscenario(2);
 
         int x;
         int y;
@@ -51,7 +48,7 @@ public class EstadoAmbiente extends EnvironmentState {
         boolean hayPosicionCaperucita = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 caperucita = new Point(x, y);
                 hayPosicionCaperucita = true;
@@ -63,7 +60,7 @@ public class EstadoAmbiente extends EnvironmentState {
         boolean hayPosicionLobo = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 lobo = new Point(x, y);
                 hayPosicionLobo = true;
@@ -74,7 +71,7 @@ public class EstadoAmbiente extends EnvironmentState {
         boolean hayFlor = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 dulce1 = new Point(x, y);
                 hayFlor = true;
@@ -84,7 +81,7 @@ public class EstadoAmbiente extends EnvironmentState {
         hayFlor = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 dulce2 = new Point(x, y);
                 hayFlor = true;
@@ -94,12 +91,12 @@ public class EstadoAmbiente extends EnvironmentState {
         hayFlor = false;
         do {
             x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
             if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
                 dulce3 = new Point(x, y);
                 hayFlor = true;
             }
-        } while (!hayFlor);*/
+        } while (!hayFlor);
 
 
 /*
@@ -130,13 +127,13 @@ public class EstadoAmbiente extends EnvironmentState {
         dulce3 = new Point(9, 5);*/
 
 
-        getEscenario().generarEscenario(3);
+        /*getEscenario().generarEscenario(3);
         caperucita = new Point(7, 4);
         lobo = new Point(12, 5);
         dulce1 = new Point(8, 5);
         dulce2 = new Point(5, 3);
         dulce3 = new Point(6, 5);
-
+*/
 
         setPosicionCaperucita(caperucita);
         setPosicionLobo(lobo);
