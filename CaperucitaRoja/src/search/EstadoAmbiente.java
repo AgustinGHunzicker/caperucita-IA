@@ -39,7 +39,7 @@ public class EstadoAmbiente extends EnvironmentState {
         Point dulce2 = null;
         Point dulce3 = null;
 
-        int numeroEscenario = getRandomNumber(1, 3);
+       int numeroEscenario = getRandomNumber(1, 3);
         getEscenario().generarEscenario(numeroEscenario);
 
         int x;
@@ -109,9 +109,9 @@ public class EstadoAmbiente extends EnvironmentState {
         //dulce2 = new Point(6, 3);
         dulce2 = new Point(6, 3);
         dulce3 = new Point(9, 5);
-        *
+        */
         // Escenario 2
-        getEscenario().generarEscenario(1);
+        /*getEscenario().generarEscenario(1);
         escenario.setPosicionCelda(3, 4, EstadoCelda.VACIA);
         escenario.setPosicionCelda(5, 7, EstadoCelda.ARBOL);
         escenario.setPosicionCelda(4, 7, EstadoCelda.ARBOL);
@@ -119,21 +119,18 @@ public class EstadoAmbiente extends EnvironmentState {
         escenario.setPosicionCelda(7, 1, EstadoCelda.VACIA);
 
         caperucita = new Point(3, 7);
-        //caperucita = new Point(6, 1);
-        lobo = new Point(6, 3);
         dulce1 = new Point(6, 5);
-        //dulce2 = new Point(6, 3);
         dulce2 = new Point(6, 3);
-        dulce3 = new Point(9, 5);*/
-
-
-        /*getEscenario().generarEscenario(3);
+        dulce3 = new Point(9, 5);
+        lobo = new Point(7, 1);*/
+/*
+        getEscenario().generarEscenario(3);
         caperucita = new Point(7, 4);
         lobo = new Point(12, 5);
         dulce1 = new Point(8, 5);
         dulce2 = new Point(5, 3);
-        dulce3 = new Point(6, 5);
-*/
+        dulce3 = new Point(6, 5);*/
+
 
         setPosicionCaperucita(caperucita);
         setPosicionLobo(lobo);
@@ -151,7 +148,6 @@ public class EstadoAmbiente extends EnvironmentState {
     }
 
     public void updateWolfPosition() {
-        //TODO descomentar esto para la exposición
         Point newPosition = new Point();
         int x;
         int y;
