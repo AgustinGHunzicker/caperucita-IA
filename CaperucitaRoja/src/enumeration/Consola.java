@@ -1,5 +1,6 @@
 package enumeration;
 
+import domain.ConsoleDebug;
 import frsf.cidisi.faia.agent.search.SearchAction;
 
 import java.awt.*;
@@ -35,10 +36,8 @@ public enum Consola {
     EMOJI_CANDY("\uD83C\uDF6C"),
     EMOJI_FLOWER("\uD83C\uDF39");
 
-    private static boolean debug = false;
-
     private final String value;
-    private static final Point UNKNOWN = new Point(-1,-1);
+    private static final Point UNKNOWN = new Point(-1, -1);
 
     Consola(String value) {
         this.value = value;
@@ -54,37 +53,37 @@ public enum Consola {
     }
 
     public static String textoColoreadoGreen(String texto) {
-        if(debug)
+        if (ConsoleDebug.get().isDebugging())
             return "" + ANSI_GREEN_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
         return texto;
     }
 
     public static String textoColoreadoCyan(String texto) {
-        if(debug)
+        if (ConsoleDebug.get().isDebugging())
             return "" + ANSI_CYAN_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
         return texto;
     }
 
     public static String textoColoreadoYellow(String texto) {
-        if(debug)
+        if (ConsoleDebug.get().isDebugging())
             return "" + ANSI_YELLOW_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
         return texto;
     }
 
     public static String textoColoreadoRed(String texto) {
-        if(debug)
+        if (ConsoleDebug.get().isDebugging())
             return "" + ANSI_RED_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
         return texto;
     }
 
     public static String textoColoreadoWhite(String texto) {
-        if(debug)
+        if (ConsoleDebug.get().isDebugging())
             return "" + ANSI_WHITE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
         return texto;
     }
 
     public static String textoColoreadoPurple(String texto) {
-        if(debug)
+        if (ConsoleDebug.get().isDebugging())
             return "" + ANSI_PURPLE_BACKGROUND + ANSI_BLACK + texto + ANSI_BLACK + " " + ANSI_RESET_BACKGROUND;
         return texto;
     }
@@ -116,16 +115,18 @@ public enum Consola {
         for (Point celda : celdas) {
             texto.append(celdaToString(celda)).append(", ");
         }
-        texto.deleteCharAt(texto.length()-1);
-        texto.deleteCharAt(texto.length()-1);
+        texto.deleteCharAt(texto.length() - 1);
+        texto.deleteCharAt(texto.length() - 1);
         return texto.toString();
     }
 
-    public static void printExecution1(SearchAction action, Point punto){
-        //System.out.println(Consola.textoColoreadoPurple("Probando " + action + " " + Consola.celdaToString(punto)));
+    public static void printExecution1(SearchAction action, Point punto) {
+        if (ConsoleDebug.get().isShowVerboseLogs())
+            System.out.println(Consola.textoColoreadoPurple("Probando " + action + " " + Consola.celdaToString(punto)));
     }
 
-    public static void printExecution2(SearchAction action){
-        //System.out.println(Consola.textoColoreadoPurple("Usando " + action));
+    public static void printExecution2(SearchAction action) {
+        if (ConsoleDebug.get().isShowingLogs() || ConsoleDebug.get().isShowVerboseLogs())
+            System.out.println(Consola.textoColoreadoPurple("Usando " + action));
     }
 }

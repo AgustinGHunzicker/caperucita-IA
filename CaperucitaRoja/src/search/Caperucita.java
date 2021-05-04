@@ -27,7 +27,9 @@ public class Caperucita extends SearchBasedAgent {
     public Caperucita(Ambiente ambiente, TipoBusqueda tipoBusqueda) {
         ObjetivoCaperucita objetivoCaperucita = new ObjetivoCaperucita();
         this.tipoBusqueda = tipoBusqueda;
-        estadoCaperucita = new EstadoCaperucita(ambiente);
+        estadoCaperucita = new EstadoCaperucita();
+        estadoCaperucita.setEscenario(ambiente.getEnvironmentState().getEscenario());
+        estadoCaperucita.setFlores(ambiente.getEnvironmentState().getEscenario().getFlores());
         setAgentState(estadoCaperucita);
 
         Vector<SearchAction> actions = new Vector<>();

@@ -255,4 +255,8 @@ public class Escenario {
     public void setPosicionCelda(int x, int y, EstadoCelda objetoCasillero) {
         this.celdas[x][y] = objetoCasillero;
     }
+
+    public void setPosicionCelda(Point posicion, EstadoCelda objetoCasillero) {
+        this.celdas[posicion.x][posicion.y] = objetoCasillero;
+    }
 }

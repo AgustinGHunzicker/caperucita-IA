@@ -1,5 +1,6 @@
 package search;
 
+import domain.ConsoleDebug;
 import domain.Escenario;
 import enumeration.Consola;
 import enumeration.EstadoCelda;
@@ -39,7 +40,7 @@ public class EstadoAmbiente extends EnvironmentState {
         Point dulce2 = null;
         Point dulce3 = null;
 
-       int numeroEscenario = getRandomNumber(1, 3);
+      /* int numeroEscenario = getRandomNumber(1, 3);
         getEscenario().generarEscenario(numeroEscenario);
 
         int x;
@@ -96,41 +97,18 @@ public class EstadoAmbiente extends EnvironmentState {
                 dulce3 = new Point(x, y);
                 hayFlor = true;
             }
-        } while (!hayFlor);
+        } while (!hayFlor);*/
 
 
-/*
-        //Escenario 1
-        getEscenario().generarEscenario(2);
-        caperucita = new Point(9, 2);
-        //caperucita = new Point(6, 1);
-        lobo = new Point(4, 6);
-        dulce1 = new Point(6, 5);
-        //dulce2 = new Point(6, 3);
-        dulce2 = new Point(6, 3);
-        dulce3 = new Point(9, 5);
-        */
-        // Escenario 2
-        /*getEscenario().generarEscenario(1);
-        escenario.setPosicionCelda(3, 4, EstadoCelda.VACIA);
-        escenario.setPosicionCelda(5, 7, EstadoCelda.ARBOL);
-        escenario.setPosicionCelda(4, 7, EstadoCelda.ARBOL);
-        escenario.setPosicionCelda(4, 6, EstadoCelda.ARBOL);
-        escenario.setPosicionCelda(7, 1, EstadoCelda.VACIA);
 
-        caperucita = new Point(3, 7);
-        dulce1 = new Point(6, 5);
-        dulce2 = new Point(6, 3);
-        dulce3 = new Point(9, 5);
-        lobo = new Point(7, 1);*/
-/*
-        getEscenario().generarEscenario(3);
+
+        //ambiente a usar
+         getEscenario().generarEscenario(3);
         caperucita = new Point(7, 4);
-        lobo = new Point(12, 5);
+        lobo = new Point(5, 2);
         dulce1 = new Point(8, 5);
         dulce2 = new Point(5, 3);
-        dulce3 = new Point(6, 5);*/
-
+        dulce3 = new Point(6, 5);
 
         setPosicionCaperucita(caperucita);
         setPosicionLobo(lobo);
@@ -148,33 +126,31 @@ public class EstadoAmbiente extends EnvironmentState {
     }
 
     public void updateWolfPosition() {
-        Point newPosition = new Point();
-        int x;
-        int y;
-        boolean hayLobo = false;
-        do {
-            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
-            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
-                newPosition = new Point(x, y);
-                hayLobo = true;
-            }
-        } while (!hayLobo);
+        if (!ConsoleDebug.get().isStaticWolf()) {
+            Point newPosition = new Point();
+            int x;
+            int y;
+            boolean hayLobo = false;
+            do {
+                x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+                y = getRandomNumber(Escenario.LIMITE_ARRIBA, Escenario.LIMITE_ABAJO);
+                if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                    newPosition = new Point(x, y);
+                    hayLobo = true;
+                }
+            } while (!hayLobo);
 
-        for (int movHoriz = 0; movHoriz <= Escenario.LIMITE_DERECHA; movHoriz++) {
-            for (int movVert = 0; movVert <= Escenario.LIMITE_ABAJO; movVert++) {
-                if (escenario.getCeldas()[movHoriz][movVert].equals(EstadoCelda.LOBO)) {
-                    escenario.getCeldas()[movHoriz][movVert] = EstadoCelda.VACIA;
+            for (int movHoriz = 0; movHoriz <= Escenario.LIMITE_DERECHA; movHoriz++) {
+                for (int movVert = 0; movVert <= Escenario.LIMITE_ABAJO; movVert++) {
+                    if (escenario.getCeldas()[movHoriz][movVert].equals(EstadoCelda.LOBO)) {
+                        escenario.getCeldas()[movHoriz][movVert] = EstadoCelda.VACIA;
+                    }
                 }
             }
+
+            this.setPosicionLobo(newPosition);
+            escenario.setPosicionCelda(newPosition.x, newPosition.y, EstadoCelda.LOBO);
         }
-
-        this.setPosicionLobo(newPosition);
-        escenario.setPosicionCelda(newPosition.x, newPosition.y, EstadoCelda.LOBO);
-    }
-
-    public void disabledWolfPosition() {
-        escenario.setPosicionCelda(this.posicionLobo.x, this.posicionLobo.y, EstadoCelda.VACIA);
     }
 
     private int getRandomNumber(int min, int max) {

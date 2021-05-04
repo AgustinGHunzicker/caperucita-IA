@@ -18,7 +18,7 @@ public class Heuristic implements IEstimatedCostFunction {
     public double getEstimatedCost(NTree node) {
 
         EstadoCaperucita agState = (EstadoCaperucita) node.getAgentState();
-        HashSet<Point> flores = agState.getAmbiente().getEnvironmentState().getPosicionesFlores();
+        HashSet<Point> flores = agState.getEscenario().getFlores();
         int x = 100;
         int y = 100;
         int x1 = agState.getPosicionCaperucita().x;

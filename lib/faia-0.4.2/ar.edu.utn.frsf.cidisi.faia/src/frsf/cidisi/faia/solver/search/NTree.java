@@ -194,7 +194,7 @@ public class NTree implements Cloneable, Comparable<NTree> {
 
         if (this.getParent() != null) {
             if (this.getParent().getParent() != null) {
-                str += "|" + this.getParent().getAgentState().toString();//.replace(",", "").replace("[", "").replace("]", "").replace(" ", "\\n")
+                str += "|" + this.getParent().getAgentState().toString().replace("\n", "\\n");//.replace(",", "").replace("[", "").replace("]", "")
             }
         }
         str += "}\"]";

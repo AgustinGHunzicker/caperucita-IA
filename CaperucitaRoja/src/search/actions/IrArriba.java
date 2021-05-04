@@ -14,7 +14,7 @@ import java.awt.*;
 
 public class IrArriba extends SearchAction {
 
-    private Double costo = 0.0;
+    private Double costo = 2.0;
 
     /**
      * This method updates a tree node state when the search process is running.
@@ -22,59 +22,52 @@ public class IrArriba extends SearchAction {
      */
     @Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
-        costo = 0.0;
         EstadoCaperucita estadoCaperucita = (EstadoCaperucita) s;
-        Point posInicialCap = estadoCaperucita.getPosicionCaperucita();
+        Point posInicial = estadoCaperucita.getPosicionCaperucita();
+        Point posFinal = posInicial;
+        costo = 2.0;
 
-        // particular de ARRIBA
-        EstadoCelda celda = estadoCaperucita.getPercepcionCeldasArriba();
-        int cantMovimientos = estadoCaperucita.getCantMovimientosArriba();
+        Consola.printExecution1(this, estadoCaperucita.getPosicionCaperucita());
 
-        // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
-        if (cantMovimientos > 0) {
-            Consola.printExecution1(this, estadoCaperucita.getPosicionCaperucita());
-            costo += cantMovimientos * 5;
-            Point posFinalCap;
-
-            if (celda.equals(EstadoCelda.LOBO)) {
-                costo += 15;
-                estadoCaperucita.volverEstadoInicial();
-                estadoCaperucita.disminuirVidas();
-                estadoCaperucita.getEstadoAmbiente().disabledWolfPosition();
-                posFinalCap = estadoCaperucita.getAmbiente().getEstadoInicialAmbiente().getPosicionCaperucita();
+        int movY = posInicial.y;
+        while (Escenario.LIMITE_ARRIBA < movY) {
+            movY--;
+            EstadoCelda celdaActual = estadoCaperucita.getEscenario().getCeldas()[posInicial.x][movY];
+            if (celdaActual.equals(EstadoCelda.ARBOL)) {
+                movY = Escenario.LIMITE_ARRIBA;
             } else {
-                posFinalCap = new Point(posInicialCap.x, posInicialCap.y - cantMovimientos);
-                estadoCaperucita.setPosicionCaperucita(posFinalCap);
+                posFinal = new Point(posInicial.x, movY);
+                switch (celdaActual) {
+                    case LOBO:
+                        costo += 3;
+                        estadoCaperucita.reiniciarNivel(null);
+                        estadoCaperucita.getEscenario().setPosicionCelda(posFinal, EstadoCelda.VACIA);
+                        break;
 
-                //si hay un dulce en esa dirección
-                // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
-                for (Point dulce : estadoCaperucita.getPosicionesDulces()) {
-                    //Si está en la misma columna y está dentro de los posibles movimientos hacia arriba
-                    if (posFinalCap.x == dulce.x && (posFinalCap.y <= dulce.y) && (dulce.y <= posInicialCap.y) && !estadoCaperucita.getDulcesJuntados().contains(dulce)) {
+                    case DULCE:
                         costo -= 3;
-                        estadoCaperucita.getDulcesJuntados().add(dulce);
-                    }
-                }
+                        estadoCaperucita.getDulcesJuntados().add(posFinal);
+                        estadoCaperucita.getEscenario().setPosicionCelda(posFinal, EstadoCelda.VACIA);
+                        break;
 
-                estadoCaperucita.getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
-
-                //Se debe verificar si no esta sobre las flores,
-                // puesto que la bandera FLORES puede quedar anulada por los dulces
-                for (Point posicionFlor : estadoCaperucita.getPosicionFlores()) {
-                    if (posicionFlor.equals(estadoCaperucita.getPosicionCaperucita())) {
-                        if (estadoCaperucita.getFloresJuntadas() < 1)
-                            costo -= 2;
-                        estadoCaperucita.getPosicionFlores().add(posicionFlor);
-                        estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
-                    }
+                    case FLORES:
+                        costo -= 2;
+                        break;
                 }
+                costo++;
             }
-            estadoCaperucita.getEstadoAmbiente().setPosicionCaperucita(posFinalCap);
-            estadoCaperucita.updateState(estadoCaperucita.getAmbiente().getPercept());
+        }
+
+
+        if (!posInicial.equals(posFinal)) {
+            estadoCaperucita.setPosicionCaperucita(posFinal);
+            estadoCaperucita.getEscenario().setPosicionCelda(posInicial, EstadoCelda.VACIA);
+            estadoCaperucita.getEscenario().setPosicionCelda(posFinal, EstadoCelda.CAPERUCITA);
             return estadoCaperucita;
         }
 
         return null;
+
     }
 
     /**
@@ -85,66 +78,39 @@ public class IrArriba extends SearchAction {
         Consola.printExecution2(this);
 
         EstadoAmbiente environmentState = (EstadoAmbiente) est;
-        Escenario escenario = environmentState.getEscenario();
         EstadoCaperucita estadoCaperucita = ((EstadoCaperucita) ast);
-        Point posInicialCap = estadoCaperucita.getPosicionCaperucita();
+        Point posInicial = estadoCaperucita.getPosicionCaperucita();
+        Point posFinal = posInicial;
 
-        // particular de IrArriba
-        EstadoCelda celda = estadoCaperucita.getPercepcionCeldasArriba();
-        int cantMovimientos = estadoCaperucita.getCantMovimientosArriba();
-
-        // Si no tiene movimiento -> ARBOL o esta el LOBO, es una acción no valida -> quitaría una vida
-        if (cantMovimientos > 0) {
-            Point posFinalCap;
-
-            if (celda.equals(EstadoCelda.LOBO)) {
-                estadoCaperucita.disminuirVidas();
-                environmentState.volverEstadoInicial();
-                estadoCaperucita.volverEstadoInicial();
-                posFinalCap = estadoCaperucita.getPosicionCaperucita();
+        int movY = posInicial.y;
+        while (Escenario.LIMITE_ARRIBA < movY) {
+            movY--;
+            EstadoCelda celdaActual = estadoCaperucita.getEscenario().getCeldas()[posInicial.x][movY];
+            if (celdaActual.equals(EstadoCelda.ARBOL)) {
+                movY = Escenario.LIMITE_ARRIBA;
             } else {
-                posFinalCap = new Point(posInicialCap.x, posInicialCap.y - cantMovimientos);
-                estadoCaperucita.setPosicionCaperucita(posFinalCap);
+                posFinal = new Point(posInicial.x, movY);
+                switch (celdaActual) {
+                    case LOBO:
+                        environmentState.volverEstadoInicial();
+                        estadoCaperucita.reiniciarNivel(environmentState.getPosicionCaperucita());
+                        environmentState.updateWolfPosition();
+                        return environmentState;
 
-                //si hay un dulce en esa dirección
-                // en el caso que también hay flores en esa dirección, solo lo junta si esta antes de las flores
-                for (Point dulce : environmentState.getPosicionesDulces()) {
-                    escenario.setPosicionCelda(dulce.x, dulce.y, EstadoCelda.DULCE);
-                    //Si está en la misma columna y está dentro de los posibles movimientos hacia arriba
-                    if (posFinalCap.x == dulce.x && (posFinalCap.y <= dulce.y) && (dulce.y <= posInicialCap.y)) {
-                        estadoCaperucita.getDulcesJuntados().add(dulce);
-                        escenario.setPosicionCelda(dulce.x, dulce.y, EstadoCelda.VACIA);
-                        estadoCaperucita.getEstadoAmbiente().getEscenario().setPosicionCelda(dulce.x, dulce.y, EstadoCelda.VACIA);
-                    }
-                }
-
-                environmentState.getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
-                estadoCaperucita.getPosicionesDulces().removeAll(estadoCaperucita.getDulcesJuntados());
-
-                //Se debe verificar si no esta sobre las flores,
-                // puesto que la bandera FLORES puede quedar anulada por los dulces
-                for (Point posicionFlor : environmentState.getPosicionesFlores()) {
-                    escenario.setPosicionCelda(posicionFlor.x, posicionFlor.y, EstadoCelda.FLORES);
-                    if (posicionFlor.equals(estadoCaperucita.getPosicionCaperucita())) {
-                        estadoCaperucita.getPosicionFlores().add(posicionFlor);
-                        estadoCaperucita.setFloresJuntadas(estadoCaperucita.getFloresJuntadas() + 1);
+                    case DULCE:
+                        estadoCaperucita.getDulcesJuntados().add(posFinal);
+                        estadoCaperucita.getEscenario().setPosicionCelda(posFinal, EstadoCelda.VACIA);
+                        environmentState.getEscenario().setPosicionCelda(posFinal, EstadoCelda.VACIA);
+                        environmentState.getPosicionesDulces().remove(posFinal);
                         break;
-                    }
                 }
             }
-
-            estadoCaperucita.setPosicionCaperucita(posFinalCap);
-            escenario.setPosicionCelda(posInicialCap.x, posInicialCap.y, EstadoCelda.VACIA);
-            escenario.setPosicionCelda(posFinalCap.x, posFinalCap.y, EstadoCelda.CAPERUCITA);
-
-            environmentState.updateWolfPosition();
-            environmentState.setEscenario(escenario);
-            environmentState.setPosicionCaperucita(posFinalCap);
-            estadoCaperucita.getAmbiente().setEnvironmentState(environmentState);
-            return environmentState;
         }
 
-        return null;
+        estadoCaperucita.setPosicionCaperucita(posFinal);
+        environmentState.setPosicionCaperucita(posFinal);
+        environmentState.updateWolfPosition();
+        return environmentState;
     }
 
     /**

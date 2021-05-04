@@ -36,34 +36,8 @@ public class Ambiente extends Environment {
         VistaCaperucita vistaArriba = this.verLado(TipoLado.ARRIBA, posXCap, posYCap);
         VistaCaperucita vistaAbajo = this.verLado(TipoLado.ABAJO, posXCap, posYCap);
 
-        /*------- Se carga la bandera de jerarquía de posicionamiento de objetos en cada dirección -------*/
-        perception.setPercepcionCeldasIzquierda(this.getContenidoEnVista(vistaIzquierda));
-        perception.setPercepcionCeldasDerecha(this.getContenidoEnVista(vistaDerecha));
-        perception.setArribaPerception(this.getContenidoEnVista(vistaArriba));
-        perception.setAbajoPerception(this.getContenidoEnVista(vistaAbajo));
-
-
-        /*------- Se carga los movimientos permitidos en cada dirección -------*/
-        perception.setCantMovimientosIzquierda(vistaIzquierda.cantidadPosiciones);
-        perception.setCantMovimientosDerecha(vistaDerecha.cantidadPosiciones);
-        perception.setCantMovimientosArriba(vistaArriba.cantidadPosiciones);
-        perception.setCantMovimientosAbajo(vistaAbajo.cantidadPosiciones);
-
-
         /*------- Se carga las posición del lobo, si es que lo vió -------*/
         perception.setPosicionLobo(this.loboEsta(vistaIzquierda.posicionLobo, vistaDerecha.posicionLobo, vistaArriba.posicionLobo, vistaAbajo.posicionLobo));
-
-        /*------- Se carga las posición de las flores, si es que las haya visto -------*/
-        perception.addPosicionFlores(vistaIzquierda.posicionFlores);
-        perception.addPosicionFlores(vistaDerecha.posicionFlores);
-        perception.addPosicionFlores(vistaArriba.posicionFlores);
-        perception.addPosicionFlores(vistaAbajo.posicionFlores);
-
-        /*------- Se carga las posición de los árboles que haya visto -------*/
-        perception.addPosicionArbol(vistaIzquierda.posicionArbol);
-        perception.addPosicionArbol(vistaDerecha.posicionArbol);
-        perception.addPosicionArbol(vistaArriba.posicionArbol);
-        perception.addPosicionArbol(vistaAbajo.posicionArbol);
 
         /*------- Se carga las posición de los dulces, si hubiese -------*/
         perception.addPosicionesDulces(vistaIzquierda.posicionDulces);
@@ -203,8 +177,6 @@ public class Ambiente extends Environment {
             return EstadoCelda.LOBO;
         if (!vistaCaperucita.posicionDulces.isEmpty())
             return EstadoCelda.DULCE;
-        if (!vistaCaperucita.posicionFlores.isEmpty())
-            return EstadoCelda.FLORES;
         else
             return EstadoCelda.ARBOL;
     }
