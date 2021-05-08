@@ -40,75 +40,99 @@ public class EstadoAmbiente extends EnvironmentState {
         Point dulce2 = null;
         Point dulce3 = null;
 
-      /* int numeroEscenario = getRandomNumber(1, 3);
-        getEscenario().generarEscenario(numeroEscenario);
+        if (!ConsoleDebug.get().isPruebaEscenario()) {
+            int numeroEscenario = getRandomNumber(1, 3);
+            getEscenario().generarEscenario(numeroEscenario);
 
-        int x;
-        int y;
-        //--------- POSICIÓN CAPERUCITA ---------
-        boolean hayPosicionCaperucita = false;
-        do {
-            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
-            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
-                caperucita = new Point(x, y);
-                hayPosicionCaperucita = true;
-            }
+            int x;
+            int y;
+            //--------- POSICIÓN CAPERUCITA ---------
+            boolean hayPosicionCaperucita = false;
+            do {
+                x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+                y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+                if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                    caperucita = new Point(x, y);
+                    hayPosicionCaperucita = true;
+                }
 
-        } while (!hayPosicionCaperucita);
+            } while (!hayPosicionCaperucita);
 
-        //--------- POSICIÓN LOBO ---------
-        boolean hayPosicionLobo = false;
-        do {
-            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
-            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
-                lobo = new Point(x, y);
-                hayPosicionLobo = true;
-            }
-        } while (!hayPosicionLobo);
+            //--------- POSICIÓN LOBO ---------
+            boolean hayPosicionLobo = false;
+            do {
+                x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+                y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+                if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                    lobo = new Point(x, y);
+                    hayPosicionLobo = true;
+                }
+            } while (!hayPosicionLobo);
 
-        //--------- POSICIÓN DULCES ---------
-        boolean hayFlor = false;
-        do {
-            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
-            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
-                dulce1 = new Point(x, y);
-                hayFlor = true;
-            }
-        } while (!hayFlor);
+            //--------- POSICIÓN DULCES ---------
+            boolean hayFlor = false;
+            do {
+                x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+                y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+                if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                    dulce1 = new Point(x, y);
+                    hayFlor = true;
+                }
+            } while (!hayFlor);
 
-        hayFlor = false;
-        do {
-            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
-            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
-                dulce2 = new Point(x, y);
-                hayFlor = true;
-            }
-        } while (!hayFlor);
+            hayFlor = false;
+            do {
+                x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+                y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+                if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                    dulce2 = new Point(x, y);
+                    hayFlor = true;
+                }
+            } while (!hayFlor);
 
-        hayFlor = false;
-        do {
-            x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
-            y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
-            if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
-                dulce3 = new Point(x, y);
-                hayFlor = true;
-            }
-        } while (!hayFlor);*/
+            hayFlor = false;
+            do {
+                x = getRandomNumber(Escenario.LIMITE_IZQUIERDA, Escenario.LIMITE_DERECHA);
+                y = getRandomNumber(Escenario.LIMITE_ABAJO, Escenario.LIMITE_ARRIBA);
+                if (getEscenario().getPosicionCelda(x, y) == EstadoCelda.VACIA) {
+                    dulce3 = new Point(x, y);
+                    hayFlor = true;
+                }
+            } while (!hayFlor);
+
+        } else {
+            //ambiente a usar
+            getEscenario().generarEscenario(3);
+            caperucita = new Point(7, 4);
+            lobo = new Point(5, 2);
+            dulce1 = new Point(8, 5);
+            dulce2 = new Point(5, 3);
+            dulce3 = new Point(6, 5);
 
 
+            // prueba de arbol 1
+            /*getEscenario().generarEscenario(1);
+            getEscenario().setPosicionCelda(3, 4, EstadoCelda.VACIA);
+            getEscenario().setPosicionCelda(5, 7, EstadoCelda.ARBOL);
+            getEscenario().setPosicionCelda(4, 7, EstadoCelda.ARBOL);
+            getEscenario().setPosicionCelda(4, 6, EstadoCelda.ARBOL);
+            getEscenario().setPosicionCelda(7, 1, EstadoCelda.VACIA);
+            caperucita = new Point(3, 7);
+            lobo = new Point(7, 1);
+            dulce1 = new Point(6, 5);
+            dulce2 = new Point(9, 5);
+            dulce3 = new Point(6, 3);*/
 
+            /*
+            //prueba de arbol 2
+            getEscenario().generarEscenario(2);
+            caperucita = new Point(4, 2);
+            lobo = new Point(6, 5);
+            dulce1 = new Point(10, 7);
+            dulce2 = new Point(10, 7);
+            dulce3 = new Point(10, 7);*/
 
-        //ambiente a usar
-         getEscenario().generarEscenario(3);
-        caperucita = new Point(7, 4);
-        lobo = new Point(5, 2);
-        dulce1 = new Point(8, 5);
-        dulce2 = new Point(5, 3);
-        dulce3 = new Point(6, 5);
+        }
 
         setPosicionCaperucita(caperucita);
         setPosicionLobo(lobo);
@@ -147,7 +171,6 @@ public class EstadoAmbiente extends EnvironmentState {
                     }
                 }
             }
-
             this.setPosicionLobo(newPosition);
             escenario.setPosicionCelda(newPosition.x, newPosition.y, EstadoCelda.LOBO);
         }
@@ -217,11 +240,6 @@ public class EstadoAmbiente extends EnvironmentState {
         EstadoAmbiente inicio = this.getEstadoInicialAmbiente();
         this.setEscenario(inicio.escenario);
         this.setPosicionCaperucita(inicio.getPosicionCaperucita());
-    }
-
-
-    public Point getPosicionLobo() {
-        return posicionLobo;
     }
 }
 

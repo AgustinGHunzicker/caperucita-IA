@@ -39,13 +39,13 @@ public class IrIzquierda extends SearchAction {
                 posFinal = new Point(movX, posInicial.y);
                 switch (celdaActual) {
                     case LOBO:
-                        costo += 3;
+                        costo += 13;
                         estadoCaperucita.reiniciarNivel(null);
                         estadoCaperucita.getEscenario().setPosicionCelda(posFinal, EstadoCelda.VACIA);
                         break;
 
                     case DULCE:
-                        costo -= 3;
+                        costo = 0.0;
                         estadoCaperucita.getDulcesJuntados().add(posFinal);
                         estadoCaperucita.getEscenario().setPosicionCelda(posFinal, EstadoCelda.VACIA);
                         break;
@@ -93,6 +93,8 @@ public class IrIzquierda extends SearchAction {
                     case LOBO:
                         environmentState.volverEstadoInicial();
                         estadoCaperucita.reiniciarNivel(environmentState.getPosicionCaperucita());
+                        estadoCaperucita.getEscenario().setPosicionCelda(posInicial, EstadoCelda.VACIA);
+                        estadoCaperucita.getEscenario().setPosicionCelda(environmentState.getPosicionCaperucita(), EstadoCelda.CAPERUCITA);
                         environmentState.updateWolfPosition();
                         return environmentState;
 
@@ -107,6 +109,7 @@ public class IrIzquierda extends SearchAction {
         }
 
         estadoCaperucita.setPosicionCaperucita(posFinal);
+        estadoCaperucita.getEscenario().setPosicionCelda(environmentState.getPosicionCaperucita(), EstadoCelda.CAPERUCITA);
         environmentState.setPosicionCaperucita(posFinal);
         environmentState.updateWolfPosition();
         return environmentState;

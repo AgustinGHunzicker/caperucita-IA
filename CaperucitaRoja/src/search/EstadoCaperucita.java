@@ -48,8 +48,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
             }
         }
         newState.getEscenario().setCeldas(newCeldas);
-        //newState.setEscenario(this.escenario);
-
 
         newState.setPosicionCaperucita(new Point(this.getPosicionCaperucita().x, this.getPosicionCaperucita().y));
 
@@ -78,10 +76,8 @@ public class EstadoCaperucita extends SearchBasedAgentState {
         CaperucitaPerception perception = (CaperucitaPerception) p;
         this.setPosicionCaperucita(perception.getPosicionActual());
 
-
         if (!perception.getPosicionLobo().equals(UNKNOWN))
             this.getEscenario().setPosicionCelda(perception.getPosicionLobo().x, perception.getPosicionLobo().y, EstadoCelda.LOBO);
-
 
         for (Point dulce : perception.getPosicionesDulces()) {
             this.getEscenario().setPosicionCelda(dulce.x, dulce.y, EstadoCelda.DULCE);
@@ -107,6 +103,7 @@ public class EstadoCaperucita extends SearchBasedAgentState {
             return "\n"+Consola.textoColoreadoRed("- Posición actual: " + Consola.celdaToString(posicionActual)) +
                     "\n" + Consola.textoColoreadoRed("- Dulces juntados: " + Consola.celdaToString(dulcesJuntados)) +
                     "\n" + Consola.textoColoreadoRed("- Vidas restantes: " + vidasRestantes) +
+                    "\n" + Consola.textoColoreadoRed("- Posición flores: " + Consola.celdaToString(flores)) +
                     "\n" + escenario +
                     "\n ----------------------------------------------------\n";
         }
@@ -123,10 +120,6 @@ public class EstadoCaperucita extends SearchBasedAgentState {
 
     public void setDulcesJuntados(HashSet<Point> dulcesJuntados) {
         this.dulcesJuntados = dulcesJuntados;
-    }
-
-    public void addDulceJuntado(Point dulceJuntado) {
-        this.dulcesJuntados.add(dulceJuntado);
     }
 
     public Point getPosicionCaperucita() {

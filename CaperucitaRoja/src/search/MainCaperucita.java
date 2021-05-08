@@ -7,6 +7,7 @@ public class MainCaperucita {
 
     public static void main(String[] args) {
         //ConsoleDebug.get().setModeDebug();
+        //ConsoleDebug.get().setPruebaEscenario(true);
         //ConsoleDebug.get().showLogs();
         //ConsoleDebug.get().staticWolf();
 

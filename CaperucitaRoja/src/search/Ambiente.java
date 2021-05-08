@@ -1,7 +1,6 @@
 package search;
 
 import domain.Escenario;
-import enumeration.EstadoCelda;
 import enumeration.TipoLado;
 import frsf.cidisi.faia.environment.Environment;
 import frsf.cidisi.faia.state.AgentState;
@@ -60,23 +59,16 @@ public class Ambiente extends Environment {
         ((EstadoAmbiente) environmentState).actualizarPosicionCaperucita(x, y);
     }
 
-
     /**
      * Clase que funciona como estructura de vista de caperucita hacia una dirección en particular
      */
     private static class VistaCaperucita {
         protected Point posicionLobo;
-        protected HashSet<Point> posicionFlores;
-        protected Point posicionArbol;
         protected HashSet<Point> posicionDulces;
-        protected int cantidadPosiciones;
 
         public VistaCaperucita() {
             this.posicionLobo = new Point(-1, -1);
-            this.posicionArbol = new Point(-1, -1);
-            this.posicionFlores = new HashSet<>();
             this.posicionDulces = new HashSet<>();
-            this.cantidadPosiciones = 1;
         }
     }
 
@@ -98,6 +90,7 @@ public class Ambiente extends Environment {
 
         int posicionXActual;
         int posicionYActual;
+        int cantidadPosiciones = 1;
 
         while (!arbol_flor) {
             posicionXActual = posXCap;
@@ -105,80 +98,50 @@ public class Ambiente extends Environment {
 
             switch (lado) {
                 case IZQUIERDA:
-                    posicionXActual = posXCap - vista.cantidadPosiciones;
+                    posicionXActual = posXCap - cantidadPosiciones;
                     break;
                 case DERECHA:
-                    posicionXActual = posXCap + vista.cantidadPosiciones;
+                    posicionXActual = posXCap + cantidadPosiciones;
                     break;
                 case ARRIBA:
-                    posicionYActual = posYCap - vista.cantidadPosiciones;
+                    posicionYActual = posYCap - cantidadPosiciones;
                     break;
                 case ABAJO:
-                    posicionYActual = posYCap + vista.cantidadPosiciones;
+                    posicionYActual = posYCap + cantidadPosiciones;
                     break;
             }
-
-            for (Point flor : this.getEnvironmentState().getPosicionesFlores()) {
-                if (flor.equals(new Point(posicionXActual, posicionYActual)))
-                    vista.posicionFlores.add(flor);
-            }
-
             switch (escenario.getPosicionCelda(posicionXActual, posicionYActual)) {
                 /* puedo seguir avanzando, está vacío */
                 case VACIA:
                 case CAPERUCITA:
-                    vista.cantidadPosiciones++;
+                    cantidadPosiciones++;
                     break;
                 /* hay un arbol, hasta acá nomás se puede llegar */
                 case ARBOL:
-                    vista.posicionArbol.setLocation(posicionXActual, posicionYActual);
                     arbol_flor = true;
                     break;
                 /* hay un dulce, lo tengo que juntar y puedo seguir avanzando */
                 case DULCE:
-                    vista.cantidadPosiciones++;
+                    cantidadPosiciones++;
                     vista.posicionDulces.add(new Point(posicionXActual, posicionYActual));
                     break;
                 /* está el lobo, no debería moverse en esta dirección */
                 case LOBO:
-                    vista.cantidadPosiciones++;
+                    cantidadPosiciones++;
                     vista.posicionLobo.setLocation(posicionXActual, posicionYActual);
                     break;
                 /* está el camino de flores, la meta */
                 case FLORES:
-                    vista.posicionFlores.add(new Point(posicionXActual, posicionYActual));
-                    if (vista.posicionFlores.size() > 1 || posicionYActual == Escenario.LIMITE_ABAJO || posicionYActual == Escenario.LIMITE_ARRIBA) {
-
+                    if (posicionYActual == Escenario.LIMITE_ABAJO || posicionYActual == Escenario.LIMITE_ARRIBA) {
                         // Llegó al borde del mapa
                         arbol_flor = true;
-                    }
-                    else{
-                        vista.cantidadPosiciones++;
+                    } else {
+                        cantidadPosiciones++;
                     }
                     break;
             }
-
         }
-
-        vista.cantidadPosiciones--;  //Puesto que viene inicializado en 1, debe restarse el movimiento adicional
         return vista;
-    }
-
-    /**
-     * Retorna lo que haya en las celdas.
-     * Si hay más de un objeto, lo elige con la siguiente prioridad:
-     * - LOBO
-     * - FLORES
-     * - DULCES
-     * - ÁRBOL
-     */
-    private EstadoCelda getContenidoEnVista(VistaCaperucita vistaCaperucita) {
-        if (!vistaCaperucita.posicionLobo.equals(UNKNOWN))
-            return EstadoCelda.LOBO;
-        if (!vistaCaperucita.posicionDulces.isEmpty())
-            return EstadoCelda.DULCE;
-        else
-            return EstadoCelda.ARBOL;
     }
 
     /*
@@ -202,18 +165,11 @@ public class Ambiente extends Environment {
         return environmentState.toString();
     }
 
-    public EstadoAmbiente getEstadoInicialAmbiente() {
-        return ((EstadoAmbiente) environmentState).getEstadoInicialAmbiente();
-    }
-
-    public void volverAmbienteInicial() {
-        ((EstadoAmbiente) this.environmentState).volverEstadoInicial();
-    }
 
     public void setEstadoInicialAmbiente() {
         EstadoAmbiente inicio = new EstadoAmbiente();
         inicio.setEstadoInicialAmbiente(null);
-        inicio.setPosicionCaperucita(((EstadoAmbiente)this.environmentState).getPosicionCaperucita());
+        inicio.setPosicionCaperucita(((EstadoAmbiente) this.environmentState).getPosicionCaperucita());
         ((EstadoAmbiente) environmentState).setEstadoInicialAmbiente(inicio);
     }
 }

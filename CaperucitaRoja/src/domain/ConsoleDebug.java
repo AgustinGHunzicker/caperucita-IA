@@ -3,6 +3,7 @@ package domain;
 public class ConsoleDebug {
     static private ConsoleDebug singleton = null;
 
+    static private boolean isPruebaEscenario = false;
     static private boolean isDebugging = false;
     static private boolean showLogs = false;
     static private boolean showVerboseLogs = false;
@@ -18,6 +19,14 @@ public class ConsoleDebug {
             singleton = new ConsoleDebug();
         }
         return singleton;
+    }
+
+    public boolean isPruebaEscenario() {
+        return isPruebaEscenario;
+    }
+
+    public void setPruebaEscenario(boolean isPruebaEscenario) {
+        ConsoleDebug.isPruebaEscenario = isPruebaEscenario;
     }
 
     public void setModeDebug() {

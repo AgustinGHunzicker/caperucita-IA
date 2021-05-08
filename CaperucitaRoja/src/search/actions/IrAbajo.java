@@ -39,25 +39,24 @@ public class IrAbajo extends SearchAction {
                 posFinal = new Point(posInicial.x, movY);
                 switch (celdaActual) {
                     case LOBO:
-                        costo += 3;
+                        costo += 15;
                         estadoCaperucita.reiniciarNivel(null);
                         estadoCaperucita.getEscenario().setPosicionCelda(posFinal, EstadoCelda.VACIA);
                         break;
 
                     case DULCE:
-                        costo -= 3;
+                        costo = 0.0;
                         estadoCaperucita.getDulcesJuntados().add(posFinal);
                         estadoCaperucita.getEscenario().setPosicionCelda(posFinal, EstadoCelda.VACIA);
                         break;
 
                     case FLORES:
-                        costo -= 2;
+                        costo -= 5;
                         break;
                 }
                 costo++;
             }
         }
-
 
         if (!posInicial.equals(posFinal)) {
             estadoCaperucita.setPosicionCaperucita(posFinal);
@@ -67,7 +66,6 @@ public class IrAbajo extends SearchAction {
         }
 
         return null;
-
     }
 
     /**
@@ -94,6 +92,8 @@ public class IrAbajo extends SearchAction {
                     case LOBO:
                         environmentState.volverEstadoInicial();
                         estadoCaperucita.reiniciarNivel(environmentState.getPosicionCaperucita());
+                        estadoCaperucita.getEscenario().setPosicionCelda(posInicial, EstadoCelda.VACIA);
+                        estadoCaperucita.getEscenario().setPosicionCelda(environmentState.getPosicionCaperucita(), EstadoCelda.CAPERUCITA);
                         environmentState.updateWolfPosition();
                         return environmentState;
 
@@ -109,6 +109,7 @@ public class IrAbajo extends SearchAction {
         }
 
         estadoCaperucita.setPosicionCaperucita(posFinal);
+        estadoCaperucita.getEscenario().setPosicionCelda(environmentState.getPosicionCaperucita(), EstadoCelda.CAPERUCITA);
         environmentState.setPosicionCaperucita(posFinal);
         environmentState.updateWolfPosition();
         return environmentState;

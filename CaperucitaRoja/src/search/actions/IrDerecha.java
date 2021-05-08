@@ -30,7 +30,7 @@ public class IrDerecha extends SearchAction {
         Consola.printExecution1(this, estadoCaperucita.getPosicionCaperucita());
 
         int movX = posInicial.x;
-        while(movX < Escenario.LIMITE_DERECHA){
+        while (movX < Escenario.LIMITE_DERECHA) {
             movX++;
             EstadoCelda celdaActual = estadoCaperucita.getEscenario().getCeldas()[movX][posInicial.y];
             if (celdaActual.equals(EstadoCelda.ARBOL)) {
@@ -39,13 +39,13 @@ public class IrDerecha extends SearchAction {
                 posFinal = new Point(movX, posInicial.y);
                 switch (celdaActual) {
                     case LOBO:
-                        costo += 3;
+                        costo += 15;
                         estadoCaperucita.reiniciarNivel(null);
                         estadoCaperucita.getEscenario().setPosicionCelda(posFinal, EstadoCelda.VACIA);
                         break;
 
                     case DULCE:
-                        costo -= 3;
+                        costo = 0.0;
                         estadoCaperucita.getDulcesJuntados().add(posFinal);
                         estadoCaperucita.getEscenario().setPosicionCelda(posFinal, EstadoCelda.VACIA);
                         break;
@@ -82,7 +82,7 @@ public class IrDerecha extends SearchAction {
         Point posFinal = posInicial;
 
         int movX = posInicial.x;
-        while(movX < Escenario.LIMITE_DERECHA){
+        while (movX < Escenario.LIMITE_DERECHA) {
             movX++;
             EstadoCelda celdaActual = estadoCaperucita.getEscenario().getCeldas()[movX][posInicial.y];
             if (celdaActual.equals(EstadoCelda.ARBOL)) {
@@ -93,6 +93,8 @@ public class IrDerecha extends SearchAction {
                     case LOBO:
                         environmentState.volverEstadoInicial();
                         estadoCaperucita.reiniciarNivel(environmentState.getPosicionCaperucita());
+                        estadoCaperucita.getEscenario().setPosicionCelda(posInicial, EstadoCelda.VACIA);
+                        estadoCaperucita.getEscenario().setPosicionCelda(environmentState.getPosicionCaperucita(), EstadoCelda.CAPERUCITA);
                         environmentState.updateWolfPosition();
                         return environmentState;
 
@@ -107,6 +109,7 @@ public class IrDerecha extends SearchAction {
         }
 
         estadoCaperucita.setPosicionCaperucita(posFinal);
+        estadoCaperucita.getEscenario().setPosicionCelda(environmentState.getPosicionCaperucita(), EstadoCelda.CAPERUCITA);
         environmentState.setPosicionCaperucita(posFinal);
         environmentState.updateWolfPosition();
         return environmentState;
