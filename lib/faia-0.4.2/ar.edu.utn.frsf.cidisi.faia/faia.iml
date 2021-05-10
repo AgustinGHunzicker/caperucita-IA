@@ -15,7 +15,7 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="jpl.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/jpl.jar!/" />
@@ -24,7 +24,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="jmathlink.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/jmathlink.jar!/" />
