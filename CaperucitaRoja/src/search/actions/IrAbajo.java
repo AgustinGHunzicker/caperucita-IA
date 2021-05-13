@@ -51,7 +51,7 @@ public class IrAbajo extends SearchAction {
                         break;
 
                     case FLORES:
-                        costo -= 5;
+                        costo -= 2;
                         break;
                 }
                 costo++;

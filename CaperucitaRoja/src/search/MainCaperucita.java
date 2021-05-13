@@ -1,15 +1,16 @@
 package search;
 
+import domain.ConsoleDebug;
 import enumeration.TipoBusqueda;
 import frsf.cidisi.faia.simulator.SearchBasedAgentSimulator;
 
 public class MainCaperucita {
 
     public static void main(String[] args) {
-        //ConsoleDebug.get().setModeDebug();
-        //ConsoleDebug.get().setPruebaEscenario(true);
-        //ConsoleDebug.get().showLogs();
-        //ConsoleDebug.get().staticWolf();
+        ConsoleDebug.get().setModeDebug();
+        ConsoleDebug.get().setPruebaEscenario(true);
+        ConsoleDebug.get().showLogs();
+        ConsoleDebug.get().staticWolf();
 
         Ambiente ambiente = new Ambiente();
         ambiente.setEstadoInicialAmbiente();
